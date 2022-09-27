@@ -49,3 +49,40 @@
     padding-right: 0; 
     text-align: end;
 }
+
+.calenderViews {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calender {
+    width: 45%;
+    text-align: center;
+}
+
+.dayBox {
+    border-width: 0.1em;
+    border-color: black;
+    border-style: solid;
+    height: 12em;
+    padding: 0em 0em 0em 0em;
+}
+
+.shiftContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 80%;
+}
+
+.employeeDisplay {
+    height: 50%; padding-top: 25%;
+}
+
+.bdr {
+    border-width: 0.1em;
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-color: black;
+}
