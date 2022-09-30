@@ -86,3 +86,15 @@
     border-top-style: solid;
     border-color: black;
 }
+
+.availContainer {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.calenderHeader2 {
+    height: 10%;
+}
