@@ -86,3 +86,28 @@
     border-top-style: solid;
     border-color: black;
 }
+
+.availContainer {
+    display: flex;
+    flex-direction: column;
+    height: 86%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.calenderHeader2 {
+    height: 15%;
+}
+
+.shiftStyle {
+    height: 100%;
+    width: 101%;
+}
+
+.notavail {
+    background-color: red;
+}
+
+.isavail {
+    background-color: green;
+}
