@@ -1,0 +1,5 @@
+node_modules/
+
+# dependencies
+# npm i express express-validator bcryptjs config jsonwebtoken mongoose request
+# npm i -D nodemon concurrently 
