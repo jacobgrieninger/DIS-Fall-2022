@@ -13,5 +13,9 @@ Implemented weekly availabilty page with basic functionality.
 
 ## 4
 ### 10/4/22
-Begun basic implementation of backend including: MongoDB Atlas, Mongoose, Express
+Begun basic implementation of backend including: MongoDB Atlas, Mongoose, Express\
 Removed old wireframe site (all content already implemented)
+
+## 5
+### 10/4/22
+User creation API endpoint added (with express-validation)
