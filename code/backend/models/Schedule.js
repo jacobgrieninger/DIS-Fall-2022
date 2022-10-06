@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
 const ScheduleSchema = new mongoose.Schema({
-    id: {
-        type: Number,
+    startDate: {
+        type: Date,
         unique: true,
-        required: true
-    },
-    storeNumber: {
-        type: Number,
         required: true
     },
     sunday: {
@@ -48,6 +44,10 @@ const ScheduleSchema = new mongoose.Schema({
     },
     saturdayClose: {
         type: Number
+    },
+    storeNumber: {
+        type: Number,
+        required: true
     }
 });
 
