@@ -37,8 +37,6 @@ async (req, res) => {
 
         await user.save();
 
-        // return jsonwebtoken (video 11, may not be needed, skipping for now)
-
         res.send('User Created');
     } catch(err) {
         console.error(err.message);

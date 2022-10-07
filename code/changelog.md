@@ -26,3 +26,8 @@ Schedule creation & Login verifcation API endpoints added
 ## 7
 ### 10/7/22
 Get schedule from date and get user from ID API endpoints added
+
+## 8
+### 10/7/22
+Create TimeOff and Create Availability API endpoints added
+
