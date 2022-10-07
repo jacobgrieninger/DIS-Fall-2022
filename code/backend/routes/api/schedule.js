@@ -30,7 +30,7 @@ async (req, res) => {
         return res.status(400).json({errors: errors.array()});
     }
 
-    const {
+    let {
         startDate,
         sunday,
         mondayOpen,
@@ -47,6 +47,12 @@ async (req, res) => {
         saturdayClose,
         storeNumber
     } = req.body;
+
+    if (storeNumber == 8677) {
+        startDate = startDate + " 01:00";
+    } else if (storeNumber == 9200) {
+        startDate = startDate + " 05:00";
+    }
 
     try {
         //see if sche exists
@@ -82,5 +88,26 @@ async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+// @route   GET api/schedule
+// @desc    Get Schedules
+// @access  Public
+router.get('/', [
+    check('date', 'An entry date is required.').not().isEmpty()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+    try {
+        const entryDate = req.body.date;
+        const result = await Schedule.find({entryDate});
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error')
+    }
+});
+
 
 module.exports = router;

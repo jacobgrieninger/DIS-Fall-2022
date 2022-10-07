@@ -46,4 +46,29 @@ async (req, res) => {
     }
 });
 
+// @route   GET api/user
+// @desc    Get a user from ID, returns name and authlevel
+// @access  Public
+router.get('/', [
+    check('userID', 'A userID is required.').not().isEmpty()
+],
+async (req, res) =>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+    try {
+        const userID = req.body.userID;
+        const result = await User.findOne({userID});
+        const response = {
+            username: result.name,
+            authlevel: result.authlevel
+        }
+        res.status(200).json(response);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;

@@ -21,5 +21,9 @@ Removed old wireframe site (all content already implemented)
 User creation API endpoint added (with express-validation)
 
 ## 6
-### 10/4/22
-Schedule creation & Login verifcation API endpoint added
+### 10/6/22
+Schedule creation & Login verifcation API endpoints added
+
+## 7
+### 10/7/22
+Get schedule from date and get user from ID API endpots added
