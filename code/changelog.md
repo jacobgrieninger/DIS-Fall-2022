@@ -10,7 +10,6 @@ Minor refactoring, migrated to class based function implementation.
 ### 9/30/22
 Implemented weekly availabilty page with basic functionality.
 
-
 ## 4
 ### 10/4/22
 Begun basic implementation of backend including: MongoDB Atlas, Mongoose, Express\
@@ -26,4 +25,4 @@ Schedule creation & Login verifcation API endpoints added
 
 ## 7
 ### 10/7/22
-Get schedule from date and get user from ID API endpots added
+Get schedule from date and get user from ID API endpoints added
