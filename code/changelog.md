@@ -31,3 +31,8 @@ Get schedule from date and get user from ID API endpoints added
 ### 10/7/22
 Create TimeOff and Create Availability API endpoints added
 
+## 9
+### 10/8/22
+Added Update and Delete API endpoints where needed. \
+CRUD functionality for all MVP requirements met.  
+

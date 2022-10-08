@@ -5,7 +5,7 @@ const Schedule = require('../../models/Schedule');
 const bcrypt = require('bcryptjs');
 
 // @route   POST api/schedule
-// @desc    Create Schedule
+// @desc    Create / Recreate Schedule
 // @access  Public
 router.post('/', [
     check('startDate', 'Start Date is required').not().isEmpty(),
@@ -29,7 +29,6 @@ async (req, res) => {
     if(!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
     }
-
     let {
         startDate,
         sunday,
@@ -58,7 +57,10 @@ async (req, res) => {
         //see if sche exists
         let schedule = await Schedule.findOne({ startDate });
         if(schedule) {
-            res.status(400).json({ errors: [{msg: 'Schedule already exists'}]});
+            await Schedule.findOneAndDelete({ startDate });
+            var returnMsg = "Schedule Updated";
+        } else {
+            var returnMsg = "Schedule Created";
         }
 
         schedule = new Schedule({
@@ -82,17 +84,40 @@ async (req, res) => {
 
         await schedule.save();
 
-        res.send('Schedule Created');
+        res.send(returnMsg);
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
 });
 
-// @route   GET api/schedule
-// @desc    Get Schedules
+// @route   POST api/schedule/delete
+// @desc    Delete Schedule
 // @access  Public
-router.get('/', [
+router.post('/delete', [
+    check('_id', 'A time off ID is required').not().isEmpty()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    try {
+        const _id = req.body._id; 
+        await Schedule.findByIdAndDelete({_id});
+
+        res.status(200).send('Schedule Deleted')
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error')
+    }
+});
+
+// @route   GET api/schedule/bydate
+// @desc    Get Schedules by date
+// @access  Public
+router.get('/bydate', [
     check('date', 'An entry date is required.').not().isEmpty()
 ], async (req, res) => {
     const errors = validationResult(req);
@@ -102,6 +127,23 @@ router.get('/', [
     try {
         const entryDate = req.body.date;
         const result = await Schedule.find({entryDate});
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error')
+    }
+});
+
+// @route   GET api/schedule/all
+// @desc    Get all Schedules
+// @access  Public
+router.get('/all', async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+    try {
+        const result = await Schedule.find();
         res.status(200).json(result);
     } catch (err) {
         console.log(err.message);

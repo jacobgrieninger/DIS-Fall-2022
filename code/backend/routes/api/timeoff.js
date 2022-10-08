@@ -39,4 +39,51 @@ router.post('/', [
     }
 });
 
+// @route   POST api/timeoff/delete
+// @desc    Delete time off
+// @access  Public
+router.post('/delete', [
+    check('_id', 'A time off ID is required').not().isEmpty()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    try {
+        const _id = req.body._id; 
+        await TimeOff.findByIdAndDelete({_id});
+
+        res.status(200).send('Time Off Deleted')
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error')
+    }
+});
+
+// @route   GET api/timeoff
+// @desc    Get all time off requests by userID
+// @access  Public
+router.get('/', [
+    check('userID', 'User ID is required').not().isEmpty(),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    try {
+        const userID = req.body.userID;
+
+        const result = await TimeOff.find({userID});
+
+        res.status(200).json(result);
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error')
+    }
+});
+
 module.exports = router;
