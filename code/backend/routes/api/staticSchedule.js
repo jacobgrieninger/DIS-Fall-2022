@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const Schedule = require('../../models/Schedule');
+const StaticSchedule = require('../../models/StaticSchedule');
 const bcrypt = require('bcryptjs');
 
-// @route   POST api/schedule
-// @desc    Create / Recreate Schedule
+// @route   POST api/staticSchedule
+// @desc    Create / Recreate Static Schedule
 // @access  Public
 router.post(
   '/',
   [
-    check('startDate', 'Start Date is required').not().isEmpty(),
+    check('userID', 'UserID is required').not().isEmpty(),
     check('sunday', 'Sunday shift required').not().isEmpty(),
     check('mondayOpen', 'Monday Open shift required').not().isEmpty(),
     check('mondayClose', 'Monday Close shift required').not().isEmpty(),
@@ -32,7 +32,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     let {
-      startDate,
+      userID,
       sunday,
       mondayOpen,
       mondayClose,
@@ -49,24 +49,18 @@ router.post(
       storeNumber,
     } = req.body;
 
-    if (storeNumber == 8677) {
-      startDate = startDate + ' 01:00';
-    } else if (storeNumber == 9200) {
-      startDate = startDate + ' 05:00';
-    }
-
     try {
       //see if sche exists
-      let schedule = await Schedule.findOne({ startDate });
-      if (schedule) {
-        await Schedule.findOneAndDelete({ startDate });
-        var returnMsg = 'Schedule Updated';
+      let staticSchedule = await StaticSchedule.findOne({ userID });
+      if (staticSchedule) {
+        await StaticSchedule.findOneAndDelete({ userID });
+        var returnMsg = 'Static Schedule Updated';
       } else {
-        var returnMsg = 'Schedule Created';
+        var returnMsg = 'Static Schedule Created';
       }
 
-      schedule = new Schedule({
-        startDate,
+      staticSchedule = new StaticSchedule({
+        userID,
         sunday,
         mondayOpen,
         mondayClose,
@@ -83,7 +77,7 @@ router.post(
         storeNumber,
       });
 
-      await schedule.save();
+      await staticSchedule.save();
 
       res.send(returnMsg);
     } catch (err) {
@@ -98,17 +92,15 @@ router.post(
 // @access  Public
 router.post(
   '/delete',
-  [check('_id', 'A schedule ID is required').not().isEmpty()],
+  [check('_id', 'A Static Schedule ID is required').not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     try {
       const _id = req.body._id;
-      await Schedule.findByIdAndDelete({ _id });
-
+      await StaticSchedule.findByIdAndDelete({ _id });
       res.status(200).send('Schedule Deleted');
     } catch (err) {
       console.log(err.message);
@@ -121,16 +113,16 @@ router.post(
 // @desc    Get Schedules by date
 // @access  Public
 router.get(
-  '/bydate',
-  [check('date', 'An entry date is required.').not().isEmpty()],
+  '/byuser',
+  [check('userID', 'A userID is required.').not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     try {
-      const entryDate = req.body.date;
-      const result = await Schedule.find({ entryDate });
+      const userID = req.body.userID;
+      const result = await StaticSchedule.find({ userID });
       res.status(200).json(result);
     } catch (err) {
       console.log(err.message);
@@ -148,7 +140,7 @@ router.get('/all', async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
-    const result = await Schedule.find();
+    const result = await StaticSchedule.find();
     res.status(200).json(result);
   } catch (err) {
     console.log(err.message);

@@ -14,6 +14,7 @@ app.get('/', (req, res) => res.send('API Running'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/schedule', require('./routes/api/schedule'));
+app.use('/api/staticSchedule', require('./routes/api/staticSchedule'));
 app.use('/api/availability', require('./routes/api/availability'));
 app.use('/api/timeoff', require('./routes/api/timeoff'));
 
