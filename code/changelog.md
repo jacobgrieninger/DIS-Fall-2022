@@ -59,3 +59,9 @@ CRUD functionality for all MVP requirements met.
 ### 10/18/22
 
 Started Login implementation on frontend
+
+## 11
+
+### 10/19/22
+
+Finished login implementation with error displays

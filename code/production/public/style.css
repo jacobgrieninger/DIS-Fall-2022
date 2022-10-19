@@ -111,3 +111,9 @@
 .isavail {
     background-color: green;
 }
+
+.errorContainer {
+    text-align: center;
+    background-color: red;
+    color: white;
+}

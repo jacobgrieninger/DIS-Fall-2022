@@ -1,19 +1,24 @@
-import axios from "axios";
+import axios from 'axios';
 
-const url = "http://localhost:5000/";
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
+const url = 'http://localhost:5000/';
 
-const login = async (userID, password) => {
+const login = async (userID_, password_) => {
   try {
-    const body = JSON.stringify({
-      userID: userID,
-      password: password,
+    let data = JSON.stringify({
+      userID: userID_,
+      password: password_,
     });
-    const res = await axios.post(`${url}api/auth`, body, config);
+    // prettier-ignore
+    let config = {
+      method: 'post',
+      url: 'http://localhost:5000/api/auth',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    const res = await axios(config);
     return res.data;
   } catch (err) {
     console.log(err);

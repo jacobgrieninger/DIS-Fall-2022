@@ -1,65 +1,78 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import * as Helper from "./helpers";
-import * as db from "./requests";
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom/client';
+import * as Helper from './helpers';
+import * as db from './requests';
 
-const root = ReactDOM.createRoot(document.getElementById("stage"));
+const root = ReactDOM.createRoot(document.getElementById('stage'));
 
 function Init() {
   root.render(<LoginPage />);
 }
 
 function LoginPage(props) {
+  const [userID, setuserID] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState([]);
+
+  const DisplayErrors = () => {
+    if (errors.length >= 1) {
+      const errList = errors.map((err) => {
+        return <p className="errorContainer">{err}</p>;
+      });
+      return errList;
+    }
+  };
+
   return (
     <div id="mainBoxLogin">
       <div className="header">GNC Wilmington</div>
       <div id="loginBox">
         <div>
+          <DisplayErrors />
           <div className="row">
-            <div className="col" style={{ textAlign: "left" }}>
+            <div className="col" style={{ textAlign: 'left' }}>
               Username:
             </div>
             <div className="col">
-              <input type="text" spellCheck="false" />
+              <input
+                type="text"
+                value={userID}
+                onChange={(e) => setuserID(e.target.value)}
+                spellCheck="false"
+              />
             </div>
           </div>
           <br />
           <div className="row">
-            <div className="col" style={{ textAlign: "left" }}>
+            <div className="col" style={{ textAlign: 'left' }}>
               Password:
             </div>
             <div className="col">
-              <input type="text" />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
           </div>
           <br />
-          <div style={{ margin: "auto", textAlign: "center" }}>
+          <div style={{ margin: 'auto', textAlign: 'center' }}>
             <button
               id="loginBtn"
-              onClick={async function() {
-                console.log(await db.login(555, "default"));
+              onClick={async function () {
+                const result = await db.login(userID, password);
+                if (result.errors.value) {
+                  setErrors(result.errors.info);
+                } else {
+                  if (result.auth === 0) {
+                    root.render(<EmployeeHome />);
+                  } else if (result.auth === 1) {
+                    root.render(<ManagerHome />);
+                  }
+                }
               }}
             >
               Login
-            </button>
-          </div>
-          <br />
-          <div style={{ margin: "auto", textAlign: "center" }}>
-            <button
-              id="loginBtnManager"
-              onClick={function() {
-                root.render(<ManagerHome />);
-              }}
-            >
-              Login as Manager
-            </button>
-            <button
-              id="loginBtnEmployee"
-              onClick={function() {
-                root.render(<EmployeeHome />);
-              }}
-            >
-              Login as Employee
             </button>
           </div>
         </div>
@@ -73,12 +86,12 @@ function ManagerHome(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
+        <p style={{ paddingTop: '1em' }}>
           <u>Home</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "5em" }}>Manager Options</p>
+        <p style={{ paddingTop: '5em' }}>Manager Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -86,7 +99,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(<EmployeeManagement />);
                 }}
               >
@@ -96,7 +109,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(<StoreManagement />);
                 }}
               >
@@ -116,7 +129,7 @@ function ManagerHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>Employee Options</p>
+        <p style={{ paddingTop: '3em' }}>Employee Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -127,7 +140,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(<WeeklyAvailablity />);
                 }}
               >
@@ -138,7 +151,7 @@ function ManagerHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "5em" }}>
+        <p style={{ paddingTop: '5em' }}>
           <i>Insert calender views of each store for current week below...</i>
         </p>
       </div>
@@ -151,12 +164,12 @@ function EmployeeHome(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
+        <p style={{ paddingTop: '1em' }}>
           <u>Home</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>Employee Options</p>
+        <p style={{ paddingTop: '3em' }}>Employee Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -173,7 +186,7 @@ function EmployeeHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "5em" }}>
+        <p style={{ paddingTop: '5em' }}>
           <i>Insert calender views of each store for current week below...</i>
         </p>
       </div>
@@ -221,12 +234,12 @@ function EmployeeManagement(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
+        <p style={{ paddingTop: '1em' }}>
           <u>Employee Management</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>
+        <p style={{ paddingTop: '3em' }}>
           <button>Add Employee</button>
         </p>
       </div>
@@ -241,16 +254,16 @@ function EmployeeManagement(props) {
               </select>
             </div>
             <div className="col">
-              <button style={{ width: "10em" }}>Edit Employee</button>
+              <button style={{ width: '10em' }}>Edit Employee</button>
             </div>
             <div className="col">
-              <button style={{ width: "10em" }}>Reset Password</button>
+              <button style={{ width: '10em' }}>Reset Password</button>
             </div>
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>
+        <p style={{ paddingTop: '3em' }}>
           <button>Confirm</button>
         </p>
       </div>
@@ -263,78 +276,78 @@ function StoreManagement(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
+        <p style={{ paddingTop: '1em' }}>
           <u>Store Management</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>8677</p>
+        <p style={{ paddingTop: '3em' }}>8677</p>
       </div>
       <div className="buttonContainer">
         <div>
-          <div className="row" style={{ paddingBottom: "1em" }}>
-            <div className="col" style={{ width: "20em" }}>
+          <div className="row" style={{ paddingBottom: '1em' }}>
+            <div className="col" style={{ width: '20em' }}>
               Sunday Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
           </div>
           <div className="row">
-            <div className="col" style={{ width: "20em" }}>
+            <div className="col" style={{ width: '20em' }}>
               M-Sat Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>9200</p>
+        <p style={{ paddingTop: '3em' }}>9200</p>
       </div>
       <div className="buttonContainer">
         <div>
-          <div className="row" style={{ paddingBottom: "1em" }}>
-            <div className="col" style={{ width: "20em" }}>
+          <div className="row" style={{ paddingBottom: '1em' }}>
+            <div className="col" style={{ width: '20em' }}>
               Sunday Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
           </div>
           <div className="row">
-            <div className="col" style={{ width: "20em" }}>
+            <div className="col" style={{ width: '20em' }}>
               M-Sat Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "5em" }}>
+        <p style={{ paddingTop: '5em' }}>
           <button>Save</button>
         </p>
       </div>
@@ -347,14 +360,14 @@ function WeeklyAvailablity(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
+        <p style={{ paddingTop: '1em' }}>
           <u>Weekly Availablity</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>Sample Week</p>
+        <p style={{ paddingTop: '3em' }}>Sample Week</p>
       </div>
-      <div className="calender" style={{ margin: "auto", width: "75%" }}>
+      <div className="calender" style={{ margin: 'auto', width: '75%' }}>
         <div className="row gx-0">
           <div className="col dayBox">
             <div className="calenderHeader2">
@@ -365,8 +378,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="sunday"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("sunday");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('sunday');
                 }}
               >
                 Open
@@ -382,8 +395,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="mondayopen"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("mondayopen");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('mondayopen');
                 }}
               >
                 Open
@@ -391,8 +404,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="mondayclose"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("mondayclose");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('mondayclose');
                 }}
               >
                 Close
@@ -408,8 +421,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="tuesopen"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("tuesopen");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('tuesopen');
                 }}
               >
                 Open
@@ -417,8 +430,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="tuesclose"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("tuesclose");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('tuesclose');
                 }}
               >
                 Close
@@ -434,8 +447,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="wedopen"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("wedopen");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('wedopen');
                 }}
               >
                 Open
@@ -443,8 +456,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="wedclose"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("wedclose");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('wedclose');
                 }}
               >
                 Close
@@ -460,8 +473,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="thuopen"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("thuopen");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('thuopen');
                 }}
               >
                 Open
@@ -469,8 +482,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="thuclose"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("thuclose");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('thuclose');
                 }}
               >
                 Close
@@ -486,8 +499,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="friopen"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("friopen");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('friopen');
                 }}
               >
                 Open
@@ -495,8 +508,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="friclose"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("friclose");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('friclose');
                 }}
               >
                 Close
@@ -512,8 +525,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="satopen"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("satopen");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('satopen');
                 }}
               >
                 Open
@@ -521,8 +534,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="satclose"
                 className="shiftStyle notavail"
-                onClick={function() {
-                  Helper.AvailabiltyToggle("satclose");
+                onClick={function () {
+                  Helper.AvailabiltyToggle('satclose');
                 }}
               >
                 Close
@@ -532,7 +545,7 @@ function WeeklyAvailablity(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>
+        <p style={{ paddingTop: '3em' }}>
           <button>Confirm</button>
         </p>
       </div>
