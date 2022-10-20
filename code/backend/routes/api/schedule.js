@@ -10,7 +10,6 @@ const bcrypt = require('bcryptjs');
 router.post(
   '/',
   [
-    check('startDate', 'Start Date is required').not().isEmpty(),
     check('sunday', 'Sunday shift required').not().isEmpty(),
     check('mondayOpen', 'Monday Open shift required').not().isEmpty(),
     check('mondayClose', 'Monday Close shift required').not().isEmpty(),
@@ -24,7 +23,6 @@ router.post(
     check('fridayClose', 'Friday Close shift required').not().isEmpty(),
     check('saturdayOpen', 'Saturday Open shift required').not().isEmpty(),
     check('saturdayClose', 'Saturday Close shift required').not().isEmpty(),
-    check('storeNumber', 'Store Number is required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -33,6 +31,7 @@ router.post(
     }
     let {
       startDate,
+      storeNumber,
       sunday,
       mondayOpen,
       mondayClose,
@@ -46,20 +45,19 @@ router.post(
       fridayClose,
       saturdayOpen,
       saturdayClose,
-      storeNumber,
     } = req.body;
-
-    if (storeNumber == 8677) {
-      startDate = startDate + ' 01:00';
-    } else if (storeNumber == 9200) {
-      startDate = startDate + ' 05:00';
-    }
 
     try {
       //see if sche exists
-      let schedule = await Schedule.findOne({ startDate });
+      let schedule = await Schedule.findOne({
+        startDate: startDate,
+        storeNumber: storeNumber,
+      });
       if (schedule) {
-        await Schedule.findOneAndDelete({ startDate });
+        await Schedule.findOneAndDelete({
+          startDate: startDate,
+          storeNumber: storeNumber,
+        });
         var returnMsg = 'Schedule Updated';
       } else {
         var returnMsg = 'Schedule Created';
@@ -67,6 +65,7 @@ router.post(
 
       schedule = new Schedule({
         startDate,
+        storeNumber,
         sunday,
         mondayOpen,
         mondayClose,
@@ -80,7 +79,6 @@ router.post(
         fridayClose,
         saturdayOpen,
         saturdayClose,
-        storeNumber,
       });
 
       await schedule.save();
@@ -120,7 +118,7 @@ router.post(
 // @route   GET api/schedule/bydate
 // @desc    Get Schedules by date
 // @access  Public
-router.get(
+router.post(
   '/bydate',
   [check('date', 'An entry date is required.').not().isEmpty()],
   async (req, res) => {
@@ -130,8 +128,8 @@ router.get(
     }
     try {
       const entryDate = req.body.date;
-      const result = await Schedule.find({ entryDate });
-      res.status(200).json(result);
+      const result = await Schedule.find({ startDate: entryDate });
+      res.send(result);
     } catch (err) {
       console.log(err.message);
       res.status(500).send('Server Error');
@@ -142,7 +140,7 @@ router.get(
 // @route   GET api/schedule/all
 // @desc    Get all Schedules
 // @access  Public
-router.get('/all', async (req, res) => {
+router.post('/all', async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

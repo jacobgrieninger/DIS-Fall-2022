@@ -52,12 +52,12 @@
 
 .calenderViews {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
 .calender {
-    width: 45%;
+    width: 40%;
     text-align: center;
 }
 
@@ -80,9 +80,19 @@
     height: 50%; padding-top: 25%;
 }
 
+.employeeDisplaySunday {
+    height: 100%; padding-top: 70%;
+}
+
 .bdr {
     border-width: 0.1em;
     border-bottom-style: solid;
+    border-top-style: solid;
+    border-color: black;
+}
+
+.bdrS {
+    border-width: 0.1em;
     border-top-style: solid;
     border-color: black;
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Helper from './helpers';
 import * as db from './requests';
+import * as Subcomponent from './subcomponents';
 
 const root = ReactDOM.createRoot(document.getElementById('stage'));
 
@@ -151,9 +152,17 @@ function ManagerHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '5em' }}>
-          <i>Insert calender views of each store for current week below...</i>
-        </p>
+        <p style={{ paddingTop: '5em' }}></p>
+      </div>
+      <div className="calenderViews">
+        <div className="calender">
+          <b>8677</b>
+          <Subcomponent.DisplaySchedule storenum="8677" />
+        </div>
+        <div className="calender">
+          <b>9200</b>
+          <Subcomponent.DisplaySchedule storenum="9200" />
+        </div>
       </div>
     </div>
   );
@@ -168,6 +177,7 @@ function EmployeeHome(props) {
           <u>Home</u>
         </p>
       </div>
+
       <div className="header">
         <p style={{ paddingTop: '3em' }}>Employee Options</p>
       </div>
@@ -186,44 +196,17 @@ function EmployeeHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '5em' }}>
-          <i>Insert calender views of each store for current week below...</i>
-        </p>
+        <p style={{ paddingTop: '5em' }}></p>
       </div>
       <div className="calenderViews">
         <div className="calender">
           <b>8677</b>
-          <div className="row gx-0">
-            <div className="col dayBox">
-              <u>Sunday</u>
-              <br />
-              9/27/22
-              <div className="shiftContainer">
-                <div className="employeeDisplay bdr">John</div>
-                <div className="employeeDisplay">Bill</div>
-              </div>
-            </div>
-            <div className="col dayBox">
-              <u>Monday</u>
-            </div>
-            <div className="col dayBox">
-              <u>Tuesday</u>
-            </div>
-            <div className="col dayBox">
-              <u>Wednesday</u>
-            </div>
-            <div className="col dayBox">
-              <u>Thursday</u>
-            </div>
-            <div className="col dayBox">
-              <u>Friday</u>
-            </div>
-            <div className="col dayBox">
-              <u>Saturday</u>
-            </div>
-          </div>
+          <Subcomponent.DisplaySchedule storenum="8677" />
         </div>
-        <div className="calender">duplicate of calendar on left</div>
+        <div className="calender">
+          <b>9200</b>
+          <Subcomponent.DisplaySchedule storenum="9200" />
+        </div>
       </div>
     </div>
   );

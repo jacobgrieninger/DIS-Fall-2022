@@ -65,3 +65,9 @@ Started Login implementation on frontend
 ### 10/19/22
 
 Finished login implementation with error displays
+
+## 12
+
+### 10/20/22
+
+Added schedule view for current week on home page for managers / employees.
