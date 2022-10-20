@@ -60,4 +60,76 @@ const getAllUsers = async () => {
   }
 };
 
-export { login, getScheduleByDate, getAllUsers };
+const createTimeOff = async (userID_, leaveDate_, returnDate_) => {
+  try {
+    let data = JSON.stringify({
+      userID: userID_,
+      leaveDate: leaveDate_,
+      returnDate: returnDate_,
+    });
+    let config = {
+      method: 'post',
+      url: 'http://localhost:5000/api/timeoff',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getTimeOffs = async (userID_) => {
+  try {
+    let data = JSON.stringify({
+      userID: userID_,
+    });
+    let config = {
+      method: 'post',
+      url: 'http://localhost:5000/api/timeoff/getall',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const delteTimeOff = async (id_) => {
+  try {
+    let data = JSON.stringify({
+      _id: id_,
+    });
+    let config = {
+      method: 'post',
+      url: 'http://localhost:5000/api/timeoff/delete',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export {
+  login,
+  getScheduleByDate,
+  getAllUsers,
+  createTimeOff,
+  getTimeOffs,
+  delteTimeOff,
+};

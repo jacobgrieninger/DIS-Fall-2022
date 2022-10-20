@@ -71,3 +71,9 @@ Finished login implementation with error displays
 ### 10/20/22
 
 Added schedule view for current week on home page for managers / employees.
+
+## 13
+
+### 10/20/22
+
+Added time off page with functional create / display / delete time off requests.

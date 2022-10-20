@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Helper from './helpers';
 import * as db from './requests';
@@ -66,9 +66,9 @@ function LoginPage(props) {
                   setErrors(result.errors.info);
                 } else {
                   if (result.auth === 0) {
-                    root.render(<EmployeeHome />);
+                    root.render(<EmployeeHome ID={userID} />);
                   } else if (result.auth === 1) {
-                    root.render(<ManagerHome />);
+                    root.render(<ManagerHome ID={userID} />);
                   }
                 }
               }}
@@ -185,7 +185,13 @@ function EmployeeHome(props) {
         <div>
           <div className="row">
             <div className="col">
-              <button className="menuBtn" id="timeoffbtn">
+              <button
+                className="menuBtn"
+                id="timeoffbtn"
+                onClick={function () {
+                  root.render(<TimeOff ID={props.ID} />);
+                }}
+              >
                 Time Off
               </button>
             </div>
@@ -531,6 +537,84 @@ function WeeklyAvailablity(props) {
         <p style={{ paddingTop: '3em' }}>
           <button>Confirm</button>
         </p>
+      </div>
+    </div>
+  );
+}
+
+function TimeOff(props) {
+  const [leaveDate, setLeaveDate] = useState('');
+  const [returnDate, setReturnDate] = useState('');
+  const [timeOffs, setTimeOffs] = useState([]);
+  const [actions, setAction] = useState(0);
+
+  useEffect(() => {
+    async function getTimeOffs() {
+      const res = await db.getTimeOffs(props.ID);
+      setTimeOffs(res);
+    }
+    getTimeOffs();
+    // eslint-disable-next-line
+  }, [actions]);
+
+  return (
+    <div id="mainBox">
+      <div className="header" id="main header">
+        GNC Wilmington
+        <p style={{ paddingTop: '1em' }}>
+          <u>Time Off</u>
+        </p>
+      </div>
+      <div className="header">
+        <p style={{ paddingTop: '3em' }}>New Time Off Request</p>
+      </div>
+      <div className="buttonContainer">
+        <div>
+          <div className="row" style={{ paddingBottom: '1em', width: '35em' }}>
+            <div className="col colmesh">Leave Date</div>
+            <div className="col">
+              <input
+                type="date"
+                style={{ width: '8em' }}
+                onChange={function (e) {
+                  let date = new Date(e.target.value);
+                  setLeaveDate(date.toISOString());
+                }}
+              />
+            </div>
+            <div className="col colmesh">Return Date</div>
+            <div className="col">
+              <input
+                type="date"
+                style={{ width: '8em' }}
+                onChange={function (e) {
+                  let date = new Date(e.target.value);
+                  setReturnDate(date.toISOString());
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="header">
+        <p style={{ paddingTop: '0em' }}>
+          <button
+            onClick={async function () {
+              let res = await db.createTimeOff(props.ID, leaveDate, returnDate);
+              if (typeof res === 'string') {
+                setAction(Math.random());
+              }
+            }}
+          >
+            Submit
+          </button>
+        </p>
+      </div>
+      <div>
+        <Subcomponent.DisplayTimeOffs
+          timeOffs={timeOffs}
+          setAction={setAction}
+        />
       </div>
     </div>
   );

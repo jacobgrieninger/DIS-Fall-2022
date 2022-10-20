@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import * as Helper from './helpers';
 import * as db from './requests';
 
@@ -125,7 +125,7 @@ const DisplaySchedule = (storenum) => {
   return result;
 };
 
-function GetNameFromID(users_, userID_) {
+const GetNameFromID = (users_, userID_) => {
   let result = '';
   Array.prototype.forEach.call(users_, (user) => {
     if (userID_ === user.userID) {
@@ -133,6 +133,32 @@ function GetNameFromID(users_, userID_) {
     }
   });
   return result;
-}
+};
 
-export { DisplaySchedule };
+const DisplayTimeOffs = (props) => {
+  const ConvertDate = (old) => {
+    let date = new Date(old);
+    return <Fragment>{date.toDateString()}</Fragment>;
+  };
+  const result = props.timeOffs.map((to_) => {
+    return (
+      <div key={to_._id} className="row">
+        <div className="col">Leave Date: {ConvertDate(to_.leaveDate)}</div>
+        <div className="col">Return Date: {ConvertDate(to_.returnDate)}</div>
+        <div className="col">
+          <button
+            onClick={async function () {
+              await db.delteTimeOff(to_._id);
+              props.setAction(Math.random());
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    );
+  });
+  return result;
+};
+
+export { DisplaySchedule, DisplayTimeOffs };
