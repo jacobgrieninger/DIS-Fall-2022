@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const login = async (userID_, password_) => {
   try {
@@ -7,11 +7,11 @@ const login = async (userID_, password_) => {
       password: password_,
     });
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/auth',
+      method: "post",
+      url: "http://localhost:5000/api/auth",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -28,11 +28,11 @@ const getScheduleByDate = async (startdate_) => {
       date: startdate_,
     });
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/schedule/bydate',
+      method: "post",
+      url: "http://localhost:5000/api/schedule/bydate",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -46,11 +46,11 @@ const getScheduleByDate = async (startdate_) => {
 const getAllUsers = async () => {
   try {
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/users/all',
+      method: "post",
+      url: "http://localhost:5000/api/users/all",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     };
     const res = await axios(config);
@@ -68,11 +68,11 @@ const createTimeOff = async (userID_, leaveDate_, returnDate_) => {
       returnDate: returnDate_,
     });
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/timeoff',
+      method: "post",
+      url: "http://localhost:5000/api/timeoff",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -89,11 +89,11 @@ const getTimeOffs = async (userID_) => {
       userID: userID_,
     });
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/timeoff/getall',
+      method: "post",
+      url: "http://localhost:5000/api/timeoff/getall",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -110,11 +110,11 @@ const delteTimeOff = async (id_) => {
       _id: id_,
     });
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/timeoff/delete',
+      method: "post",
+      url: "http://localhost:5000/api/timeoff/delete",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -130,15 +130,15 @@ const createUser = async (name_, userID_, authlevel_) => {
     let data = JSON.stringify({
       name: name_,
       userID: userID_,
-      password: 'default',
+      password: "default",
       authlevel: authlevel_,
     });
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/users',
+      method: "post",
+      url: "http://localhost:5000/api/users",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -155,11 +155,11 @@ const deleteUser = async (userID_) => {
       userID: userID_,
     });
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/users/delete',
+      method: "post",
+      url: "http://localhost:5000/api/users/delete",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -176,11 +176,11 @@ const resetUserPass = async (userID_) => {
       userID: userID_,
     });
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/users/resetpass',
+      method: "post",
+      url: "http://localhost:5000/api/users/resetpass",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -194,11 +194,11 @@ const resetUserPass = async (userID_) => {
 const getAllStaticSchedules = async () => {
   try {
     let config = {
-      method: 'post',
-      url: 'http://localhost:5000/api/staticschedule/all',
+      method: "post",
+      url: "http://localhost:5000/api/staticSchedule/all",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     };
     const res = await axios(config);

@@ -83,3 +83,9 @@ Added time off page with functional create / display / delete time off requests.
 ### 10/25/22
 
 Updated Employee Management page with CRUD functionality
+
+## 15
+
+### 10/25/22
+
+Began working on static schedules page

@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom/client';
-import * as Helper from './helpers';
-import * as db from './requests';
-import * as Subcomponent from './subcomponents';
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
+import * as Helper from "./helpers";
+import * as db from "./requests";
+import * as Subcomponent from "./subcomponents";
 
-const root = ReactDOM.createRoot(document.getElementById('stage'));
+const root = ReactDOM.createRoot(document.getElementById("stage"));
 
 function Init() {
   root.render(<LoginPage />);
 }
 
 function LoginPage(props) {
-  const [userID, setuserID] = useState('');
-  const [password, setPassword] = useState('');
+  const [userID, setuserID] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
   const DisplayErrors = () => {
@@ -31,7 +31,7 @@ function LoginPage(props) {
         <div>
           <DisplayErrors />
           <div className="row">
-            <div className="col" style={{ textAlign: 'left' }}>
+            <div className="col" style={{ textAlign: "left" }}>
               Username:
             </div>
             <div className="col">
@@ -45,7 +45,7 @@ function LoginPage(props) {
           </div>
           <br />
           <div className="row">
-            <div className="col" style={{ textAlign: 'left' }}>
+            <div className="col" style={{ textAlign: "left" }}>
               Password:
             </div>
             <div className="col">
@@ -57,10 +57,10 @@ function LoginPage(props) {
             </div>
           </div>
           <br />
-          <div style={{ margin: 'auto', textAlign: 'center' }}>
+          <div style={{ margin: "auto", textAlign: "center" }}>
             <button
               id="loginBtn"
-              onClick={async function () {
+              onClick={async function() {
                 const result = await db.login(userID, password);
                 if (result.errors.value) {
                   setErrors(result.errors.info);
@@ -87,12 +87,12 @@ function ManagerHome(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: '1em' }}>
+        <p style={{ paddingTop: "1em" }}>
           <u>Home</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '5em' }}>Manager Options</p>
+        <p style={{ paddingTop: "5em" }}>Manager Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -100,7 +100,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function () {
+                onClick={function() {
                   root.render(<EmployeeManagement />);
                 }}
               >
@@ -110,7 +110,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function () {
+                onClick={function() {
                   root.render(<StoreManagement />);
                 }}
               >
@@ -123,7 +123,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function () {
+                onClick={function() {
                   root.render(<StaticSchedules />);
                 }}
               >
@@ -137,7 +137,7 @@ function ManagerHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>Employee Options</p>
+        <p style={{ paddingTop: "3em" }}>Employee Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -148,7 +148,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function () {
+                onClick={function() {
                   root.render(<WeeklyAvailablity />);
                 }}
               >
@@ -159,7 +159,7 @@ function ManagerHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '5em' }}></p>
+        <p style={{ paddingTop: "5em" }}></p>
       </div>
       <div className="calenderViews">
         <div className="calender">
@@ -180,13 +180,13 @@ function EmployeeHome(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: '1em' }}>
+        <p style={{ paddingTop: "1em" }}>
           <u>Home</u>
         </p>
       </div>
 
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>Employee Options</p>
+        <p style={{ paddingTop: "3em" }}>Employee Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -195,7 +195,7 @@ function EmployeeHome(props) {
               <button
                 className="menuBtn"
                 id="timeoffbtn"
-                onClick={function () {
+                onClick={function() {
                   root.render(<TimeOff ID={props.ID} />);
                 }}
               >
@@ -209,7 +209,7 @@ function EmployeeHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '5em' }}></p>
+        <p style={{ paddingTop: "5em" }}></p>
       </div>
       <div className="calenderViews">
         <div className="calender">
@@ -228,7 +228,7 @@ function EmployeeHome(props) {
 function EmployeeManagement(props) {
   const [actions, setAction] = useState(0);
   const [usersList, setUsersList] = useState([]);
-  const [firstName, setFirstName] = useState('');
+  const [firstName, setFirstName] = useState("");
   const [enteredID, setEnteredID] = useState(0);
   const [employeeType, setEmployeeType] = useState(0);
   const [resetAlert, setResetAlert] = useState(false);
@@ -246,11 +246,11 @@ function EmployeeManagement(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: '1em' }}>
+        <p style={{ paddingTop: "1em" }}>
           <u>Employee Management</u>
         </p>
       </div>
-      <div className="buttonContainer" style={{ paddingBottom: '5em' }}>
+      <div className="buttonContainer" style={{ paddingBottom: "5em" }}>
         <div className="employeeContainer">
           <Subcomponent.DisplayEmployees
             usersList={usersList}
@@ -258,22 +258,22 @@ function EmployeeManagement(props) {
             setResetAlert={setResetAlert}
           />
           <div
-            className={` ${resetAlert ? 'alert-shown' : 'alert-hidden'}`}
+            className={` ${resetAlert ? "alert-shown" : "alert-hidden"}`}
             onTransitionEnd={() => setResetAlert(false)}
-            style={{ textAlign: 'center' }}
+            style={{ textAlign: "center" }}
           >
             Password Reset!
           </div>
         </div>
       </div>
-      <div className="buttonContainer" style={{ paddingBottom: '1em' }}>
+      <div className="buttonContainer" style={{ paddingBottom: "1em" }}>
         <div className="employeeContainer">
-          <div className="row" style={{ textAlign: 'center' }}>
+          <div className="row" style={{ textAlign: "center" }}>
             <div className="col">
               <div>Enter Name:</div>
               <input
                 type="text"
-                onChange={function (e) {
+                onChange={function(e) {
                   setFirstName(e.target.value);
                 }}
               ></input>
@@ -283,10 +283,10 @@ function EmployeeManagement(props) {
               <div>Enter ID:</div>
               <input
                 type="number"
-                onWheel={function (e) {
+                onWheel={function(e) {
                   e.target.blur();
                 }}
-                onChange={function (e) {
+                onChange={function(e) {
                   setEnteredID(e.target.value);
                 }}
               ></input>
@@ -311,10 +311,10 @@ function EmployeeManagement(props) {
       </div>
       <div className="header">
         <button
-          onClick={async function () {
+          onClick={async function() {
             const res = await db.createUser(firstName, enteredID, employeeType);
             console.log(res);
-            if (typeof res === 'string') {
+            if (typeof res === "string") {
               setAction(Math.random());
             }
           }}
@@ -331,78 +331,78 @@ function StoreManagement(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: '1em' }}>
+        <p style={{ paddingTop: "1em" }}>
           <u>Store Management</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>8677</p>
+        <p style={{ paddingTop: "3em" }}>8677</p>
       </div>
       <div className="buttonContainer">
         <div>
-          <div className="row" style={{ paddingBottom: '1em' }}>
-            <div className="col" style={{ width: '20em' }}>
+          <div className="row" style={{ paddingBottom: "1em" }}>
+            <div className="col" style={{ width: "20em" }}>
               Sunday Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: '5em' }} />
+              <input type="text" style={{ width: "5em" }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: '5em' }} />
+              <input type="text" style={{ width: "5em" }} />
             </div>
           </div>
           <div className="row">
-            <div className="col" style={{ width: '20em' }}>
+            <div className="col" style={{ width: "20em" }}>
               M-Sat Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: '5em' }} />
+              <input type="text" style={{ width: "5em" }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: '5em' }} />
+              <input type="text" style={{ width: "5em" }} />
             </div>
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>9200</p>
+        <p style={{ paddingTop: "3em" }}>9200</p>
       </div>
       <div className="buttonContainer">
         <div>
-          <div className="row" style={{ paddingBottom: '1em' }}>
-            <div className="col" style={{ width: '20em' }}>
+          <div className="row" style={{ paddingBottom: "1em" }}>
+            <div className="col" style={{ width: "20em" }}>
               Sunday Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: '5em' }} />
+              <input type="text" style={{ width: "5em" }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: '5em' }} />
+              <input type="text" style={{ width: "5em" }} />
             </div>
           </div>
           <div className="row">
-            <div className="col" style={{ width: '20em' }}>
+            <div className="col" style={{ width: "20em" }}>
               M-Sat Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: '5em' }} />
+              <input type="text" style={{ width: "5em" }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: '5em' }} />
+              <input type="text" style={{ width: "5em" }} />
             </div>
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '5em' }}>
+        <p style={{ paddingTop: "5em" }}>
           <button>Save</button>
         </p>
       </div>
@@ -415,14 +415,14 @@ function WeeklyAvailablity(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: '1em' }}>
+        <p style={{ paddingTop: "1em" }}>
           <u>Weekly Availablity</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>Sample Week</p>
+        <p style={{ paddingTop: "3em" }}>Sample Week</p>
       </div>
-      <div className="calender" style={{ margin: 'auto', width: '75%' }}>
+      <div className="calender" style={{ margin: "auto", width: "75%" }}>
         <div className="row gx-0">
           <div className="col dayBox">
             <div className="calenderHeader2">
@@ -433,8 +433,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="sunday"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('sunday');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("sunday");
                 }}
               >
                 Open
@@ -450,8 +450,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="mondayopen"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('mondayopen');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("mondayopen");
                 }}
               >
                 Open
@@ -459,8 +459,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="mondayclose"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('mondayclose');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("mondayclose");
                 }}
               >
                 Close
@@ -476,8 +476,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="tuesopen"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('tuesopen');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("tuesopen");
                 }}
               >
                 Open
@@ -485,8 +485,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="tuesclose"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('tuesclose');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("tuesclose");
                 }}
               >
                 Close
@@ -502,8 +502,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="wedopen"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('wedopen');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("wedopen");
                 }}
               >
                 Open
@@ -511,8 +511,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="wedclose"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('wedclose');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("wedclose");
                 }}
               >
                 Close
@@ -528,8 +528,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="thuopen"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('thuopen');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("thuopen");
                 }}
               >
                 Open
@@ -537,8 +537,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="thuclose"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('thuclose');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("thuclose");
                 }}
               >
                 Close
@@ -554,8 +554,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="friopen"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('friopen');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("friopen");
                 }}
               >
                 Open
@@ -563,8 +563,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="friclose"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('friclose');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("friclose");
                 }}
               >
                 Close
@@ -580,8 +580,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="satopen"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('satopen');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("satopen");
                 }}
               >
                 Open
@@ -589,8 +589,8 @@ function WeeklyAvailablity(props) {
               <div
                 id="satclose"
                 className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('satclose');
+                onClick={function() {
+                  Helper.AvailabiltyToggle("satclose");
                 }}
               >
                 Close
@@ -600,7 +600,7 @@ function WeeklyAvailablity(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>
+        <p style={{ paddingTop: "3em" }}>
           <button>Confirm</button>
         </p>
       </div>
@@ -609,8 +609,8 @@ function WeeklyAvailablity(props) {
 }
 
 function TimeOff(props) {
-  const [leaveDate, setLeaveDate] = useState('');
-  const [returnDate, setReturnDate] = useState('');
+  const [leaveDate, setLeaveDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
   const [timeOffs, setTimeOffs] = useState([]);
   const [actions, setAction] = useState(0);
 
@@ -627,22 +627,22 @@ function TimeOff(props) {
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: '1em' }}>
+        <p style={{ paddingTop: "1em" }}>
           <u>Time Off</u>
         </p>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>New Time Off Request</p>
+        <p style={{ paddingTop: "3em" }}>New Time Off Request</p>
       </div>
       <div className="buttonContainer">
         <div>
-          <div className="row" style={{ paddingBottom: '1em', width: '35em' }}>
+          <div className="row" style={{ paddingBottom: "1em", width: "35em" }}>
             <div className="col colmesh">Leave Date</div>
             <div className="col">
               <input
                 type="date"
-                style={{ width: '8em' }}
-                onChange={function (e) {
+                style={{ width: "8em" }}
+                onChange={function(e) {
                   let date = new Date(e.target.value);
                   setLeaveDate(date.toISOString());
                 }}
@@ -652,8 +652,8 @@ function TimeOff(props) {
             <div className="col">
               <input
                 type="date"
-                style={{ width: '8em' }}
-                onChange={function (e) {
+                style={{ width: "8em" }}
+                onChange={function(e) {
                   let date = new Date(e.target.value);
                   setReturnDate(date.toISOString());
                 }}
@@ -663,11 +663,11 @@ function TimeOff(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '0em' }}>
+        <p style={{ paddingTop: "0em" }}>
           <button
-            onClick={async function () {
+            onClick={async function() {
               let res = await db.createTimeOff(props.ID, leaveDate, returnDate);
-              if (typeof res === 'string') {
+              if (typeof res === "string") {
                 setAction(Math.random());
               }
             }}
@@ -689,26 +689,44 @@ function TimeOff(props) {
 function StaticSchedules(props) {
   const [staticSchedules, setStaticSchedules] = useState([]);
   const [actions, setAction] = useState(0);
+  const [newSche, setNewSche] = useState({
+    sunday: false,
+    mondayOpen: false,
+    mondayClose: false,
+    tuesdayOpen: false,
+    tuesdayClose: false,
+    wednesdayOpen: false,
+    wednesdayClose: false,
+    thursdayOpen: false,
+    thursdayClose: false,
+    fridayOpen: false,
+    fridayClose: false,
+    saturdayOpen: false,
+    saturdayClose: false,
+    storeNumber: 0,
+  });
+
   useEffect(() => {
     async function getStaticSchedules() {
       const res = await db.getAllStaticSchedules(props.ID);
+      console.log(res);
       setStaticSchedules(res);
     }
     getStaticSchedules();
     // eslint-disable-next-line
   }, [actions]);
+
   return (
     <div id="mainBox">
       <div className="header" id="main header">
         GNC Wilmington
-        <p style={{ paddingTop: '1em' }}>
+        <p style={{ paddingTop: "1em" }}>
           <u>Static Schedule</u>
         </p>
       </div>
-      <div className="header">
-        <p style={{ paddingTop: '3em' }}>Sample Week</p>
-      </div>
-      <div className="calender" style={{ margin: 'auto', width: '75%' }}>
+      <Subcomponent.DisplayStaticSchedules staticSchedules={staticSchedules} />
+      <br />
+      <div className="calender" style={{ margin: "auto", width: "75%" }}>
         <div className="row gx-0">
           <div className="col dayBox">
             <div className="calenderHeader2">
@@ -717,10 +735,11 @@ function StaticSchedules(props) {
             </div>
             <div className="availContainer">
               <div
-                id="sunday"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('sunday');
+                className={`shiftStyle  ${
+                  newSche.sunday ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, sunday: !newSche.sunday });
                 }}
               >
                 Open
@@ -734,19 +753,21 @@ function StaticSchedules(props) {
             </div>
             <div className="availContainer">
               <div
-                id="mondayopen"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('mondayopen');
+                className={`shiftStyle  ${
+                  newSche.mondayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, mondayOpen: !newSche.mondayOpen });
                 }}
               >
                 Open
               </div>
               <div
-                id="mondayclose"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('mondayclose');
+                className={`shiftStyle  ${
+                  newSche.mondayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, mondayClose: !newSche.mondayClose });
                 }}
               >
                 Close
@@ -760,19 +781,24 @@ function StaticSchedules(props) {
             </div>
             <div className="availContainer">
               <div
-                id="tuesopen"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('tuesopen');
+                className={`shiftStyle  ${
+                  newSche.tuesdayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, tuesdayOpen: !newSche.tuesdayOpen });
                 }}
               >
                 Open
               </div>
               <div
-                id="tuesclose"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('tuesclose');
+                className={`shiftStyle  ${
+                  newSche.tuesdayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    tuesdayClose: !newSche.tuesdayClose,
+                  });
                 }}
               >
                 Close
@@ -786,19 +812,27 @@ function StaticSchedules(props) {
             </div>
             <div className="availContainer">
               <div
-                id="wedopen"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('wedopen');
+                className={`shiftStyle  ${
+                  newSche.wednesdayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    wednesdayOpen: !newSche.wednesdayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="wedclose"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('wedclose');
+                className={`shiftStyle  ${
+                  newSche.wednesdayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    wednesdayClose: !newSche.wednesdayClose,
+                  });
                 }}
               >
                 Close
@@ -812,19 +846,27 @@ function StaticSchedules(props) {
             </div>
             <div className="availContainer">
               <div
-                id="thuopen"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('thuopen');
+                className={`shiftStyle  ${
+                  newSche.thursdayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    thursdayOpen: !newSche.thursdayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="thuclose"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('thuclose');
+                className={`shiftStyle  ${
+                  newSche.thursdayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    thursdayClose: !newSche.thursdayClose,
+                  });
                 }}
               >
                 Close
@@ -838,19 +880,21 @@ function StaticSchedules(props) {
             </div>
             <div className="availContainer">
               <div
-                id="friopen"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('friopen');
+                className={`shiftStyle  ${
+                  newSche.fridayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, fridayOpen: !newSche.fridayOpen });
                 }}
               >
                 Open
               </div>
               <div
-                id="friclose"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('friclose');
+                className={`shiftStyle  ${
+                  newSche.fridayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, fridayClose: !newSche.fridayClose });
                 }}
               >
                 Close
@@ -864,19 +908,27 @@ function StaticSchedules(props) {
             </div>
             <div className="availContainer">
               <div
-                id="satopen"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('satopen');
+                className={`shiftStyle  ${
+                  newSche.saturdayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    saturdayOpen: !newSche.saturdayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="satclose"
-                className="shiftStyle notavail"
-                onClick={function () {
-                  Helper.AvailabiltyToggle('satclose');
+                className={`shiftStyle  ${
+                  newSche.saturdayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    saturdayClose: !newSche.saturdayClose,
+                  });
                 }}
               >
                 Close
@@ -886,8 +938,23 @@ function StaticSchedules(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>
-          <button>Confirm</button>
+        <select id="users" type="dropdown">
+          <Subcomponent.EmployeeList />
+        </select>
+        <select id="stores" type="dropdown">
+          <option>8677</option>
+          <option>9200</option>
+        </select>
+      </div>
+      <div className="header">
+        <p style={{ paddingTop: "3em" }}>
+          <button
+            onClick={function() {
+              setAction(Math.random());
+            }}
+          >
+            Confirm
+          </button>
         </p>
       </div>
     </div>
