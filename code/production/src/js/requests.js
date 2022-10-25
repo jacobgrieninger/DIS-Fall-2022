@@ -125,6 +125,72 @@ const delteTimeOff = async (id_) => {
   }
 };
 
+const createUser = async (name_, userID_, authlevel_) => {
+  try {
+    let data = JSON.stringify({
+      name: name_,
+      userID: userID_,
+      password: 'default',
+      authlevel: authlevel_,
+    });
+    let config = {
+      method: 'post',
+      url: 'http://localhost:5000/api/users',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const deleteUser = async (userID_) => {
+  try {
+    let data = JSON.stringify({
+      userID: userID_,
+    });
+    let config = {
+      method: 'post',
+      url: 'http://localhost:5000/api/users/delete',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const resetUserPass = async (userID_) => {
+  try {
+    let data = JSON.stringify({
+      userID: userID_,
+    });
+    let config = {
+      method: 'post',
+      url: 'http://localhost:5000/api/users/resetpass',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   login,
   getScheduleByDate,
@@ -132,4 +198,7 @@ export {
   createTimeOff,
   getTimeOffs,
   delteTimeOff,
+  createUser,
+  deleteUser,
+  resetUserPass,
 };

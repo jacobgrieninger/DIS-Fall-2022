@@ -20,7 +20,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.send({ errors: errors.array() });
     }
 
     const { name, userID, password, authlevel } = req.body;
@@ -29,7 +29,7 @@ router.post(
       //see if user exists
       let user = await User.findOne({ userID });
       if (user) {
-        res.status(400).json({ errors: [{ msg: 'User already exists' }] });
+        res.send({ errors: [{ msg: 'User already exists' }] });
       }
 
       user = new User({
@@ -101,7 +101,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.send({ errors: errors.array() });
     }
 
     const userID = req.body.userID;
@@ -110,7 +110,7 @@ router.post(
       //see if user exists
       let storedResult = await User.findOne({ userID });
       if (!storedResult) {
-        res.status(400).json({ errors: [{ msg: 'User does not exist' }] });
+        res.send({ errors: [{ msg: 'User does not exist' }] });
       }
 
       const name = storedResult.name;

@@ -219,6 +219,22 @@ function EmployeeHome(props) {
 }
 
 function EmployeeManagement(props) {
+  const [actions, setAction] = useState(0);
+  const [usersList, setUsersList] = useState([]);
+  const [firstName, setFirstName] = useState('');
+  const [enteredID, setEnteredID] = useState(0);
+  const [employeeType, setEmployeeType] = useState(0);
+  const [resetAlert, setResetAlert] = useState(false);
+
+  useEffect(() => {
+    async function getAllUsers() {
+      const res = await db.getAllUsers();
+      setUsersList(res);
+    }
+    getAllUsers();
+    // eslint-disable-next-line
+  }, [actions]);
+
   return (
     <div id="mainBox">
       <div className="header" id="main header">
@@ -227,34 +243,77 @@ function EmployeeManagement(props) {
           <u>Employee Management</u>
         </p>
       </div>
-      <div className="header">
-        <p style={{ paddingTop: '3em' }}>
-          <button>Add Employee</button>
-        </p>
+      <div className="buttonContainer" style={{ paddingBottom: '5em' }}>
+        <div className="employeeContainer">
+          <Subcomponent.DisplayEmployees
+            usersList={usersList}
+            setAction={setAction}
+            setResetAlert={setResetAlert}
+          />
+          <div
+            className={` ${resetAlert ? 'alert-shown' : 'alert-hidden'}`}
+            onTransitionEnd={() => setResetAlert(false)}
+            style={{ textAlign: 'center' }}
+          >
+            Password Reset!
+          </div>
+        </div>
       </div>
-      <div className="buttonContainer">
-        <div>
-          <div className="row">
-            <div className="col">John Doe</div>
+      <div className="buttonContainer" style={{ paddingBottom: '1em' }}>
+        <div className="employeeContainer">
+          <div className="row" style={{ textAlign: 'center' }}>
             <div className="col">
-              <select name="authLevel" id="">
-                <option value="Employee">Employee</option>
-                <option value="Manager">Manager</option>
-              </select>
+              <div>Enter Name:</div>
+              <input
+                type="text"
+                onChange={function (e) {
+                  setFirstName(e.target.value);
+                }}
+              ></input>
+              <div>(First name only)</div>
             </div>
             <div className="col">
-              <button style={{ width: '10em' }}>Edit Employee</button>
+              <div>Enter ID:</div>
+              <input
+                type="number"
+                onWheel={function (e) {
+                  e.target.blur();
+                }}
+                onChange={function (e) {
+                  setEnteredID(e.target.value);
+                }}
+              ></input>
             </div>
             <div className="col">
-              <button style={{ width: '10em' }}>Reset Password</button>
+              <div>Select Employee Type</div>
+              <div>
+                <select
+                  name="authLevel"
+                  id=""
+                  onChange={(e) => {
+                    setEmployeeType(e.target.value);
+                  }}
+                >
+                  <option value="0">Employee</option>
+                  <option value="1">Manager</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: '3em' }}>
-          <button>Confirm</button>
-        </p>
+        <button
+          onClick={async function () {
+            const res = await db.createUser(firstName, enteredID, employeeType);
+            console.log(res);
+            if (typeof res === 'string') {
+              setAction(Math.random());
+            }
+          }}
+        >
+          Add Employee
+        </button>
       </div>
     </div>
   );

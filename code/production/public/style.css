@@ -127,3 +127,19 @@
     background-color: red;
     color: white;
 }
+.employeeContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.alert-hidden {
+    opacity: 0;
+    transition: all 250ms linear 5s;
+  }
+
+  .alert-shown {
+    opacity: 1;
+    transition: all 250ms linear;
+  }
+  

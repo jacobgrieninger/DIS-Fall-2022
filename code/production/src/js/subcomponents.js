@@ -161,4 +161,48 @@ const DisplayTimeOffs = (props) => {
   return result;
 };
 
-export { DisplaySchedule, DisplayTimeOffs };
+const DisplayEmployees = (props) => {
+  const result = props.usersList.map((user) => {
+    return (
+      <div key={user._id} className="row" style={{ height: '3em' }}>
+        <div className="col">{user.name}</div>
+        <div className="col">{user.userID}</div>
+        <div className="col">
+          <select
+            name="authLevel"
+            id=""
+            defaultValue={user.authlevel.toString()}
+          >
+            <option value="0">Employee</option>
+            <option value="1">Manager</option>
+          </select>
+        </div>
+        <div className="col">
+          <button
+            style={{ width: '10em' }}
+            onClick={async function () {
+              await db.resetUserPass(user.userID);
+              props.setResetAlert(true);
+            }}
+          >
+            Reset Password
+          </button>
+        </div>
+        <div className="col">
+          <button
+            style={{ width: '10em' }}
+            onClick={async function () {
+              await db.deleteUser(user.userID);
+              props.setAction(Math.random());
+            }}
+          >
+            Delete Employee
+          </button>
+        </div>
+      </div>
+    );
+  });
+  return result;
+};
+
+export { DisplaySchedule, DisplayTimeOffs, DisplayEmployees };

@@ -77,3 +77,9 @@ Added schedule view for current week on home page for managers / employees.
 ### 10/20/22
 
 Added time off page with functional create / display / delete time off requests.
+
+## 14
+
+### 10/25/22
+
+Updated Employee Management page with CRUD functionality
