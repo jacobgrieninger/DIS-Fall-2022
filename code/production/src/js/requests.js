@@ -191,6 +191,23 @@ const resetUserPass = async (userID_) => {
   }
 };
 
+const getAllStaticSchedules = async () => {
+  try {
+    let config = {
+      method: 'post',
+      url: 'http://localhost:5000/api/staticschedule/all',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   login,
   getScheduleByDate,
@@ -201,4 +218,5 @@ export {
   createUser,
   deleteUser,
   resetUserPass,
+  getAllStaticSchedules,
 };

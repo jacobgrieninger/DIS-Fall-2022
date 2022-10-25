@@ -137,14 +137,14 @@ router.get(
 router.get('/all', async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.send({ errors: errors.array() });
   }
   try {
     const result = await StaticSchedule.find();
-    res.status(200).json(result);
+    res.send(result);
   } catch (err) {
     console.log(err.message);
-    res.status(500).send('Server Error');
+    res.send('Server Error');
   }
 });
 

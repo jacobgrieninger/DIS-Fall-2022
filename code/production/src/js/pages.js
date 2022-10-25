@@ -121,7 +121,14 @@ function ManagerHome(props) {
           <br />
           <div className="row">
             <div className="col">
-              <button className="menuBtn">Static Schedules</button>
+              <button
+                className="menuBtn"
+                onClick={function () {
+                  root.render(<StaticSchedules />);
+                }}
+              >
+                Static Schedules
+              </button>
             </div>
             <div className="col">
               <button className="menuBtn">Generate Schedule</button>
@@ -674,6 +681,214 @@ function TimeOff(props) {
           timeOffs={timeOffs}
           setAction={setAction}
         />
+      </div>
+    </div>
+  );
+}
+
+function StaticSchedules(props) {
+  const [staticSchedules, setStaticSchedules] = useState([]);
+  const [actions, setAction] = useState(0);
+  useEffect(() => {
+    async function getStaticSchedules() {
+      const res = await db.getAllStaticSchedules(props.ID);
+      setStaticSchedules(res);
+    }
+    getStaticSchedules();
+    // eslint-disable-next-line
+  }, [actions]);
+  return (
+    <div id="mainBox">
+      <div className="header" id="main header">
+        GNC Wilmington
+        <p style={{ paddingTop: '1em' }}>
+          <u>Static Schedule</u>
+        </p>
+      </div>
+      <div className="header">
+        <p style={{ paddingTop: '3em' }}>Sample Week</p>
+      </div>
+      <div className="calender" style={{ margin: 'auto', width: '75%' }}>
+        <div className="row gx-0">
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Sunday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                id="sunday"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('sunday');
+                }}
+              >
+                Open
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Monday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                id="mondayopen"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('mondayopen');
+                }}
+              >
+                Open
+              </div>
+              <div
+                id="mondayclose"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('mondayclose');
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Tuesday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                id="tuesopen"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('tuesopen');
+                }}
+              >
+                Open
+              </div>
+              <div
+                id="tuesclose"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('tuesclose');
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Wednesday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                id="wedopen"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('wedopen');
+                }}
+              >
+                Open
+              </div>
+              <div
+                id="wedclose"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('wedclose');
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Thursday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                id="thuopen"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('thuopen');
+                }}
+              >
+                Open
+              </div>
+              <div
+                id="thuclose"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('thuclose');
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Friday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                id="friopen"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('friopen');
+                }}
+              >
+                Open
+              </div>
+              <div
+                id="friclose"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('friclose');
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Saturday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                id="satopen"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('satopen');
+                }}
+              >
+                Open
+              </div>
+              <div
+                id="satclose"
+                className="shiftStyle notavail"
+                onClick={function () {
+                  Helper.AvailabiltyToggle('satclose');
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="header">
+        <p style={{ paddingTop: '3em' }}>
+          <button>Confirm</button>
+        </p>
       </div>
     </div>
   );
