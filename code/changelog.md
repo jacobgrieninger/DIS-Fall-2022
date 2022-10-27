@@ -95,3 +95,9 @@ Began working on static schedules page
 ### 10/25/22
 
 Finished Static schedules page as as well as weekly availability pages
+
+## 17
+
+### 10/25/22
+
+Began crossing off todo list

@@ -67,9 +67,9 @@ function LoginPage(props) {
                   setErrors(result.errors.info);
                 } else {
                   if (result.auth === 0) {
-                    root.render(<EmployeeHome ID={userID} />);
+                    root.render(<EmployeeHome ID={userID} auth={0} />);
                   } else if (result.auth === 1) {
-                    root.render(<ManagerHome ID={userID} />);
+                    root.render(<ManagerHome ID={userID} auth={1} />);
                   }
                 }
               }}
@@ -86,12 +86,24 @@ function LoginPage(props) {
 function ManagerHome(props) {
   return (
     <div id="mainBox">
-      <div className="header" id="main header">
-        GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
-          <u>Home</u>
-        </p>
+      <div className="container-fluid">
+        <div className="row text-center">
+          <div className="col"></div>
+          <div className="col">GNC Wilmington</div>
+          <div className="col text-end">
+            <button
+              onClick={function() {
+                window.location.reload();
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
+      <p className="header" style={{ paddingTop: "1em" }}>
+        <u>Home</u>
+      </p>
       <div className="header">
         <p style={{ paddingTop: "5em" }}>Manager Options</p>
       </div>
@@ -148,7 +160,7 @@ function ManagerHome(props) {
                 className="menuBtn"
                 id="timeoffbtn"
                 onClick={function() {
-                  root.render(<TimeOff ID={props.ID} />);
+                  root.render(<TimeOff ID={props.ID} auth={props.auth} />);
                 }}
               >
                 Time Off
@@ -158,7 +170,9 @@ function ManagerHome(props) {
               <button
                 className="menuBtn"
                 onClick={function() {
-                  root.render(<WeeklyAvailablity ID={props.ID} />);
+                  root.render(
+                    <WeeklyAvailablity ID={props.ID} auth={props.auth} />
+                  );
                 }}
               >
                 Weekly Availabilty
@@ -187,13 +201,24 @@ function ManagerHome(props) {
 function EmployeeHome(props) {
   return (
     <div id="mainBox">
-      <div className="header" id="main header">
-        GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
-          <u>Home</u>
-        </p>
+      <div className="container-fluid">
+        <div className="row text-center">
+          <div className="col"></div>
+          <div className="col">GNC Wilmington</div>
+          <div className="col text-end">
+            <button
+              onClick={function() {
+                window.location.reload();
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
-
+      <p className="header" style={{ paddingTop: "1em" }}>
+        <u>Home</u>
+      </p>
       <div className="header">
         <p style={{ paddingTop: "3em" }}>Employee Options</p>
       </div>
@@ -260,12 +285,11 @@ function EmployeeManagement(props) {
 
   return (
     <div id="mainBox">
-      <div className="header" id="main header">
-        GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
-          <u>Employee Management</u>
-        </p>
-      </div>
+      <Subcomponent.MainHeader
+        back={<ManagerHome />}
+        title="Employee Management"
+        root={root}
+      />
       <div className="buttonContainer" style={{ paddingBottom: "5em" }}>
         <div className="employeeContainer">
           <Subcomponent.DisplayEmployees
@@ -345,12 +369,11 @@ function EmployeeManagement(props) {
 function StoreManagement(props) {
   return (
     <div id="mainBox">
-      <div className="header" id="main header">
-        GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
-          <u>Store Management</u>
-        </p>
-      </div>
+      <Subcomponent.MainHeader
+        back={<ManagerHome />}
+        title="Employee Management"
+        root={root}
+      />
       <div className="header">
         <p style={{ paddingTop: "3em" }}>8677</p>
       </div>
@@ -457,12 +480,11 @@ function WeeklyAvailablity(props) {
 
   return (
     <div id="mainBox">
-      <div className="header" id="main header">
-        GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
-          <u>Weekly Availablity</u>
-        </p>
-      </div>
+      <Subcomponent.MainHeader
+        back={props.auth ? <ManagerHome /> : <EmployeeHome />}
+        title="Weekly Availability"
+        root={root}
+      />
       <div className="header">
         <p style={{ paddingTop: "3em" }}>Sample Week</p>
       </div>
@@ -737,12 +759,11 @@ function TimeOff(props) {
 
   return (
     <div id="mainBox">
-      <div className="header" id="main header">
-        GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
-          <u>Time Off</u>
-        </p>
-      </div>
+      <Subcomponent.MainHeader
+        back={props.auth ? <ManagerHome /> : <EmployeeHome />}
+        title="Time Off"
+        root={root}
+      />
       <div className="header">
         <p style={{ paddingTop: "3em" }}>New Time Off Request</p>
       </div>
@@ -831,12 +852,11 @@ function StaticSchedules(props) {
 
   return (
     <div id="mainBox">
-      <div className="header" id="main header">
-        GNC Wilmington
-        <p style={{ paddingTop: "1em" }}>
-          <u>Static Schedule</u>
-        </p>
-      </div>
+      <Subcomponent.MainHeader
+        back={<ManagerHome />}
+        title="Static Schedules"
+        root={root}
+      />
       <Subcomponent.DisplayStaticSchedules
         staticSchedules={staticSchedules}
         setAction={setAction}

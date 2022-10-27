@@ -385,10 +385,44 @@ const EmployeeList = (props) => {
 
   return result;
 };
+
+const MainHeader = (props) => {
+  return (
+    <Fragment>
+      <div className="container-fluid">
+        <div className="row text-center">
+          <div className="col text-start">
+            <button
+              onClick={function() {
+                props.root.render(props.back);
+              }}
+            >
+              Back
+            </button>
+          </div>
+          <div className="col">GNC Wilmington</div>
+          <div className="col text-end">
+            <button
+              onClick={function() {
+                window.location.reload();
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+      <p className="header" style={{ paddingTop: "1em" }}>
+        <u>{props.title}</u>
+      </p>
+    </Fragment>
+  );
+};
 export {
   DisplaySchedule,
   DisplayTimeOffs,
   DisplayEmployees,
   DisplayStaticSchedules,
   EmployeeList,
+  MainHeader,
 };
