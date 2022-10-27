@@ -224,6 +224,16 @@ const DisplayStaticSchedules = (props) => {
         <div className="calender" style={{ margin: "auto", width: "75%" }}>
           <b>{GetNameFromID(userList, schedule.userID)}</b> ({schedule.userID})
           - <b>{schedule.storeNumber}</b>
+          <span style={{ textAlign: "right" }}>
+            <button
+              onClick={async function() {
+                await db.deleteStaticSchedule(schedule._id);
+                props.setAction(Math.random());
+              }}
+            >
+              Delete
+            </button>
+          </span>
           <div className="row gx-0">
             <div className="col dayBox">
               <div className="calenderHeader2">
@@ -355,13 +365,18 @@ const DisplayStaticSchedules = (props) => {
 
 const EmployeeList = (props) => {
   const [result, setResult] = useState([]);
+  // eslint-disable-next-line
   const [actions, setActions] = useState(0);
 
   useEffect(() => {
     async function getUsers() {
       const res = await db.getAllUsers();
       const result = res.map((user) => {
-        return <option key={user._id}>{user.name}</option>;
+        return (
+          <option key={user._id} value={user.userID}>
+            {user.name}
+          </option>
+        );
       });
       setResult(result);
     }

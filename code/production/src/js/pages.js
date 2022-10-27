@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+// eslint-disable-next-line
 import * as Helper from "./helpers";
 import * as db from "./requests";
 import * as Subcomponent from "./subcomponents";
@@ -143,13 +144,21 @@ function ManagerHome(props) {
         <div>
           <div className="row">
             <div className="col">
-              <button className="menuBtn">Time Off</button>
+              <button
+                className="menuBtn"
+                id="timeoffbtn"
+                onClick={function() {
+                  root.render(<TimeOff ID={props.ID} />);
+                }}
+              >
+                Time Off
+              </button>
             </div>
             <div className="col">
               <button
                 className="menuBtn"
                 onClick={function() {
-                  root.render(<WeeklyAvailablity />);
+                  root.render(<WeeklyAvailablity ID={props.ID} />);
                 }}
               >
                 Weekly Availabilty
@@ -203,7 +212,14 @@ function EmployeeHome(props) {
               </button>
             </div>
             <div className="col">
-              <button className="menuBtn">Weekly Availabilty</button>
+              <button
+                className="menuBtn"
+                onClick={function() {
+                  root.render(<WeeklyAvailablity ID={props.ID} />);
+                }}
+              >
+                Weekly Availabilty
+              </button>
             </div>
           </div>
         </div>
@@ -411,6 +427,34 @@ function StoreManagement(props) {
 }
 
 function WeeklyAvailablity(props) {
+  const [resetAlert, setResetAlert] = useState(false);
+  const [actions, setAction] = useState(0);
+  const [availability, setAvailability] = useState({
+    userID_: props.ID,
+    sunday: true,
+    mondayOpen: true,
+    mondayClose: true,
+    tuesdayOpen: true,
+    tuesdayClose: true,
+    wednesdayOpen: true,
+    wednesdayClose: true,
+    thursdayOpen: true,
+    thursdayClose: true,
+    fridayOpen: true,
+    fridayClose: true,
+    saturdayOpen: true,
+    saturdayClose: true,
+  });
+
+  useEffect(() => {
+    async function getAvailability() {
+      const res = await db.getWeeklyAvailability(props.ID);
+      setAvailability(res);
+    }
+    getAvailability();
+    // eslint-disable-next-line
+  }, [actions]);
+
   return (
     <div id="mainBox">
       <div className="header" id="main header">
@@ -431,10 +475,14 @@ function WeeklyAvailablity(props) {
             </div>
             <div className="availContainer">
               <div
-                id="sunday"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.sunday ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("sunday");
+                  setAvailability({
+                    ...availability,
+                    sunday: !availability.sunday,
+                  });
                 }}
               >
                 Open
@@ -448,19 +496,27 @@ function WeeklyAvailablity(props) {
             </div>
             <div className="availContainer">
               <div
-                id="mondayopen"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.mondayOpen ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("mondayopen");
+                  setAvailability({
+                    ...availability,
+                    mondayOpen: !availability.mondayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="mondayclose"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.mondayClose ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("mondayclose");
+                  setAvailability({
+                    ...availability,
+                    mondayClose: !availability.mondayClose,
+                  });
                 }}
               >
                 Close
@@ -474,19 +530,27 @@ function WeeklyAvailablity(props) {
             </div>
             <div className="availContainer">
               <div
-                id="tuesopen"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.tuesdayOpen ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("tuesopen");
+                  setAvailability({
+                    ...availability,
+                    tuesdayOpen: !availability.tuesdayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="tuesclose"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.tuesdayClose ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("tuesclose");
+                  setAvailability({
+                    ...availability,
+                    tuesdayClose: !availability.tuesdayClose,
+                  });
                 }}
               >
                 Close
@@ -500,19 +564,27 @@ function WeeklyAvailablity(props) {
             </div>
             <div className="availContainer">
               <div
-                id="wedopen"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.wednesdayOpen ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("wedopen");
+                  setAvailability({
+                    ...availability,
+                    wednesdayOpen: !availability.wednesdayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="wedclose"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.wednesdayClose ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("wedclose");
+                  setAvailability({
+                    ...availability,
+                    wednesdayClose: !availability.wednesdayClose,
+                  });
                 }}
               >
                 Close
@@ -526,19 +598,27 @@ function WeeklyAvailablity(props) {
             </div>
             <div className="availContainer">
               <div
-                id="thuopen"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.thursdayOpen ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("thuopen");
+                  setAvailability({
+                    ...availability,
+                    thursdayOpen: !availability.thursdayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="thuclose"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.thursdayClose ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("thuclose");
+                  setAvailability({
+                    ...availability,
+                    thursdayClose: !availability.thursdayClose,
+                  });
                 }}
               >
                 Close
@@ -552,19 +632,27 @@ function WeeklyAvailablity(props) {
             </div>
             <div className="availContainer">
               <div
-                id="friopen"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.fridayOpen ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("friopen");
+                  setAvailability({
+                    ...availability,
+                    fridayOpen: !availability.fridayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="friclose"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.fridayClose ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("friclose");
+                  setAvailability({
+                    ...availability,
+                    fridayClose: !availability.fridayClose,
+                  });
                 }}
               >
                 Close
@@ -578,19 +666,27 @@ function WeeklyAvailablity(props) {
             </div>
             <div className="availContainer">
               <div
-                id="satopen"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.saturdayOpen ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("satopen");
+                  setAvailability({
+                    ...availability,
+                    saturdayOpen: !availability.saturdayOpen,
+                  });
                 }}
               >
                 Open
               </div>
               <div
-                id="satclose"
-                className="shiftStyle notavail"
+                className={`shiftStyle  ${
+                  availability.saturdayClose ? "isavail" : "notavail"
+                } `}
                 onClick={function() {
-                  Helper.AvailabiltyToggle("satclose");
+                  setAvailability({
+                    ...availability,
+                    saturdayClose: !availability.saturdayClose,
+                  });
                 }}
               >
                 Close
@@ -601,8 +697,24 @@ function WeeklyAvailablity(props) {
       </div>
       <div className="header">
         <p style={{ paddingTop: "3em" }}>
-          <button>Confirm</button>
+          <button
+            onClick={async function() {
+              let res = await db.updateWeeklyAvailability(availability);
+              console.log(res);
+              setAction(Math.random());
+              setResetAlert(true);
+            }}
+          >
+            Update
+          </button>
         </p>
+        <div
+          className={` ${resetAlert ? "alert-shown" : "alert-hidden"}`}
+          onTransitionEnd={() => setResetAlert(false)}
+          style={{ textAlign: "center" }}
+        >
+          Availability Updated!
+        </div>
       </div>
     </div>
   );
@@ -690,6 +802,7 @@ function StaticSchedules(props) {
   const [staticSchedules, setStaticSchedules] = useState([]);
   const [actions, setAction] = useState(0);
   const [newSche, setNewSche] = useState({
+    userID_: 0,
     sunday: false,
     mondayOpen: false,
     mondayClose: false,
@@ -724,9 +837,16 @@ function StaticSchedules(props) {
           <u>Static Schedule</u>
         </p>
       </div>
-      <Subcomponent.DisplayStaticSchedules staticSchedules={staticSchedules} />
+      <Subcomponent.DisplayStaticSchedules
+        staticSchedules={staticSchedules}
+        setAction={setAction}
+      />
       <br />
-      <div className="calender" style={{ margin: "auto", width: "75%" }}>
+      <div
+        className="calender"
+        style={{ margin: "auto", width: "75%", paddingTop: "10em" }}
+      >
+        <span>Create New Static Schedule</span>
         <div className="row gx-0">
           <div className="col dayBox">
             <div className="calenderHeader2">
@@ -938,10 +1058,23 @@ function StaticSchedules(props) {
         </div>
       </div>
       <div className="header">
-        <select id="users" type="dropdown">
+        <select
+          id="users"
+          type="dropdown"
+          onChange={function(e) {
+            setNewSche({ ...newSche, userID_: e.target.value });
+          }}
+        >
           <Subcomponent.EmployeeList />
         </select>
-        <select id="stores" type="dropdown">
+        <select
+          id="stores"
+          type="dropdown"
+          onChange={function(e) {
+            setNewSche({ ...newSche, storeNumber: e.target.value });
+          }}
+        >
+          <option selected> </option>
           <option>8677</option>
           <option>9200</option>
         </select>
@@ -949,11 +1082,29 @@ function StaticSchedules(props) {
       <div className="header">
         <p style={{ paddingTop: "3em" }}>
           <button
-            onClick={function() {
+            onClick={async function() {
+              await db.createStaticSchedule(newSche);
               setAction(Math.random());
+              setNewSche({
+                userID_: 0,
+                sunday: false,
+                mondayOpen: false,
+                mondayClose: false,
+                tuesdayOpen: false,
+                tuesdayClose: false,
+                wednesdayOpen: false,
+                wednesdayClose: false,
+                thursdayOpen: false,
+                thursdayClose: false,
+                fridayOpen: false,
+                fridayClose: false,
+                saturdayOpen: false,
+                saturdayClose: false,
+                storeNumber: 0,
+              });
             }}
           >
-            Confirm
+            Create
           </button>
         </p>
       </div>

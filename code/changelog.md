@@ -86,6 +86,12 @@ Updated Employee Management page with CRUD functionality
 
 ## 15
 
-### 10/25/22
+### 10/25/27
 
 Began working on static schedules page
+
+## 16
+
+### 10/25/22
+
+Finished Static schedules page as as well as weekly availability pages
