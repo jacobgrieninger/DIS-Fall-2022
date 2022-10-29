@@ -101,3 +101,9 @@ Finished Static schedules page as as well as weekly availability pages
 ### 10/27/22
 
 Began crossing off todo list
+
+## 18
+
+### 10/29/22
+
+Began work on generate schedule page.

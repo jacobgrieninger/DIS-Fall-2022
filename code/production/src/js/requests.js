@@ -90,12 +90,29 @@ const getTimeOffs = async (userID_) => {
     });
     let config = {
       method: "post",
-      url: "http://localhost:5000/api/timeoff/getall",
+      url: "http://localhost:5000/api/timeoff/getallbyid",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getAllTimeOffs = async () => {
+  try {
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/timeoff/getall",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     };
     const res = await axios(config);
     return res.data;
@@ -285,6 +302,23 @@ const getWeeklyAvailability = async (userID_) => {
   }
 };
 
+const getAllWeeklyAvailability = async () => {
+  try {
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/availability/getall",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const updateWeeklyAvailability = async (availability_) => {
   try {
     let data = JSON.stringify({
@@ -325,6 +359,7 @@ export {
   getAllUsers,
   createTimeOff,
   getTimeOffs,
+  getAllTimeOffs,
   delteTimeOff,
   createUser,
   deleteUser,
@@ -333,5 +368,6 @@ export {
   deleteStaticSchedule,
   createStaticSchedule,
   getWeeklyAvailability,
+  getAllWeeklyAvailability,
   updateWeeklyAvailability,
 };

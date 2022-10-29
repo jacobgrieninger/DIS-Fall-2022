@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import * as Helper from "./helpers";
 import * as db from "./requests";
 import * as Subcomponent from "./subcomponents";
+import { GenerateSchedule } from "./scheduler";
 
 const root = ReactDOM.createRoot(document.getElementById("stage"));
 
@@ -144,7 +145,14 @@ function ManagerHome(props) {
               </button>
             </div>
             <div className="col">
-              <button className="menuBtn">Generate Schedule</button>
+              <button
+                className="menuBtn"
+                onClick={function() {
+                  root.render(<GenerateSchedules />);
+                }}
+              >
+                Generate Schedule
+              </button>
             </div>
           </div>
         </div>
@@ -366,6 +374,49 @@ function EmployeeManagement(props) {
   );
 }
 
+function GenerateSchedules(props) {
+  const [actions, setAction] = useState(0);
+  const [timeOffs, setTimeOffs] = useState([]);
+  const [weeklyAvailabilites, setWeeklyAvailabilites] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [staticSchedules, setStaticSchedules] = useState([]);
+  const [resetAlert, setResetAlert] = useState(false);
+
+  useEffect(() => {
+    async function loadData() {
+      setTimeOffs(await db.getAllTimeOffs());
+      setWeeklyAvailabilites(await db.getAllWeeklyAvailability());
+      setUsers(await db.getAllUsers());
+      setStaticSchedules(await db.getAllStaticSchedules());
+    }
+    loadData();
+    // eslint-disable-next-line
+  }, [actions]);
+
+  return (
+    <div id="mainBox">
+      <Subcomponent.MainHeader
+        back={<ManagerHome />}
+        title="Generate Schedule"
+        root={root}
+      />
+      <button
+        onClick={function() {
+          let input = {
+            users: users,
+            timeOffs: timeOffs,
+            weeklyAvailabilites: weeklyAvailabilites,
+            staticSchedules: staticSchedules,
+          };
+          console.log(GenerateSchedule(input));
+        }}
+      >
+        Test
+      </button>
+    </div>
+  );
+}
+
 function StoreManagement(props) {
   return (
     <div id="mainBox">
@@ -443,6 +494,319 @@ function StoreManagement(props) {
       <div className="header">
         <p style={{ paddingTop: "5em" }}>
           <button>Save</button>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function StaticSchedules(props) {
+  const [staticSchedules, setStaticSchedules] = useState([]);
+  const [actions, setAction] = useState(0);
+  const [newSche, setNewSche] = useState({
+    userID_: 0,
+    sunday: false,
+    mondayOpen: false,
+    mondayClose: false,
+    tuesdayOpen: false,
+    tuesdayClose: false,
+    wednesdayOpen: false,
+    wednesdayClose: false,
+    thursdayOpen: false,
+    thursdayClose: false,
+    fridayOpen: false,
+    fridayClose: false,
+    saturdayOpen: false,
+    saturdayClose: false,
+    storeNumber: 0,
+  });
+
+  useEffect(() => {
+    async function getStaticSchedules() {
+      const res = await db.getAllStaticSchedules(props.ID);
+      console.log(res);
+      setStaticSchedules(res);
+    }
+    getStaticSchedules();
+    // eslint-disable-next-line
+  }, [actions]);
+
+  return (
+    <div id="mainBox">
+      <Subcomponent.MainHeader
+        back={<ManagerHome />}
+        title="Static Schedules"
+        root={root}
+      />
+      <Subcomponent.DisplayStaticSchedules
+        staticSchedules={staticSchedules}
+        setAction={setAction}
+      />
+      <br />
+      <div
+        className="calender"
+        style={{ margin: "auto", width: "75%", paddingTop: "10em" }}
+      >
+        <span>Create New Static Schedule</span>
+        <div className="row gx-0">
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Sunday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                className={`shiftStyle  ${
+                  newSche.sunday ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, sunday: !newSche.sunday });
+                }}
+              >
+                Open
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Monday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                className={`shiftStyle  ${
+                  newSche.mondayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, mondayOpen: !newSche.mondayOpen });
+                }}
+              >
+                Open
+              </div>
+              <div
+                className={`shiftStyle  ${
+                  newSche.mondayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, mondayClose: !newSche.mondayClose });
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Tuesday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                className={`shiftStyle  ${
+                  newSche.tuesdayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, tuesdayOpen: !newSche.tuesdayOpen });
+                }}
+              >
+                Open
+              </div>
+              <div
+                className={`shiftStyle  ${
+                  newSche.tuesdayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    tuesdayClose: !newSche.tuesdayClose,
+                  });
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Wednesday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                className={`shiftStyle  ${
+                  newSche.wednesdayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    wednesdayOpen: !newSche.wednesdayOpen,
+                  });
+                }}
+              >
+                Open
+              </div>
+              <div
+                className={`shiftStyle  ${
+                  newSche.wednesdayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    wednesdayClose: !newSche.wednesdayClose,
+                  });
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Thursday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                className={`shiftStyle  ${
+                  newSche.thursdayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    thursdayOpen: !newSche.thursdayOpen,
+                  });
+                }}
+              >
+                Open
+              </div>
+              <div
+                className={`shiftStyle  ${
+                  newSche.thursdayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    thursdayClose: !newSche.thursdayClose,
+                  });
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Friday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                className={`shiftStyle  ${
+                  newSche.fridayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, fridayOpen: !newSche.fridayOpen });
+                }}
+              >
+                Open
+              </div>
+              <div
+                className={`shiftStyle  ${
+                  newSche.fridayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({ ...newSche, fridayClose: !newSche.fridayClose });
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+          <div className="col dayBox">
+            <div className="calenderHeader2">
+              <u>Saturday</u>
+              <br />
+            </div>
+            <div className="availContainer">
+              <div
+                className={`shiftStyle  ${
+                  newSche.saturdayOpen ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    saturdayOpen: !newSche.saturdayOpen,
+                  });
+                }}
+              >
+                Open
+              </div>
+              <div
+                className={`shiftStyle  ${
+                  newSche.saturdayClose ? "isavail" : "notavail"
+                } `}
+                onClick={function() {
+                  setNewSche({
+                    ...newSche,
+                    saturdayClose: !newSche.saturdayClose,
+                  });
+                }}
+              >
+                Close
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="header">
+        <select
+          id="users"
+          type="dropdown"
+          onChange={function(e) {
+            setNewSche({ ...newSche, userID_: e.target.value });
+          }}
+        >
+          <Subcomponent.EmployeeList />
+        </select>
+        <select
+          id="stores"
+          type="dropdown"
+          onChange={function(e) {
+            setNewSche({ ...newSche, storeNumber: e.target.value });
+          }}
+        >
+          <option selected> </option>
+          <option>8677</option>
+          <option>9200</option>
+        </select>
+      </div>
+      <div className="header">
+        <p style={{ paddingTop: "3em" }}>
+          <button
+            onClick={async function() {
+              await db.createStaticSchedule(newSche);
+              setAction(Math.random());
+              setNewSche({
+                userID_: 0,
+                sunday: false,
+                mondayOpen: false,
+                mondayClose: false,
+                tuesdayOpen: false,
+                tuesdayClose: false,
+                wednesdayOpen: false,
+                wednesdayClose: false,
+                thursdayOpen: false,
+                thursdayClose: false,
+                fridayOpen: false,
+                fridayClose: false,
+                saturdayOpen: false,
+                saturdayClose: false,
+                storeNumber: 0,
+              });
+            }}
+          >
+            Create
+          </button>
         </p>
       </div>
     </div>
@@ -819,319 +1183,6 @@ function TimeOff(props) {
   );
 }
 
-function StaticSchedules(props) {
-  const [staticSchedules, setStaticSchedules] = useState([]);
-  const [actions, setAction] = useState(0);
-  const [newSche, setNewSche] = useState({
-    userID_: 0,
-    sunday: false,
-    mondayOpen: false,
-    mondayClose: false,
-    tuesdayOpen: false,
-    tuesdayClose: false,
-    wednesdayOpen: false,
-    wednesdayClose: false,
-    thursdayOpen: false,
-    thursdayClose: false,
-    fridayOpen: false,
-    fridayClose: false,
-    saturdayOpen: false,
-    saturdayClose: false,
-    storeNumber: 0,
-  });
-
-  useEffect(() => {
-    async function getStaticSchedules() {
-      const res = await db.getAllStaticSchedules(props.ID);
-      console.log(res);
-      setStaticSchedules(res);
-    }
-    getStaticSchedules();
-    // eslint-disable-next-line
-  }, [actions]);
-
-  return (
-    <div id="mainBox">
-      <Subcomponent.MainHeader
-        back={<ManagerHome />}
-        title="Static Schedules"
-        root={root}
-      />
-      <Subcomponent.DisplayStaticSchedules
-        staticSchedules={staticSchedules}
-        setAction={setAction}
-      />
-      <br />
-      <div
-        className="calender"
-        style={{ margin: "auto", width: "75%", paddingTop: "10em" }}
-      >
-        <span>Create New Static Schedule</span>
-        <div className="row gx-0">
-          <div className="col dayBox">
-            <div className="calenderHeader2">
-              <u>Sunday</u>
-              <br />
-            </div>
-            <div className="availContainer">
-              <div
-                className={`shiftStyle  ${
-                  newSche.sunday ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({ ...newSche, sunday: !newSche.sunday });
-                }}
-              >
-                Open
-              </div>
-            </div>
-          </div>
-          <div className="col dayBox">
-            <div className="calenderHeader2">
-              <u>Monday</u>
-              <br />
-            </div>
-            <div className="availContainer">
-              <div
-                className={`shiftStyle  ${
-                  newSche.mondayOpen ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({ ...newSche, mondayOpen: !newSche.mondayOpen });
-                }}
-              >
-                Open
-              </div>
-              <div
-                className={`shiftStyle  ${
-                  newSche.mondayClose ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({ ...newSche, mondayClose: !newSche.mondayClose });
-                }}
-              >
-                Close
-              </div>
-            </div>
-          </div>
-          <div className="col dayBox">
-            <div className="calenderHeader2">
-              <u>Tuesday</u>
-              <br />
-            </div>
-            <div className="availContainer">
-              <div
-                className={`shiftStyle  ${
-                  newSche.tuesdayOpen ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({ ...newSche, tuesdayOpen: !newSche.tuesdayOpen });
-                }}
-              >
-                Open
-              </div>
-              <div
-                className={`shiftStyle  ${
-                  newSche.tuesdayClose ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({
-                    ...newSche,
-                    tuesdayClose: !newSche.tuesdayClose,
-                  });
-                }}
-              >
-                Close
-              </div>
-            </div>
-          </div>
-          <div className="col dayBox">
-            <div className="calenderHeader2">
-              <u>Wednesday</u>
-              <br />
-            </div>
-            <div className="availContainer">
-              <div
-                className={`shiftStyle  ${
-                  newSche.wednesdayOpen ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({
-                    ...newSche,
-                    wednesdayOpen: !newSche.wednesdayOpen,
-                  });
-                }}
-              >
-                Open
-              </div>
-              <div
-                className={`shiftStyle  ${
-                  newSche.wednesdayClose ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({
-                    ...newSche,
-                    wednesdayClose: !newSche.wednesdayClose,
-                  });
-                }}
-              >
-                Close
-              </div>
-            </div>
-          </div>
-          <div className="col dayBox">
-            <div className="calenderHeader2">
-              <u>Thursday</u>
-              <br />
-            </div>
-            <div className="availContainer">
-              <div
-                className={`shiftStyle  ${
-                  newSche.thursdayOpen ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({
-                    ...newSche,
-                    thursdayOpen: !newSche.thursdayOpen,
-                  });
-                }}
-              >
-                Open
-              </div>
-              <div
-                className={`shiftStyle  ${
-                  newSche.thursdayClose ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({
-                    ...newSche,
-                    thursdayClose: !newSche.thursdayClose,
-                  });
-                }}
-              >
-                Close
-              </div>
-            </div>
-          </div>
-          <div className="col dayBox">
-            <div className="calenderHeader2">
-              <u>Friday</u>
-              <br />
-            </div>
-            <div className="availContainer">
-              <div
-                className={`shiftStyle  ${
-                  newSche.fridayOpen ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({ ...newSche, fridayOpen: !newSche.fridayOpen });
-                }}
-              >
-                Open
-              </div>
-              <div
-                className={`shiftStyle  ${
-                  newSche.fridayClose ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({ ...newSche, fridayClose: !newSche.fridayClose });
-                }}
-              >
-                Close
-              </div>
-            </div>
-          </div>
-          <div className="col dayBox">
-            <div className="calenderHeader2">
-              <u>Saturday</u>
-              <br />
-            </div>
-            <div className="availContainer">
-              <div
-                className={`shiftStyle  ${
-                  newSche.saturdayOpen ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({
-                    ...newSche,
-                    saturdayOpen: !newSche.saturdayOpen,
-                  });
-                }}
-              >
-                Open
-              </div>
-              <div
-                className={`shiftStyle  ${
-                  newSche.saturdayClose ? "isavail" : "notavail"
-                } `}
-                onClick={function() {
-                  setNewSche({
-                    ...newSche,
-                    saturdayClose: !newSche.saturdayClose,
-                  });
-                }}
-              >
-                Close
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="header">
-        <select
-          id="users"
-          type="dropdown"
-          onChange={function(e) {
-            setNewSche({ ...newSche, userID_: e.target.value });
-          }}
-        >
-          <Subcomponent.EmployeeList />
-        </select>
-        <select
-          id="stores"
-          type="dropdown"
-          onChange={function(e) {
-            setNewSche({ ...newSche, storeNumber: e.target.value });
-          }}
-        >
-          <option selected> </option>
-          <option>8677</option>
-          <option>9200</option>
-        </select>
-      </div>
-      <div className="header">
-        <p style={{ paddingTop: "3em" }}>
-          <button
-            onClick={async function() {
-              await db.createStaticSchedule(newSche);
-              setAction(Math.random());
-              setNewSche({
-                userID_: 0,
-                sunday: false,
-                mondayOpen: false,
-                mondayClose: false,
-                tuesdayOpen: false,
-                tuesdayClose: false,
-                wednesdayOpen: false,
-                wednesdayClose: false,
-                thursdayOpen: false,
-                thursdayClose: false,
-                fridayOpen: false,
-                fridayClose: false,
-                saturdayOpen: false,
-                saturdayClose: false,
-                storeNumber: 0,
-              });
-            }}
-          >
-            Create
-          </button>
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export {
   Init,
   LoginPage,
@@ -1139,4 +1190,5 @@ export {
   EmployeeHome,
   EmployeeManagement,
   StoreManagement,
+  GenerateSchedules,
 };

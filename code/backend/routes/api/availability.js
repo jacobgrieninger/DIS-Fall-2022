@@ -124,4 +124,22 @@ router.post(
   }
 );
 
+// @route   GET api/availability
+// @desc    GET Availability
+// @access  Public
+
+router.post("/getall", async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.send({ errors: errors.array() });
+  }
+  try {
+    const result = await Availability.find({});
+    res.send(result);
+  } catch (err) {
+    console.error(err.message);
+    res.send("Server Error");
+  }
+});
+
 module.exports = router;
