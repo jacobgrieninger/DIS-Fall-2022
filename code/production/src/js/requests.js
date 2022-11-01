@@ -353,6 +353,27 @@ const updateWeeklyAvailability = async (availability_) => {
   }
 };
 
+const deleteWeeklyAvailability = async (userID_) => {
+  try {
+    let data = JSON.stringify({
+      employeeID: userID_,
+    });
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/availability/delete",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   login,
   getScheduleByDate,
@@ -370,4 +391,5 @@ export {
   getWeeklyAvailability,
   getAllWeeklyAvailability,
   updateWeeklyAvailability,
+  deleteWeeklyAvailability,
 };

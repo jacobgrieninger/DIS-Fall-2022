@@ -124,6 +124,28 @@ router.post(
   }
 );
 
+// @route   GET api/availability/Delete
+// @desc    Delete an availability (only on user deletion)
+// @access  Public
+router.post(
+  "/delete",
+  [check("employeeID", "A employeeID is required.").not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.send({ errors: errors.array() });
+    }
+    try {
+      const employeeID = req.body.employeeID;
+      const result = await Availability.findOneAndDelete({ employeeID });
+      res.send(result);
+    } catch (err) {
+      console.error(err.message);
+      res.send("Server Error");
+    }
+  }
+);
+
 // @route   GET api/availability
 // @desc    GET Availability
 // @access  Public

@@ -107,3 +107,10 @@ Began crossing off todo list
 ### 10/29/22
 
 Began work on generate schedule page.
+
+## 19
+
+### 11/1/22
+
+Continued work on generate schedule page. \
+Completed vast majority of todo list (minor bug fixes)

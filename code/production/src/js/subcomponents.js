@@ -163,44 +163,49 @@ const DisplayTimeOffs = (props) => {
 
 const DisplayEmployees = (props) => {
   const result = props.usersList.map((user) => {
-    return (
-      <div key={user._id} className="row" style={{ height: "3em" }}>
-        <div className="col">{user.name}</div>
-        <div className="col">{user.userID}</div>
-        <div className="col">
-          <select
-            name="authLevel"
-            id=""
-            defaultValue={user.authlevel.toString()}
-          >
-            <option value="0">Employee</option>
-            <option value="1">Manager</option>
-          </select>
+    if (user.userID !== props.currentUser) {
+      return (
+        <div key={user._id} className="row" style={{ height: "3em" }}>
+          <div className="col">{user.name}</div>
+          <div className="col">{user.userID}</div>
+          <div className="col">
+            <select
+              name="authLevel"
+              id=""
+              defaultValue={user.authlevel.toString()}
+            >
+              <option value="0">Employee</option>
+              <option value="1">Manager</option>
+            </select>
+          </div>
+          <div className="col">
+            <button
+              style={{ width: "10em" }}
+              onClick={async function() {
+                await db.resetUserPass(user.userID);
+                props.setResetAlert(true);
+              }}
+            >
+              Reset Password
+            </button>
+          </div>
+          <div className="col">
+            <button
+              style={{ width: "10em" }}
+              onClick={async function() {
+                await db.deleteUser(user.userID);
+                await db.deleteWeeklyAvailability(user.userID);
+                props.setAction(Math.random());
+              }}
+            >
+              Delete Employee
+            </button>
+          </div>
         </div>
-        <div className="col">
-          <button
-            style={{ width: "10em" }}
-            onClick={async function() {
-              await db.resetUserPass(user.userID);
-              props.setResetAlert(true);
-            }}
-          >
-            Reset Password
-          </button>
-        </div>
-        <div className="col">
-          <button
-            style={{ width: "10em" }}
-            onClick={async function() {
-              await db.deleteUser(user.userID);
-              props.setAction(Math.random());
-            }}
-          >
-            Delete Employee
-          </button>
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return <Fragment key={user.id}></Fragment>;
+    }
   });
   return result;
 };
@@ -219,6 +224,7 @@ const DisplayStaticSchedules = (props) => {
   }, [actionsUser]);
 
   const result = props.staticSchedules.map((schedule) => {
+    console.log(schedule);
     return (
       <Fragment key={schedule._id}>
         <div className="calender" style={{ margin: "auto", width: "75%" }}>
@@ -305,10 +311,20 @@ const DisplayStaticSchedules = (props) => {
                 <br />
               </div>
               <div className="availContainer">
-                <div id="wedopen" className="shiftStyle notavail">
+                <div
+                  id="wedopen"
+                  className={`shiftStyle  ${
+                    schedule.wednesdayOpen ? "isavail" : "notavail"
+                  } `}
+                >
                   Open
                 </div>
-                <div id="wedclose" className="shiftStyle notavail">
+                <div
+                  id="wedclose"
+                  className={`shiftStyle  ${
+                    schedule.wednesdayClose ? "isavail" : "notavail"
+                  } `}
+                >
                   Close
                 </div>
               </div>
@@ -319,10 +335,20 @@ const DisplayStaticSchedules = (props) => {
                 <br />
               </div>
               <div className="availContainer">
-                <div id="thuopen" className="shiftStyle notavail">
+                <div
+                  id="thuopen"
+                  className={`shiftStyle  ${
+                    schedule.thursdayOpen ? "isavail" : "notavail"
+                  } `}
+                >
                   Open
                 </div>
-                <div id="thuclose" className="shiftStyle notavail">
+                <div
+                  id="thuclose"
+                  className={`shiftStyle  ${
+                    schedule.thursdayClose ? "isavail" : "notavail"
+                  } `}
+                >
                   Close
                 </div>
               </div>
@@ -333,10 +359,20 @@ const DisplayStaticSchedules = (props) => {
                 <br />
               </div>
               <div className="availContainer">
-                <div id="friopen" className="shiftStyle notavail">
+                <div
+                  id="friopen"
+                  className={`shiftStyle  ${
+                    schedule.fridayOpen ? "isavail" : "notavail"
+                  } `}
+                >
                   Open
                 </div>
-                <div id="friclose" className="shiftStyle notavail">
+                <div
+                  id="friclose"
+                  className={`shiftStyle  ${
+                    schedule.fridayClose ? "isavail" : "notavail"
+                  } `}
+                >
                   Close
                 </div>
               </div>
@@ -347,10 +383,20 @@ const DisplayStaticSchedules = (props) => {
                 <br />
               </div>
               <div className="availContainer">
-                <div id="satopen" className="shiftStyle notavail">
+                <div
+                  id="satopen"
+                  className={`shiftStyle  ${
+                    schedule.saturdayOpen ? "isavail" : "notavail"
+                  } `}
+                >
                   Open
                 </div>
-                <div id="satclose" className="shiftStyle notavail">
+                <div
+                  id="satclose"
+                  className={`shiftStyle  ${
+                    schedule.saturdayClose ? "isavail" : "notavail"
+                  } `}
+                >
                   Close
                 </div>
               </div>
@@ -418,6 +464,10 @@ const MainHeader = (props) => {
     </Fragment>
   );
 };
+
+const Footer = (props) => {
+  return <div style={{ height: "5em" }}></div>;
+};
 export {
   DisplaySchedule,
   DisplayTimeOffs,
@@ -425,4 +475,5 @@ export {
   DisplayStaticSchedules,
   EmployeeList,
   MainHeader,
+  Footer,
 };
