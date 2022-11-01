@@ -1,24 +1,24 @@
-import * as Helper from "./helpers";
-import { eachDayOfInterval } from "date-fns";
+import { eachDayOfInterval } from 'date-fns';
 
-const GenerateSchedule = function(input) {
+const GenerateSchedule = function (input) {
   function GenEmployee(date_, day) {
     //define result var
     let result = {
       employee: 0,
       errors: {
         value: false,
-        message: "",
+        message: '',
       },
     };
     //create array of userid's
     let userID_List = input.users.map((user) => {
       return user.userID;
     });
-    console.log(userID_List);
+
     //filter array by whether user is off
     let availableEmployees = userID_List.map((id) => {
-      let payload = [];
+      let payload = id;
+      let userisoff = false;
       input.timeOffs.forEach((request) => {
         if (id === request.userID) {
           //build a range of days from request
@@ -28,33 +28,40 @@ const GenerateSchedule = function(input) {
           });
           //compare against input day
           dateRange.forEach((date) => {
-            if (date === date_) {
-              //don't map user
+            if (date.toISOString() === date_.toISOString()) {
+              userisoff = true;
               return;
             } else {
-              payload.push(id);
+              payload = id;
             }
           });
         } else {
-          return id;
+          payload = id;
         }
       });
-      if (payload.length >= 1) {
+      if (!userisoff) {
         return payload;
+      } else return null;
+    });
+
+    //clean out null (unavailable) users
+    availableEmployees.forEach((user) => {
+      if (user === null) {
+        let index = availableEmployees.indexOf(user);
+        availableEmployees.splice(index, 1);
       }
     });
-    console.log(availableEmployees);
+
+    let staticEmployee = [];
     //check if any employees have a static schedule for given day
-    let staticEmployee = availableEmployees.map((id) => {
-      let payload = [];
+    availableEmployees.forEach((id) => {
       input.staticSchedules.forEach((schedule) => {
         if (schedule.userID === id) {
           if (schedule[day] === true) {
-            payload.push(id);
+            staticEmployee.push(id);
           }
         }
       });
-      return payload;
     });
 
     // error check to ensure no more than 1 employee has a static scehdule for the same day
@@ -67,18 +74,19 @@ const GenerateSchedule = function(input) {
       result.employee = staticEmployee[0];
       return result;
     }
+
     //check remaining employees weekly availability
-    let weeklyAvailableEmployees = availableEmployees.map((id) => {
-      let payload = [];
+    let weeklyAvailableEmployees = [];
+    availableEmployees.forEach((id) => {
       input.weeklyAvailabilites.forEach((avail) => {
         if (avail.employeeID === id) {
           if (avail[day] === true) {
-            payload.push(id);
+            weeklyAvailableEmployees.push(id);
           }
         }
       });
-      return payload;
     });
+
     // select an employee from list at random
     result.employee =
       weeklyAvailableEmployees[
@@ -87,58 +95,57 @@ const GenerateSchedule = function(input) {
     return result;
   }
 
-  let oldDate = Helper.FindNearestSunday(1);
-  let startDate = new Date(oldDate.setDate(oldDate.getDate() + 7));
+  let startDate = input.startDate;
   let result = {
     days: {
-      sunday: GenEmployee(startDate, "sunday"),
+      sunday: GenEmployee(startDate, 'sunday'),
       mondayOpen: GenEmployee(
-        startDate.setDate(startDate.getDate() + 1),
-        "mondayOpen"
+        new Date(startDate.setDate(startDate.getDate() + 1)),
+        'mondayOpen'
       ),
       mondayClose: GenEmployee(
-        startDate.setDate(startDate.getDate() + 1),
-        "mondayClose"
+        new Date(startDate.setDate(startDate.getDate() + 1)),
+        'mondayClose'
       ),
       tuesdayOpen: GenEmployee(
-        startDate.setDate(startDate.getDate() + 2),
-        "tuesdayOpen"
+        new Date(startDate.setDate(startDate.getDate() + 2)),
+        'tuesdayOpen'
       ),
       tuesdayClose: GenEmployee(
-        startDate.setDate(startDate.getDate() + 2),
-        "tuesdayClose"
+        new Date(startDate.setDate(startDate.getDate() + 2)),
+        'tuesdayClose'
       ),
       wednesdayOpen: GenEmployee(
-        startDate.setDate(startDate.getDate() + 3),
-        "wednesdayOpen"
+        new Date(startDate.setDate(startDate.getDate() + 3)),
+        'wednesdayOpen'
       ),
       wednesdayClose: GenEmployee(
-        startDate.setDate(startDate.getDate() + 3),
-        "wednesdayClose"
+        new Date(startDate.setDate(startDate.getDate() + 3)),
+        'wednesdayClose'
       ),
       thursdayOpen: GenEmployee(
-        startDate.setDate(startDate.getDate() + 4),
-        "thursdayOpen"
+        new Date(startDate.setDate(startDate.getDate() + 4)),
+        'thursdayOpen'
       ),
       thursdayClose: GenEmployee(
-        startDate.setDate(startDate.getDate() + 4),
-        "thursdayClose"
+        new Date(startDate.setDate(startDate.getDate() + 4)),
+        'thursdayClose'
       ),
       fridayOpen: GenEmployee(
-        startDate.setDate(startDate.getDate() + 5),
-        "fridayOpen"
+        new Date(startDate.setDate(startDate.getDate() + 5)),
+        'fridayOpen'
       ),
       fridayClose: GenEmployee(
-        startDate.setDate(startDate.getDate() + 5),
-        "fridayClose"
+        new Date(startDate.setDate(startDate.getDate() + 5)),
+        'fridayClose'
       ),
       saturdayOpen: GenEmployee(
-        startDate.setDate(startDate.getDate() + 6),
-        "saturdayOpen"
+        new Date(startDate.setDate(startDate.getDate() + 6)),
+        'saturdayOpen'
       ),
       saturdayClose: GenEmployee(
-        startDate.setDate(startDate.getDate() + 6),
-        "saturdayClose"
+        new Date(startDate.setDate(startDate.getDate() + 6)),
+        'saturdayClose'
       ),
     },
   };

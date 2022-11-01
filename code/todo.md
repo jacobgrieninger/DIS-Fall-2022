@@ -10,3 +10,5 @@ static schedule auto page sizing (white box), probably do the same for other pag
 error checking for time off (ranges must be correct) \
 error checking on most requests with alert\
 auto create weekly availability on user creation (and deletion) \
+check navigation to and from all pages \
+static schedules not appearing correctly? \
