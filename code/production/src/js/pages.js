@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom/client";
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom/client';
 // eslint-disable-next-line
-import * as Helper from "./helpers";
-import * as db from "./requests";
-import * as Subcomponent from "./subcomponents";
-import { GenerateSchedule } from "./scheduler";
+import * as Helper from './helpers';
+import * as db from './requests';
+import * as Subcomponent from './subcomponents';
+import { GenerateSchedule } from './scheduler';
 
-const root = ReactDOM.createRoot(document.getElementById("stage"));
+const root = ReactDOM.createRoot(document.getElementById('stage'));
 
 function Init() {
   root.render(<LoginPage />);
 }
 
 function LoginPage(props) {
-  const [userID, setuserID] = useState("");
-  const [password, setPassword] = useState("");
+  const [userID, setuserID] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
   const DisplayErrors = () => {
@@ -33,7 +33,7 @@ function LoginPage(props) {
         <div>
           <DisplayErrors />
           <div className="row">
-            <div className="col" style={{ textAlign: "left" }}>
+            <div className="col" style={{ textAlign: 'left' }}>
               Username:
             </div>
             <div className="col">
@@ -47,7 +47,7 @@ function LoginPage(props) {
           </div>
           <br />
           <div className="row">
-            <div className="col" style={{ textAlign: "left" }}>
+            <div className="col" style={{ textAlign: 'left' }}>
               Password:
             </div>
             <div className="col">
@@ -59,10 +59,10 @@ function LoginPage(props) {
             </div>
           </div>
           <br />
-          <div style={{ margin: "auto", textAlign: "center" }}>
+          <div style={{ margin: 'auto', textAlign: 'center' }}>
             <button
               id="loginBtn"
-              onClick={async function() {
+              onClick={async function () {
                 const result = await db.login(userID, password);
                 if (result.errors.value) {
                   setErrors(result.errors.info);
@@ -93,7 +93,7 @@ function ManagerHome(props) {
           <div className="col">GNC Wilmington</div>
           <div className="col text-end">
             <button
-              onClick={function() {
+              onClick={function () {
                 window.location.reload();
               }}
             >
@@ -102,11 +102,11 @@ function ManagerHome(props) {
           </div>
         </div>
       </div>
-      <p className="header" style={{ paddingTop: "1em" }}>
+      <p className="header" style={{ paddingTop: '1em' }}>
         <u>Home</u>
       </p>
       <div className="header">
-        <p style={{ paddingTop: "5em" }}>Manager Options</p>
+        <p style={{ paddingTop: '5em' }}>Manager Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -114,7 +114,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(
                     <EmployeeManagement ID={props.ID} auth={props.auth} />
                   );
@@ -126,7 +126,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(
                     <StoreManagement ID={props.ID} auth={props.auth} />
                   );
@@ -141,7 +141,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(
                     <StaticSchedules ID={props.ID} auth={props.auth} />
                   );
@@ -153,7 +153,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(
                     <GenerateSchedules ID={props.ID} auth={props.auth} />
                   );
@@ -166,7 +166,7 @@ function ManagerHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>Employee Options</p>
+        <p style={{ paddingTop: '3em' }}>Employee Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -175,7 +175,7 @@ function ManagerHome(props) {
               <button
                 className="menuBtn"
                 id="timeoffbtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(<TimeOff ID={props.ID} auth={props.auth} />);
                 }}
               >
@@ -185,7 +185,7 @@ function ManagerHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(
                     <WeeklyAvailablity ID={props.ID} auth={props.auth} />
                   );
@@ -198,7 +198,7 @@ function ManagerHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "5em" }}></p>
+        <p style={{ paddingTop: '5em' }}></p>
       </div>
       <div className="calenderViews">
         <div className="calender">
@@ -224,7 +224,7 @@ function EmployeeHome(props) {
           <div className="col">GNC Wilmington</div>
           <div className="col text-end">
             <button
-              onClick={function() {
+              onClick={function () {
                 window.location.reload();
               }}
             >
@@ -233,11 +233,11 @@ function EmployeeHome(props) {
           </div>
         </div>
       </div>
-      <p className="header" style={{ paddingTop: "1em" }}>
+      <p className="header" style={{ paddingTop: '1em' }}>
         <u>Home</u>
       </p>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>Employee Options</p>
+        <p style={{ paddingTop: '3em' }}>Employee Options</p>
       </div>
       <div className="buttonContainer">
         <div>
@@ -246,7 +246,7 @@ function EmployeeHome(props) {
               <button
                 className="menuBtn"
                 id="timeoffbtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(<TimeOff ID={props.ID} auth={props.auth} />);
                 }}
               >
@@ -256,7 +256,7 @@ function EmployeeHome(props) {
             <div className="col">
               <button
                 className="menuBtn"
-                onClick={function() {
+                onClick={function () {
                   root.render(
                     <WeeklyAvailablity ID={props.ID} auth={props.auth} />
                   );
@@ -269,7 +269,7 @@ function EmployeeHome(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "5em" }}></p>
+        <p style={{ paddingTop: '5em' }}></p>
       </div>
       <div className="calenderViews">
         <div className="calender">
@@ -289,7 +289,7 @@ function EmployeeHome(props) {
 function EmployeeManagement(props) {
   const [actions, setAction] = useState(0);
   const [usersList, setUsersList] = useState([]);
-  const [firstName, setFirstName] = useState("");
+  const [firstName, setFirstName] = useState('');
   const [enteredID, setEnteredID] = useState(0);
   const [employeeType, setEmployeeType] = useState(0);
   const [resetAlert, setResetAlert] = useState(false);
@@ -310,7 +310,7 @@ function EmployeeManagement(props) {
         title="Employee Management"
         root={root}
       />
-      <div className="buttonContainer" style={{ paddingBottom: "5em" }}>
+      <div className="buttonContainer" style={{ paddingBottom: '5em' }}>
         <div className="employeeContainer">
           <Subcomponent.DisplayEmployees
             usersList={usersList}
@@ -319,22 +319,22 @@ function EmployeeManagement(props) {
             currentUser={props.ID}
           />
           <div
-            className={` ${resetAlert ? "alert-shown" : "alert-hidden"}`}
+            className={` ${resetAlert ? 'alert-shown' : 'alert-hidden'}`}
             onTransitionEnd={() => setResetAlert(false)}
-            style={{ textAlign: "center" }}
+            style={{ textAlign: 'center' }}
           >
             Password Reset!
           </div>
         </div>
       </div>
-      <div className="buttonContainer" style={{ paddingBottom: "1em" }}>
+      <div className="buttonContainer" style={{ paddingBottom: '1em' }}>
         <div className="employeeContainer">
-          <div className="row" style={{ textAlign: "center" }}>
+          <div className="row" style={{ textAlign: 'center' }}>
             <div className="col">
               <div>Enter Name:</div>
               <input
                 type="text"
-                onChange={function(e) {
+                onChange={function (e) {
                   setFirstName(e.target.value);
                 }}
               ></input>
@@ -344,10 +344,10 @@ function EmployeeManagement(props) {
               <div>Enter ID:</div>
               <input
                 type="number"
-                onWheel={function(e) {
+                onWheel={function (e) {
                   e.target.blur();
                 }}
-                onChange={function(e) {
+                onChange={function (e) {
                   setEnteredID(e.target.value);
                 }}
               ></input>
@@ -372,7 +372,7 @@ function EmployeeManagement(props) {
       </div>
       <div className="header">
         <button
-          onClick={async function() {
+          onClick={async function () {
             const res = await db.createUser(firstName, enteredID, employeeType);
             let defaultAvail = {
               employeeID: enteredID,
@@ -392,7 +392,7 @@ function EmployeeManagement(props) {
             };
             const res2 = await db.updateWeeklyAvailability(defaultAvail);
             console.log(res, res2);
-            if (typeof res === "string") {
+            if (typeof res === 'string') {
               setAction(Math.random());
             }
           }}
@@ -407,13 +407,45 @@ function EmployeeManagement(props) {
 
 function GenerateSchedules(props) {
   const [actions, setAction] = useState(0);
+
   const [timeOffs, setTimeOffs] = useState([]);
   const [weeklyAvailabilites, setWeeklyAvailabilites] = useState([]);
   const [users, setUsers] = useState([]);
   const [staticSchedules, setStaticSchedules] = useState([]);
+  const [startDate, setStartDate] = useState('');
+  const [startDateError, setStartDateError] = useState('');
 
-  const [startDate, setStartDate] = useState("");
-  const [startDateError, setStartDateError] = useState("");
+  const [input, setInput] = useState({
+    sunday: [],
+    mondayOpen: [],
+    mondayClose: [],
+    tuesdayOpen: [],
+    tuesdayClose: [],
+    wednesdayOpen: [],
+    wednesdayClose: [],
+    thursdayOpen: [],
+    thursdayClose: [],
+    fridayOpen: [],
+    fridayClose: [],
+    saturdayOpen: [],
+    saturdayClose: [],
+  });
+
+  const [result, setResult] = useState({
+    sunday: 0,
+    mondayOpen: 0,
+    mondayClose: 0,
+    tuesdayOpen: 0,
+    tuesdayClose: 0,
+    wednesdayOpen: 0,
+    wednesdayClose: 0,
+    thursdayOpen: 0,
+    thursdayClose: 0,
+    fridayOpen: 0,
+    fridayClose: 0,
+    saturdayOpen: 0,
+    saturdayClose: 0,
+  });
 
   const [resetAlert, setResetAlert] = useState(false);
 
@@ -436,7 +468,7 @@ function GenerateSchedules(props) {
         root={root}
       />
 
-      <div className="header" style={{ PaddingTop: "3em" }}>
+      <div className="header" style={{ PaddingTop: '3em' }}>
         <b>Select Store</b>
         <div>
           <input type="radio" id="8677" value="8677" name="store" />
@@ -453,41 +485,46 @@ function GenerateSchedules(props) {
         <div>
           <input
             type="date"
-            onChange={function(e) {
+            onChange={function (e) {
               let date = new Date(e.target.value);
               if (date.getDay() !== 6) {
-                setStartDateError("Must be a Sunday!");
+                setStartDateError('Must be a Sunday!');
               } else {
                 setStartDate(date);
-                setStartDateError("");
+                setStartDateError('');
               }
             }}
           />
         </div>
-        <div style={{ color: "red" }}>{startDateError}</div>
+        <div style={{ color: 'red' }}>{startDateError}</div>
       </div>
 
-      <div></div>
+      <Subcomponent.DisplayGenerateSchedule
+        input={input}
+        startDate={startDate}
+        users={users}
+        result={result}
+        setResult={setResult}
+      />
 
       <button
-        onClick={function() {
-          let date = new Date();
-          date.setHours(0);
-          date.setMinutes(0);
-          date.setSeconds(0);
-          date.setMilliseconds(0);
+        onClick={function () {
           let input = {
             users: users,
             timeOffs: timeOffs,
             weeklyAvailabilites: weeklyAvailabilites,
             staticSchedules: staticSchedules,
-            startDate: date,
+            startDate: startDate,
           };
-          console.log(GenerateSchedule(input));
+          let res = GenerateSchedule(input);
+          setInput(res.days);
+
+          setResult({});
         }}
       >
-        Test
+        Generate
       </button>
+
       <Subcomponent.Footer />
     </div>
   );
@@ -502,73 +539,73 @@ function StoreManagement(props) {
         root={root}
       />
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>8677</p>
+        <p style={{ paddingTop: '3em' }}>8677</p>
       </div>
       <div className="buttonContainer">
         <div>
-          <div className="row" style={{ paddingBottom: "1em" }}>
-            <div className="col" style={{ width: "20em" }}>
+          <div className="row" style={{ paddingBottom: '1em' }}>
+            <div className="col" style={{ width: '20em' }}>
               Sunday Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
           </div>
           <div className="row">
-            <div className="col" style={{ width: "20em" }}>
+            <div className="col" style={{ width: '20em' }}>
               M-Sat Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>9200</p>
+        <p style={{ paddingTop: '3em' }}>9200</p>
       </div>
       <div className="buttonContainer">
         <div>
-          <div className="row" style={{ paddingBottom: "1em" }}>
-            <div className="col" style={{ width: "20em" }}>
+          <div className="row" style={{ paddingBottom: '1em' }}>
+            <div className="col" style={{ width: '20em' }}>
               Sunday Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
           </div>
           <div className="row">
-            <div className="col" style={{ width: "20em" }}>
+            <div className="col" style={{ width: '20em' }}>
               M-Sat Hours
             </div>
             <div className="col colmesh">Open</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
             <div className="col colmesh">Close</div>
             <div className="col">
-              <input type="text" style={{ width: "5em" }} />
+              <input type="text" style={{ width: '5em' }} />
             </div>
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "5em" }}>
+        <p style={{ paddingTop: '5em' }}>
           <button>Save</button>
         </p>
       </div>
@@ -622,7 +659,7 @@ function StaticSchedules(props) {
       <br />
       <div
         className="calender"
-        style={{ margin: "auto", width: "75%", paddingTop: "10em" }}
+        style={{ margin: 'auto', width: '75%', paddingTop: '10em' }}
       >
         <span>Create New Static Schedule</span>
         <div className="row gx-0">
@@ -634,9 +671,9 @@ function StaticSchedules(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  newSche.sunday ? "isavail" : "notavail"
+                  newSche.sunday ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({ ...newSche, sunday: !newSche.sunday });
                 }}
               >
@@ -652,9 +689,9 @@ function StaticSchedules(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  newSche.mondayOpen ? "isavail" : "notavail"
+                  newSche.mondayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({ ...newSche, mondayOpen: !newSche.mondayOpen });
                 }}
               >
@@ -662,9 +699,9 @@ function StaticSchedules(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  newSche.mondayClose ? "isavail" : "notavail"
+                  newSche.mondayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({ ...newSche, mondayClose: !newSche.mondayClose });
                 }}
               >
@@ -680,9 +717,9 @@ function StaticSchedules(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  newSche.tuesdayOpen ? "isavail" : "notavail"
+                  newSche.tuesdayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({ ...newSche, tuesdayOpen: !newSche.tuesdayOpen });
                 }}
               >
@@ -690,9 +727,9 @@ function StaticSchedules(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  newSche.tuesdayClose ? "isavail" : "notavail"
+                  newSche.tuesdayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({
                     ...newSche,
                     tuesdayClose: !newSche.tuesdayClose,
@@ -711,9 +748,9 @@ function StaticSchedules(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  newSche.wednesdayOpen ? "isavail" : "notavail"
+                  newSche.wednesdayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({
                     ...newSche,
                     wednesdayOpen: !newSche.wednesdayOpen,
@@ -724,9 +761,9 @@ function StaticSchedules(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  newSche.wednesdayClose ? "isavail" : "notavail"
+                  newSche.wednesdayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({
                     ...newSche,
                     wednesdayClose: !newSche.wednesdayClose,
@@ -745,9 +782,9 @@ function StaticSchedules(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  newSche.thursdayOpen ? "isavail" : "notavail"
+                  newSche.thursdayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({
                     ...newSche,
                     thursdayOpen: !newSche.thursdayOpen,
@@ -758,9 +795,9 @@ function StaticSchedules(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  newSche.thursdayClose ? "isavail" : "notavail"
+                  newSche.thursdayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({
                     ...newSche,
                     thursdayClose: !newSche.thursdayClose,
@@ -779,9 +816,9 @@ function StaticSchedules(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  newSche.fridayOpen ? "isavail" : "notavail"
+                  newSche.fridayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({ ...newSche, fridayOpen: !newSche.fridayOpen });
                 }}
               >
@@ -789,9 +826,9 @@ function StaticSchedules(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  newSche.fridayClose ? "isavail" : "notavail"
+                  newSche.fridayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({ ...newSche, fridayClose: !newSche.fridayClose });
                 }}
               >
@@ -807,9 +844,9 @@ function StaticSchedules(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  newSche.saturdayOpen ? "isavail" : "notavail"
+                  newSche.saturdayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({
                     ...newSche,
                     saturdayOpen: !newSche.saturdayOpen,
@@ -820,9 +857,9 @@ function StaticSchedules(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  newSche.saturdayClose ? "isavail" : "notavail"
+                  newSche.saturdayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setNewSche({
                     ...newSche,
                     saturdayClose: !newSche.saturdayClose,
@@ -839,7 +876,7 @@ function StaticSchedules(props) {
         <select
           id="users"
           type="dropdown"
-          onChange={function(e) {
+          onChange={function (e) {
             setNewSche({ ...newSche, userID_: e.target.value });
           }}
         >
@@ -848,7 +885,7 @@ function StaticSchedules(props) {
         <select
           id="stores"
           type="dropdown"
-          onChange={function(e) {
+          onChange={function (e) {
             setNewSche({ ...newSche, storeNumber: e.target.value });
           }}
         >
@@ -857,9 +894,9 @@ function StaticSchedules(props) {
         </select>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>
+        <p style={{ paddingTop: '3em' }}>
           <button
-            onClick={async function() {
+            onClick={async function () {
               await db.createStaticSchedule(newSche);
               setAction(Math.random());
               setNewSche({
@@ -933,9 +970,9 @@ function WeeklyAvailablity(props) {
         root={root}
       />
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>Sample Week</p>
+        <p style={{ paddingTop: '3em' }}>Sample Week</p>
       </div>
-      <div className="calender" style={{ margin: "auto", width: "75%" }}>
+      <div className="calender" style={{ margin: 'auto', width: '75%' }}>
         <div className="row gx-0">
           <div className="col dayBox">
             <div className="calenderHeader2">
@@ -945,9 +982,9 @@ function WeeklyAvailablity(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  availability.sunday ? "isavail" : "notavail"
+                  availability.sunday ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     sunday: !availability.sunday,
@@ -966,9 +1003,9 @@ function WeeklyAvailablity(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  availability.mondayOpen ? "isavail" : "notavail"
+                  availability.mondayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     mondayOpen: !availability.mondayOpen,
@@ -979,9 +1016,9 @@ function WeeklyAvailablity(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  availability.mondayClose ? "isavail" : "notavail"
+                  availability.mondayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     mondayClose: !availability.mondayClose,
@@ -1000,9 +1037,9 @@ function WeeklyAvailablity(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  availability.tuesdayOpen ? "isavail" : "notavail"
+                  availability.tuesdayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     tuesdayOpen: !availability.tuesdayOpen,
@@ -1013,9 +1050,9 @@ function WeeklyAvailablity(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  availability.tuesdayClose ? "isavail" : "notavail"
+                  availability.tuesdayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     tuesdayClose: !availability.tuesdayClose,
@@ -1034,9 +1071,9 @@ function WeeklyAvailablity(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  availability.wednesdayOpen ? "isavail" : "notavail"
+                  availability.wednesdayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     wednesdayOpen: !availability.wednesdayOpen,
@@ -1047,9 +1084,9 @@ function WeeklyAvailablity(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  availability.wednesdayClose ? "isavail" : "notavail"
+                  availability.wednesdayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     wednesdayClose: !availability.wednesdayClose,
@@ -1068,9 +1105,9 @@ function WeeklyAvailablity(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  availability.thursdayOpen ? "isavail" : "notavail"
+                  availability.thursdayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     thursdayOpen: !availability.thursdayOpen,
@@ -1081,9 +1118,9 @@ function WeeklyAvailablity(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  availability.thursdayClose ? "isavail" : "notavail"
+                  availability.thursdayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     thursdayClose: !availability.thursdayClose,
@@ -1102,9 +1139,9 @@ function WeeklyAvailablity(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  availability.fridayOpen ? "isavail" : "notavail"
+                  availability.fridayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     fridayOpen: !availability.fridayOpen,
@@ -1115,9 +1152,9 @@ function WeeklyAvailablity(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  availability.fridayClose ? "isavail" : "notavail"
+                  availability.fridayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     fridayClose: !availability.fridayClose,
@@ -1136,9 +1173,9 @@ function WeeklyAvailablity(props) {
             <div className="availContainer">
               <div
                 className={`shiftStyle  ${
-                  availability.saturdayOpen ? "isavail" : "notavail"
+                  availability.saturdayOpen ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     saturdayOpen: !availability.saturdayOpen,
@@ -1149,9 +1186,9 @@ function WeeklyAvailablity(props) {
               </div>
               <div
                 className={`shiftStyle  ${
-                  availability.saturdayClose ? "isavail" : "notavail"
+                  availability.saturdayClose ? 'isavail' : 'notavail'
                 } `}
-                onClick={function() {
+                onClick={function () {
                   setAvailability({
                     ...availability,
                     saturdayClose: !availability.saturdayClose,
@@ -1165,9 +1202,9 @@ function WeeklyAvailablity(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>
+        <p style={{ paddingTop: '3em' }}>
           <button
-            onClick={async function() {
+            onClick={async function () {
               let res = await db.updateWeeklyAvailability(availability);
               console.log(res);
               setAction(Math.random());
@@ -1178,9 +1215,9 @@ function WeeklyAvailablity(props) {
           </button>
         </p>
         <div
-          className={` ${resetAlert ? "alert-shown" : "alert-hidden"}`}
+          className={` ${resetAlert ? 'alert-shown' : 'alert-hidden'}`}
           onTransitionEnd={() => setResetAlert(false)}
-          style={{ textAlign: "center" }}
+          style={{ textAlign: 'center' }}
         >
           Availability Updated!
         </div>
@@ -1191,11 +1228,11 @@ function WeeklyAvailablity(props) {
 }
 
 function TimeOff(props) {
-  const [leaveDate, setLeaveDate] = useState("");
-  const [returnDate, setReturnDate] = useState("");
+  const [leaveDate, setLeaveDate] = useState('');
+  const [returnDate, setReturnDate] = useState('');
   const [timeOffs, setTimeOffs] = useState([]);
   const [actions, setAction] = useState(0);
-  const [returnDateError, setReturnDateError] = useState("");
+  const [returnDateError, setReturnDateError] = useState('');
 
   useEffect(() => {
     async function getTimeOffs() {
@@ -1220,17 +1257,17 @@ function TimeOff(props) {
         root={root}
       />
       <div className="header">
-        <p style={{ paddingTop: "3em" }}>New Time Off Request</p>
+        <p style={{ paddingTop: '3em' }}>New Time Off Request</p>
       </div>
       <div className="buttonContainer">
         <div>
-          <div className="row" style={{ paddingBottom: "1em", width: "35em" }}>
+          <div className="row" style={{ paddingBottom: '1em', width: '35em' }}>
             <div className="col colmesh">Leave Date</div>
             <div className="col">
               <input
                 type="date"
-                style={{ width: "8em" }}
-                onChange={function(e) {
+                style={{ width: '8em' }}
+                onChange={function (e) {
                   let date = new Date(e.target.value);
                   setLeaveDate(date.toISOString());
                 }}
@@ -1240,16 +1277,16 @@ function TimeOff(props) {
             <div className="col">
               <input
                 type="date"
-                style={{ width: "8em" }}
-                onChange={function(e) {
+                style={{ width: '8em' }}
+                onChange={function (e) {
                   let date = new Date(e.target.value);
                   let start = new Date(leaveDate);
                   if (date >= start) {
                     setReturnDate(date.toISOString());
-                    setReturnDateError("");
+                    setReturnDateError('');
                   } else {
                     setReturnDateError(
-                      "Return date cannot be before leave date!"
+                      'Return date cannot be before leave date!'
                     );
                   }
                 }}
@@ -1259,17 +1296,17 @@ function TimeOff(props) {
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "0em" }}>
-          <p style={{ color: "red" }}>{returnDateError}</p>
+        <p style={{ paddingTop: '0em' }}>
+          <p style={{ color: 'red' }}>{returnDateError}</p>
           <button
-            onClick={async function() {
+            onClick={async function () {
               if (returnDateError.length === 0) {
                 let res = await db.createTimeOff(
                   props.ID,
                   leaveDate,
                   returnDate
                 );
-                if (typeof res === "string") {
+                if (typeof res === 'string') {
                   setAction(Math.random());
                 }
               }

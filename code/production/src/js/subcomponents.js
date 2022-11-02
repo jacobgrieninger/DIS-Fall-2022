@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Fragment } from "react";
-import * as Helper from "./helpers";
-import * as db from "./requests";
+import React, { useState, useEffect, Fragment } from 'react';
+import * as Helper from './helpers';
+import * as db from './requests';
 
 const DisplaySchedule = (storenum) => {
   const [schedule, setSchedule] = useState({});
@@ -8,7 +8,7 @@ const DisplaySchedule = (storenum) => {
   const weekdates = Helper.BuildWeek(Helper.FindNearestSunday(1));
   useEffect(() => {
     async function getSchedule() {
-      if (JSON.stringify(schedule) === "{}") {
+      if (JSON.stringify(schedule) === '{}') {
         let result = await db.getScheduleByDate(Helper.FindNearestSunday());
         result.forEach((obj) => {
           if (obj.storeNumber.toString() === storenum.storenum) {
@@ -22,7 +22,7 @@ const DisplaySchedule = (storenum) => {
 
   useEffect(() => {
     async function getUsers() {
-      if (JSON.stringify(users) === "{}") {
+      if (JSON.stringify(users) === '{}') {
         let result = await db.getAllUsers();
         setUsers(result);
       }
@@ -126,7 +126,7 @@ const DisplaySchedule = (storenum) => {
 };
 
 const GetNameFromID = (users_, userID_) => {
-  let result = "";
+  let result = '';
   Array.prototype.forEach.call(users_, (user) => {
     if (userID_ === user.userID) {
       result = user.name.toString();
@@ -147,7 +147,7 @@ const DisplayTimeOffs = (props) => {
         <div className="col">Return Date: {ConvertDate(to_.returnDate)}</div>
         <div className="col">
           <button
-            onClick={async function() {
+            onClick={async function () {
               await db.delteTimeOff(to_._id);
               props.setAction(Math.random());
             }}
@@ -165,7 +165,7 @@ const DisplayEmployees = (props) => {
   const result = props.usersList.map((user) => {
     if (user.userID !== props.currentUser) {
       return (
-        <div key={user._id} className="row" style={{ height: "3em" }}>
+        <div key={user._id} className="row" style={{ height: '3em' }}>
           <div className="col">{user.name}</div>
           <div className="col">{user.userID}</div>
           <div className="col">
@@ -180,8 +180,8 @@ const DisplayEmployees = (props) => {
           </div>
           <div className="col">
             <button
-              style={{ width: "10em" }}
-              onClick={async function() {
+              style={{ width: '10em' }}
+              onClick={async function () {
                 await db.resetUserPass(user.userID);
                 props.setResetAlert(true);
               }}
@@ -191,8 +191,8 @@ const DisplayEmployees = (props) => {
           </div>
           <div className="col">
             <button
-              style={{ width: "10em" }}
-              onClick={async function() {
+              style={{ width: '10em' }}
+              onClick={async function () {
                 await db.deleteUser(user.userID);
                 await db.deleteWeeklyAvailability(user.userID);
                 props.setAction(Math.random());
@@ -227,12 +227,12 @@ const DisplayStaticSchedules = (props) => {
     console.log(schedule);
     return (
       <Fragment key={schedule._id}>
-        <div className="calender" style={{ margin: "auto", width: "75%" }}>
+        <div className="calender" style={{ margin: 'auto', width: '75%' }}>
           <b>{GetNameFromID(userList, schedule.userID)}</b> ({schedule.userID})
           - <b>{schedule.storeNumber}</b>
-          <span style={{ textAlign: "right" }}>
+          <span style={{ textAlign: 'right' }}>
             <button
-              onClick={async function() {
+              onClick={async function () {
                 await db.deleteStaticSchedule(schedule._id);
                 props.setAction(Math.random());
               }}
@@ -250,7 +250,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="sunday"
                   className={`shiftStyle  ${
-                    schedule.sunday ? "isavail" : "notavail"
+                    schedule.sunday ? 'isavail' : 'notavail'
                   } `}
                 >
                   Open
@@ -266,7 +266,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="mondayopen"
                   className={`shiftStyle  ${
-                    schedule.mondayOpen ? "isavail" : "notavail"
+                    schedule.mondayOpen ? 'isavail' : 'notavail'
                   } `}
                 >
                   Open
@@ -274,7 +274,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="mondayclose"
                   className={`shiftStyle  ${
-                    schedule.mondayClose ? "isavail" : "notavail"
+                    schedule.mondayClose ? 'isavail' : 'notavail'
                   } `}
                 >
                   Close
@@ -290,7 +290,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="tuesopen"
                   className={`shiftStyle  ${
-                    schedule.tuesdayOpen ? "isavail" : "notavail"
+                    schedule.tuesdayOpen ? 'isavail' : 'notavail'
                   } `}
                 >
                   Open
@@ -298,7 +298,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="tuesclose"
                   className={`shiftStyle  ${
-                    schedule.tuesdayClose ? "isavail" : "notavail"
+                    schedule.tuesdayClose ? 'isavail' : 'notavail'
                   } `}
                 >
                   Close
@@ -314,7 +314,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="wedopen"
                   className={`shiftStyle  ${
-                    schedule.wednesdayOpen ? "isavail" : "notavail"
+                    schedule.wednesdayOpen ? 'isavail' : 'notavail'
                   } `}
                 >
                   Open
@@ -322,7 +322,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="wedclose"
                   className={`shiftStyle  ${
-                    schedule.wednesdayClose ? "isavail" : "notavail"
+                    schedule.wednesdayClose ? 'isavail' : 'notavail'
                   } `}
                 >
                   Close
@@ -338,7 +338,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="thuopen"
                   className={`shiftStyle  ${
-                    schedule.thursdayOpen ? "isavail" : "notavail"
+                    schedule.thursdayOpen ? 'isavail' : 'notavail'
                   } `}
                 >
                   Open
@@ -346,7 +346,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="thuclose"
                   className={`shiftStyle  ${
-                    schedule.thursdayClose ? "isavail" : "notavail"
+                    schedule.thursdayClose ? 'isavail' : 'notavail'
                   } `}
                 >
                   Close
@@ -362,7 +362,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="friopen"
                   className={`shiftStyle  ${
-                    schedule.fridayOpen ? "isavail" : "notavail"
+                    schedule.fridayOpen ? 'isavail' : 'notavail'
                   } `}
                 >
                   Open
@@ -370,7 +370,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="friclose"
                   className={`shiftStyle  ${
-                    schedule.fridayClose ? "isavail" : "notavail"
+                    schedule.fridayClose ? 'isavail' : 'notavail'
                   } `}
                 >
                   Close
@@ -386,7 +386,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="satopen"
                   className={`shiftStyle  ${
-                    schedule.saturdayOpen ? "isavail" : "notavail"
+                    schedule.saturdayOpen ? 'isavail' : 'notavail'
                   } `}
                 >
                   Open
@@ -394,7 +394,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="satclose"
                   className={`shiftStyle  ${
-                    schedule.saturdayClose ? "isavail" : "notavail"
+                    schedule.saturdayClose ? 'isavail' : 'notavail'
                   } `}
                 >
                   Close
@@ -439,7 +439,7 @@ const MainHeader = (props) => {
         <div className="row text-center">
           <div className="col text-start">
             <button
-              onClick={function() {
+              onClick={function () {
                 props.root.render(props.back);
               }}
             >
@@ -449,7 +449,7 @@ const MainHeader = (props) => {
           <div className="col">GNC Wilmington</div>
           <div className="col text-end">
             <button
-              onClick={function() {
+              onClick={function () {
                 window.location.reload();
               }}
             >
@@ -458,7 +458,7 @@ const MainHeader = (props) => {
           </div>
         </div>
       </div>
-      <p className="header" style={{ paddingTop: "1em" }}>
+      <p className="header" style={{ paddingTop: '1em' }}>
         <u>{props.title}</u>
       </p>
     </Fragment>
@@ -466,8 +466,213 @@ const MainHeader = (props) => {
 };
 
 const Footer = (props) => {
-  return <div style={{ height: "5em" }}></div>;
+  return <div style={{ height: '5em' }}></div>;
 };
+
+const DisplayGenerateSchedule = (props) => {
+  let week = '     ';
+  if (props.startDate.length !== 0) {
+    week = Helper.BuildWeek(props.startDate);
+  }
+  return (
+    <div className="container">
+      <div className="row text-center">
+        <div className="col bdrA">
+          <div className="row flex-column">
+            <div className="col" style={{ borderBottom: '1px solid black' }}>
+              Sunday
+              <div>{week[0]}</div>
+            </div>
+            <div className="col">
+              <div>{Helper.SelectRandomEmployee(props.input.sunday)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.sunday} />
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col bdrA">
+          <div className="row flex-column">
+            <div className="col" style={{ borderBottom: '1px solid black' }}>
+              Monday
+              <div>{week[1]}</div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>{Helper.SelectRandomEmployee(props.input.mondayOpen)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.mondayOpen} />
+                </select>
+              </div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>{Helper.SelectRandomEmployee(props.input.mondayClose)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.mondayClose} />
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col bdrA">
+          <div className="row flex-column">
+            <div className="col" style={{ borderBottom: '1px solid black' }}>
+              Tuesday
+              <div>{week[2]}</div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>{Helper.SelectRandomEmployee(props.input.tuesdayOpen)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.tuesdayOpen} />
+                </select>
+              </div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>{Helper.SelectRandomEmployee(props.input.tuesdayClose)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.tuesdayClose} />
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col bdrA">
+          <div className="row flex-column">
+            <div className="col" style={{ borderBottom: '1px solid black' }}>
+              Wednesday
+              <div>{week[3]}</div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>
+                {Helper.SelectRandomEmployee(props.input.wednesdayOpen)}
+              </div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.wednesdayOpen} />
+                </select>
+              </div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>
+                {Helper.SelectRandomEmployee(props.input.wednesdayClose)}
+              </div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.wednesdayClose} />
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col bdrA">
+          <div className="row flex-column">
+            <div className="col" style={{ borderBottom: '1px solid black' }}>
+              Thursday
+              <div>{week[4]}</div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>{Helper.SelectRandomEmployee(props.input.thursdayOpen)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.thursdayOpen} />
+                </select>
+              </div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>
+                {Helper.SelectRandomEmployee(props.input.thursdayClose)}
+              </div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.thursdayClose} />
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col bdrA">
+          <div className="row flex-column">
+            <div className="col" style={{ borderBottom: '1px solid black' }}>
+              Friday
+              <div>{week[5]}</div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>{Helper.SelectRandomEmployee(props.input.fridayOpen)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.fridayOpen} />
+                </select>
+              </div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>{Helper.SelectRandomEmployee(props.input.fridayClose)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.fridayClose} />
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col bdrA">
+          <div className="row flex-column">
+            <div className="col" style={{ borderBottom: '1px solid black' }}>
+              Saturday
+              <div>{week[6]}</div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>{Helper.SelectRandomEmployee(props.input.saturdayOpen)}</div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.saturdayOpen} />
+                </select>
+              </div>
+            </div>
+            <div className="col">
+              {' '}
+              <div>
+                {Helper.SelectRandomEmployee(props.input.saturdayClose)}
+              </div>
+              <div>
+                <select>
+                  <AvailableEmployeeList input={props.input.saturdayClose} />
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AvailableEmployeeList = (props) => {
+  const result = props.input.map((user) => {
+    return (
+      <option key={user} value={user}>
+        {user}
+      </option>
+    );
+  });
+  return result;
+};
+
 export {
   DisplaySchedule,
   DisplayTimeOffs,
@@ -476,4 +681,5 @@ export {
   EmployeeList,
   MainHeader,
   Footer,
+  DisplayGenerateSchedule,
 };

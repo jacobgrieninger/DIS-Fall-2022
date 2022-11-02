@@ -147,3 +147,7 @@
 .headerMain {
   display: flex;
 }
+
+.bdrA {
+  border: 1px solid black;
+}

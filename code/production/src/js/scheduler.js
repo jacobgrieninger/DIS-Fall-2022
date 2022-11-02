@@ -3,13 +3,7 @@ import { eachDayOfInterval } from 'date-fns';
 const GenerateSchedule = function (input) {
   function GenEmployee(date_, day) {
     //define result var
-    let result = {
-      employee: 0,
-      errors: {
-        value: false,
-        message: '',
-      },
-    };
+    let result = [];
     //create array of userid's
     let userID_List = input.users.map((user) => {
       return user.userID;
@@ -66,12 +60,11 @@ const GenerateSchedule = function (input) {
 
     // error check to ensure no more than 1 employee has a static scehdule for the same day
     if (staticEmployee.length >= 2) {
-      result.errors.value = true;
-      result.errors.message = `More than 1 employee returned with a static schedule for the same day.
-      Employees found: ${staticEmployee} on ${new Date(date_)} (${day})`;
+      result.push(`More than 1 employee returned with a static schedule for the same day.
+      Employees found: ${staticEmployee} on ${new Date(date_)} (${day})`);
     } //if no error then result to employee
     else if (staticEmployee.length === 1) {
-      result.employee = staticEmployee[0];
+      result.push(staticEmployee[0]);
       return result;
     }
 
@@ -88,14 +81,15 @@ const GenerateSchedule = function (input) {
     });
 
     // select an employee from list at random
-    result.employee =
+    /* result.employee =
       weeklyAvailableEmployees[
         Math.floor(Math.random() * weeklyAvailableEmployees.length)
       ];
-    return result;
+    */
+    return weeklyAvailableEmployees;
   }
 
-  let startDate = input.startDate;
+  let startDate = new Date(input.startDate);
   let result = {
     days: {
       sunday: GenEmployee(startDate, 'sunday'),

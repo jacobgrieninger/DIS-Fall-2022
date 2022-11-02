@@ -23,12 +23,22 @@ function FindNearestSunday(i = 0) {
 
 function BuildWeek(startdate_) {
   let payload = [];
-  payload.push(startdate_.toISOString().slice(5, 10));
+  let date = new Date(startdate_);
+  payload.push(date.toISOString().slice(5, 10));
   for (let i = 0; i < 6; i++) {
-    startdate_.setDate(startdate_.getDate() + 1);
-    payload.push(startdate_.toISOString().slice(5, 10));
+    date.setDate(date.getDate() + 1);
+    payload.push(date.toISOString().slice(5, 10));
   }
   return payload;
 }
 
-export { AvailabiltyToggle, FindNearestSunday, BuildWeek };
+function SelectRandomEmployee(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+export {
+  AvailabiltyToggle,
+  FindNearestSunday,
+  BuildWeek,
+  SelectRandomEmployee,
+};
