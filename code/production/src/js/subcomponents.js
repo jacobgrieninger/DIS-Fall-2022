@@ -126,10 +126,10 @@ const DisplaySchedule = (storenum) => {
 };
 
 const GetNameFromID = (users_, userID_) => {
-  let result = '';
+  let result = 'none';
   Array.prototype.forEach.call(users_, (user) => {
     if (userID_ === user.userID) {
-      result = user.name.toString();
+      result = user.name;
     }
   });
   return result;
@@ -474,6 +474,8 @@ const DisplayGenerateSchedule = (props) => {
   if (props.startDate.length !== 0) {
     week = Helper.BuildWeek(props.startDate);
   }
+  console.log(props.users);
+  console.log(props.result.sunday);
   return (
     <div className="container">
       <div className="row text-center">
@@ -484,9 +486,16 @@ const DisplayGenerateSchedule = (props) => {
               <div>{week[0]}</div>
             </div>
             <div className="col">
-              <div>{Helper.SelectRandomEmployee(props.input.sunday)}</div>
+              <div>{GetNameFromID(props.users, props.result.sunday)}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      sunday: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.sunday} />
                 </select>
               </div>
@@ -500,19 +509,31 @@ const DisplayGenerateSchedule = (props) => {
               <div>{week[1]}</div>
             </div>
             <div className="col">
-              {' '}
-              <div>{Helper.SelectRandomEmployee(props.input.mondayOpen)}</div>
+              <div>{props.result.mondayOpen}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      mondayOpen: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.mondayOpen} />
                 </select>
               </div>
             </div>
             <div className="col">
-              {' '}
-              <div>{Helper.SelectRandomEmployee(props.input.mondayClose)}</div>
+              <div>{props.result.mondayClose}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      mondayClose: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.mondayClose} />
                 </select>
               </div>
@@ -526,19 +547,31 @@ const DisplayGenerateSchedule = (props) => {
               <div>{week[2]}</div>
             </div>
             <div className="col">
-              {' '}
-              <div>{Helper.SelectRandomEmployee(props.input.tuesdayOpen)}</div>
+              <div>{props.result.tuesdayOpen}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      tuesdayOpen: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.tuesdayOpen} />
                 </select>
               </div>
             </div>
             <div className="col">
-              {' '}
-              <div>{Helper.SelectRandomEmployee(props.input.tuesdayClose)}</div>
+              <div>{props.result.tuesdayClose}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      tuesdayClose: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.tuesdayClose} />
                 </select>
               </div>
@@ -552,23 +585,31 @@ const DisplayGenerateSchedule = (props) => {
               <div>{week[3]}</div>
             </div>
             <div className="col">
-              {' '}
+              <div>{props.result.wednesdayOpen}</div>
               <div>
-                {Helper.SelectRandomEmployee(props.input.wednesdayOpen)}
-              </div>
-              <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      wednesdayOpen: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.wednesdayOpen} />
                 </select>
               </div>
             </div>
             <div className="col">
-              {' '}
+              <div>{props.result.wednesdayClose}</div>
               <div>
-                {Helper.SelectRandomEmployee(props.input.wednesdayClose)}
-              </div>
-              <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      wednesdayClose: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.wednesdayClose} />
                 </select>
               </div>
@@ -582,21 +623,31 @@ const DisplayGenerateSchedule = (props) => {
               <div>{week[4]}</div>
             </div>
             <div className="col">
-              {' '}
-              <div>{Helper.SelectRandomEmployee(props.input.thursdayOpen)}</div>
+              <div>{props.result.thursdayOpen}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      thursdayOpen: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.thursdayOpen} />
                 </select>
               </div>
             </div>
             <div className="col">
-              {' '}
+              <div>{props.result.thursdayClose}</div>
               <div>
-                {Helper.SelectRandomEmployee(props.input.thursdayClose)}
-              </div>
-              <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      thursdayClose: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.thursdayClose} />
                 </select>
               </div>
@@ -610,19 +661,31 @@ const DisplayGenerateSchedule = (props) => {
               <div>{week[5]}</div>
             </div>
             <div className="col">
-              {' '}
-              <div>{Helper.SelectRandomEmployee(props.input.fridayOpen)}</div>
+              <div>{props.result.fridayOpen}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      fridayOpen: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.fridayOpen} />
                 </select>
               </div>
             </div>
             <div className="col">
-              {' '}
-              <div>{Helper.SelectRandomEmployee(props.input.fridayClose)}</div>
+              <div>{props.result.fridayClose}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      fridayClose: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.fridayClose} />
                 </select>
               </div>
@@ -636,21 +699,31 @@ const DisplayGenerateSchedule = (props) => {
               <div>{week[6]}</div>
             </div>
             <div className="col">
-              {' '}
-              <div>{Helper.SelectRandomEmployee(props.input.saturdayOpen)}</div>
+              <div>{props.result.saturdayOpen}</div>
               <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      saturdayOpen: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.saturdayOpen} />
                 </select>
               </div>
             </div>
             <div className="col">
-              {' '}
+              <div>{props.result.saturdayClose}</div>
               <div>
-                {Helper.SelectRandomEmployee(props.input.saturdayClose)}
-              </div>
-              <div>
-                <select>
+                <select
+                  onChange={function (e) {
+                    props.setResult({
+                      ...props.result,
+                      saturdayClose: e.target.value,
+                    });
+                  }}
+                >
                   <AvailableEmployeeList input={props.input.saturdayClose} />
                 </select>
               </div>

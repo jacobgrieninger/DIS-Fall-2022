@@ -518,8 +518,23 @@ function GenerateSchedules(props) {
           };
           let res = GenerateSchedule(input);
           setInput(res.days);
-
-          setResult({});
+          setResult({
+            sunday: Helper.SelectRandomEmployee(res.days.sunday),
+            mondayOpen: Helper.SelectRandomEmployee(res.days.mondayOpen),
+            mondayClose: Helper.SelectRandomEmployee(res.days.mondayClose),
+            tuesdayOpen: Helper.SelectRandomEmployee(res.days.tuesdayOpen),
+            tuesdayClose: Helper.SelectRandomEmployee(res.days.tuesdayClose),
+            wednesdayOpen: Helper.SelectRandomEmployee(res.days.wednesdayOpen),
+            wednesdayClose: Helper.SelectRandomEmployee(
+              res.days.wednesdayClose
+            ),
+            thursdayOpen: Helper.SelectRandomEmployee(res.days.thursdayOpen),
+            thursdayClose: Helper.SelectRandomEmployee(res.days.thursdayClose),
+            fridayOpen: Helper.SelectRandomEmployee(res.days.fridayOpen),
+            fridayClose: Helper.SelectRandomEmployee(res.days.fridayClose),
+            saturdayOpen: Helper.SelectRandomEmployee(res.days.saturdayOpen),
+            saturdayClose: Helper.SelectRandomEmployee(res.days.saturdayClose),
+          });
         }}
       >
         Generate
