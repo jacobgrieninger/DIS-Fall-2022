@@ -1,35 +1,28 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import * as Helper from './helpers';
-import * as db from './requests';
+import React, { useState, useEffect, Fragment } from "react";
+import * as Helper from "./helpers";
+import * as db from "./requests";
 
-const DisplaySchedule = (storenum) => {
+const DisplaySchedule = (props) => {
   const [schedule, setSchedule] = useState({});
   const [users, setUsers] = useState({});
+  const [actions, setAction] = useState(0);
   const weekdates = Helper.BuildWeek(Helper.FindNearestSunday(1));
-  useEffect(() => {
-    async function getSchedule() {
-      if (JSON.stringify(schedule) === '{}') {
-        let result = await db.getScheduleByDate(Helper.FindNearestSunday());
-        result.forEach((obj) => {
-          if (obj.storeNumber.toString() === storenum.storenum) {
-            setSchedule(obj);
-          }
-        });
-      }
-    }
-    getSchedule();
-  });
 
   useEffect(() => {
-    async function getUsers() {
-      if (JSON.stringify(users) === '{}') {
-        let result = await db.getAllUsers();
-        setUsers(result);
-      }
+    async function loadData() {
+      setUsers(await db.getAllUsers());
+      let schedules = await db.getScheduleByDate(
+        Helper.FindNearestSunday().slice(0, 10)
+      );
+      schedules.forEach((sch) => {
+        if (sch.storeNumber === props.storenum) {
+          setSchedule(sch);
+        }
+      });
     }
-    getUsers();
-  });
-
+    loadData();
+    // eslint-disable-next-line
+  }, [actions]);
   const result = (
     <div className="row gx-0">
       <div className="col dayBox">
@@ -126,9 +119,9 @@ const DisplaySchedule = (storenum) => {
 };
 
 const GetNameFromID = (users_, userID_) => {
-  let result = 'none';
+  let result = "";
   Array.prototype.forEach.call(users_, (user) => {
-    if (userID_ === user.userID) {
+    if (parseInt(userID_) === parseInt(user.userID)) {
       result = user.name;
     }
   });
@@ -138,7 +131,7 @@ const GetNameFromID = (users_, userID_) => {
 const DisplayTimeOffs = (props) => {
   const ConvertDate = (old) => {
     let date = new Date(old);
-    return <Fragment>{date.toDateString()}</Fragment>;
+    return <Fragment>{date.toISOString().slice(0, 10)}</Fragment>;
   };
   const result = props.timeOffs.map((to_) => {
     return (
@@ -147,7 +140,7 @@ const DisplayTimeOffs = (props) => {
         <div className="col">Return Date: {ConvertDate(to_.returnDate)}</div>
         <div className="col">
           <button
-            onClick={async function () {
+            onClick={async function() {
               await db.delteTimeOff(to_._id);
               props.setAction(Math.random());
             }}
@@ -165,7 +158,7 @@ const DisplayEmployees = (props) => {
   const result = props.usersList.map((user) => {
     if (user.userID !== props.currentUser) {
       return (
-        <div key={user._id} className="row" style={{ height: '3em' }}>
+        <div key={user._id} className="row" style={{ height: "3em" }}>
           <div className="col">{user.name}</div>
           <div className="col">{user.userID}</div>
           <div className="col">
@@ -180,8 +173,8 @@ const DisplayEmployees = (props) => {
           </div>
           <div className="col">
             <button
-              style={{ width: '10em' }}
-              onClick={async function () {
+              style={{ width: "10em" }}
+              onClick={async function() {
                 await db.resetUserPass(user.userID);
                 props.setResetAlert(true);
               }}
@@ -191,8 +184,8 @@ const DisplayEmployees = (props) => {
           </div>
           <div className="col">
             <button
-              style={{ width: '10em' }}
-              onClick={async function () {
+              style={{ width: "10em" }}
+              onClick={async function() {
                 await db.deleteUser(user.userID);
                 await db.deleteWeeklyAvailability(user.userID);
                 props.setAction(Math.random());
@@ -224,15 +217,14 @@ const DisplayStaticSchedules = (props) => {
   }, [actionsUser]);
 
   const result = props.staticSchedules.map((schedule) => {
-    console.log(schedule);
     return (
       <Fragment key={schedule._id}>
-        <div className="calender" style={{ margin: 'auto', width: '75%' }}>
+        <div className="calender" style={{ margin: "auto", width: "75%" }}>
           <b>{GetNameFromID(userList, schedule.userID)}</b> ({schedule.userID})
           - <b>{schedule.storeNumber}</b>
-          <span style={{ textAlign: 'right' }}>
+          <span style={{ textAlign: "right" }}>
             <button
-              onClick={async function () {
+              onClick={async function() {
                 await db.deleteStaticSchedule(schedule._id);
                 props.setAction(Math.random());
               }}
@@ -250,7 +242,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="sunday"
                   className={`shiftStyle  ${
-                    schedule.sunday ? 'isavail' : 'notavail'
+                    schedule.sunday ? "isavail" : "notavail"
                   } `}
                 >
                   Open
@@ -266,7 +258,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="mondayopen"
                   className={`shiftStyle  ${
-                    schedule.mondayOpen ? 'isavail' : 'notavail'
+                    schedule.mondayOpen ? "isavail" : "notavail"
                   } `}
                 >
                   Open
@@ -274,7 +266,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="mondayclose"
                   className={`shiftStyle  ${
-                    schedule.mondayClose ? 'isavail' : 'notavail'
+                    schedule.mondayClose ? "isavail" : "notavail"
                   } `}
                 >
                   Close
@@ -290,7 +282,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="tuesopen"
                   className={`shiftStyle  ${
-                    schedule.tuesdayOpen ? 'isavail' : 'notavail'
+                    schedule.tuesdayOpen ? "isavail" : "notavail"
                   } `}
                 >
                   Open
@@ -298,7 +290,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="tuesclose"
                   className={`shiftStyle  ${
-                    schedule.tuesdayClose ? 'isavail' : 'notavail'
+                    schedule.tuesdayClose ? "isavail" : "notavail"
                   } `}
                 >
                   Close
@@ -314,7 +306,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="wedopen"
                   className={`shiftStyle  ${
-                    schedule.wednesdayOpen ? 'isavail' : 'notavail'
+                    schedule.wednesdayOpen ? "isavail" : "notavail"
                   } `}
                 >
                   Open
@@ -322,7 +314,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="wedclose"
                   className={`shiftStyle  ${
-                    schedule.wednesdayClose ? 'isavail' : 'notavail'
+                    schedule.wednesdayClose ? "isavail" : "notavail"
                   } `}
                 >
                   Close
@@ -338,7 +330,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="thuopen"
                   className={`shiftStyle  ${
-                    schedule.thursdayOpen ? 'isavail' : 'notavail'
+                    schedule.thursdayOpen ? "isavail" : "notavail"
                   } `}
                 >
                   Open
@@ -346,7 +338,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="thuclose"
                   className={`shiftStyle  ${
-                    schedule.thursdayClose ? 'isavail' : 'notavail'
+                    schedule.thursdayClose ? "isavail" : "notavail"
                   } `}
                 >
                   Close
@@ -362,7 +354,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="friopen"
                   className={`shiftStyle  ${
-                    schedule.fridayOpen ? 'isavail' : 'notavail'
+                    schedule.fridayOpen ? "isavail" : "notavail"
                   } `}
                 >
                   Open
@@ -370,7 +362,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="friclose"
                   className={`shiftStyle  ${
-                    schedule.fridayClose ? 'isavail' : 'notavail'
+                    schedule.fridayClose ? "isavail" : "notavail"
                   } `}
                 >
                   Close
@@ -386,7 +378,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="satopen"
                   className={`shiftStyle  ${
-                    schedule.saturdayOpen ? 'isavail' : 'notavail'
+                    schedule.saturdayOpen ? "isavail" : "notavail"
                   } `}
                 >
                   Open
@@ -394,7 +386,7 @@ const DisplayStaticSchedules = (props) => {
                 <div
                   id="satclose"
                   className={`shiftStyle  ${
-                    schedule.saturdayClose ? 'isavail' : 'notavail'
+                    schedule.saturdayClose ? "isavail" : "notavail"
                   } `}
                 >
                   Close
@@ -439,7 +431,7 @@ const MainHeader = (props) => {
         <div className="row text-center">
           <div className="col text-start">
             <button
-              onClick={function () {
+              onClick={function() {
                 props.root.render(props.back);
               }}
             >
@@ -449,7 +441,7 @@ const MainHeader = (props) => {
           <div className="col">GNC Wilmington</div>
           <div className="col text-end">
             <button
-              onClick={function () {
+              onClick={function() {
                 window.location.reload();
               }}
             >
@@ -458,7 +450,7 @@ const MainHeader = (props) => {
           </div>
         </div>
       </div>
-      <p className="header" style={{ paddingTop: '1em' }}>
+      <p className="header" style={{ paddingTop: "1em" }}>
         <u>{props.title}</u>
       </p>
     </Fragment>
@@ -466,37 +458,38 @@ const MainHeader = (props) => {
 };
 
 const Footer = (props) => {
-  return <div style={{ height: '5em' }}></div>;
+  return <div style={{ height: "5em" }}></div>;
 };
 
 const DisplayGenerateSchedule = (props) => {
-  let week = '     ';
+  let week = "     ";
   if (props.startDate.length !== 0) {
     week = Helper.BuildWeek(props.startDate);
   }
-  console.log(props.users);
-  console.log(props.result.sunday);
   return (
     <div className="container">
       <div className="row text-center">
         <div className="col bdrA">
           <div className="row flex-column">
-            <div className="col" style={{ borderBottom: '1px solid black' }}>
+            <div className="col" style={{ borderBottom: "1px solid black" }}>
               Sunday
               <div>{week[0]}</div>
             </div>
-            <div className="col">
+            <div className="col tall">
               <div>{GetNameFromID(props.users, props.result.sunday)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       sunday: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.sunday} />
+                  <AvailableEmployeeList
+                    input={props.input.sunday}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
@@ -504,37 +497,46 @@ const DisplayGenerateSchedule = (props) => {
         </div>
         <div className="col bdrA">
           <div className="row flex-column">
-            <div className="col" style={{ borderBottom: '1px solid black' }}>
+            <div className="col" style={{ borderBottom: "1px solid black" }}>
               Monday
               <div>{week[1]}</div>
             </div>
-            <div className="col">
-              <div>{props.result.mondayOpen}</div>
+            <div
+              className="col tall"
+              style={{ borderBottom: "1px solid black" }}
+            >
+              <div>{GetNameFromID(props.users, props.result.mondayOpen)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       mondayOpen: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.mondayOpen} />
+                  <AvailableEmployeeList
+                    input={props.input.mondayOpen}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
-            <div className="col">
-              <div>{props.result.mondayClose}</div>
+            <div className="col tall">
+              <div>{GetNameFromID(props.users, props.result.mondayClose)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       mondayClose: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.mondayClose} />
+                  <AvailableEmployeeList
+                    input={props.input.mondayClose}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
@@ -542,37 +544,46 @@ const DisplayGenerateSchedule = (props) => {
         </div>
         <div className="col bdrA">
           <div className="row flex-column">
-            <div className="col" style={{ borderBottom: '1px solid black' }}>
+            <div className="col" style={{ borderBottom: "1px solid black" }}>
               Tuesday
               <div>{week[2]}</div>
             </div>
-            <div className="col">
-              <div>{props.result.tuesdayOpen}</div>
+            <div
+              className="col tall"
+              style={{ borderBottom: "1px solid black" }}
+            >
+              <div>{GetNameFromID(props.users, props.result.tuesdayOpen)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       tuesdayOpen: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.tuesdayOpen} />
+                  <AvailableEmployeeList
+                    input={props.input.tuesdayOpen}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
-            <div className="col">
-              <div>{props.result.tuesdayClose}</div>
+            <div className="col tall">
+              <div>{GetNameFromID(props.users, props.result.tuesdayClose)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       tuesdayClose: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.tuesdayClose} />
+                  <AvailableEmployeeList
+                    input={props.input.tuesdayClose}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
@@ -580,37 +591,50 @@ const DisplayGenerateSchedule = (props) => {
         </div>
         <div className="col bdrA">
           <div className="row flex-column">
-            <div className="col" style={{ borderBottom: '1px solid black' }}>
+            <div className="col" style={{ borderBottom: "1px solid black" }}>
               Wednesday
               <div>{week[3]}</div>
             </div>
-            <div className="col">
-              <div>{props.result.wednesdayOpen}</div>
+            <div
+              className="col tall"
+              style={{ borderBottom: "1px solid black" }}
+            >
+              <div>
+                {GetNameFromID(props.users, props.result.wednesdayOpen)}
+              </div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       wednesdayOpen: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.wednesdayOpen} />
+                  <AvailableEmployeeList
+                    input={props.input.wednesdayOpen}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
-            <div className="col">
-              <div>{props.result.wednesdayClose}</div>
+            <div className="col tall">
+              <div>
+                {GetNameFromID(props.users, props.result.wednesdayClose)}
+              </div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       wednesdayClose: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.wednesdayClose} />
+                  <AvailableEmployeeList
+                    input={props.input.wednesdayClose}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
@@ -618,37 +642,48 @@ const DisplayGenerateSchedule = (props) => {
         </div>
         <div className="col bdrA">
           <div className="row flex-column">
-            <div className="col" style={{ borderBottom: '1px solid black' }}>
+            <div className="col" style={{ borderBottom: "1px solid black" }}>
               Thursday
               <div>{week[4]}</div>
             </div>
-            <div className="col">
-              <div>{props.result.thursdayOpen}</div>
+            <div
+              className="col tall"
+              style={{ borderBottom: "1px solid black" }}
+            >
+              <div>{GetNameFromID(props.users, props.result.thursdayOpen)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       thursdayOpen: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.thursdayOpen} />
+                  <AvailableEmployeeList
+                    input={props.input.thursdayOpen}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
-            <div className="col">
-              <div>{props.result.thursdayClose}</div>
+            <div className="col tall">
+              <div>
+                {GetNameFromID(props.users, props.result.thursdayClose)}
+              </div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       thursdayClose: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.thursdayClose} />
+                  <AvailableEmployeeList
+                    input={props.input.thursdayClose}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
@@ -656,37 +691,46 @@ const DisplayGenerateSchedule = (props) => {
         </div>
         <div className="col bdrA">
           <div className="row flex-column">
-            <div className="col" style={{ borderBottom: '1px solid black' }}>
+            <div className="col" style={{ borderBottom: "1px solid black" }}>
               Friday
               <div>{week[5]}</div>
             </div>
-            <div className="col">
-              <div>{props.result.fridayOpen}</div>
+            <div
+              className="col tall"
+              style={{ borderBottom: "1px solid black" }}
+            >
+              <div>{GetNameFromID(props.users, props.result.fridayOpen)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       fridayOpen: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.fridayOpen} />
+                  <AvailableEmployeeList
+                    input={props.input.fridayOpen}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
-            <div className="col">
-              <div>{props.result.fridayClose}</div>
+            <div className="col tall">
+              <div>{GetNameFromID(props.users, props.result.fridayClose)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       fridayClose: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.fridayClose} />
+                  <AvailableEmployeeList
+                    input={props.input.fridayClose}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
@@ -694,37 +738,48 @@ const DisplayGenerateSchedule = (props) => {
         </div>
         <div className="col bdrA">
           <div className="row flex-column">
-            <div className="col" style={{ borderBottom: '1px solid black' }}>
+            <div className="col" style={{ borderBottom: "1px solid black" }}>
               Saturday
               <div>{week[6]}</div>
             </div>
-            <div className="col">
-              <div>{props.result.saturdayOpen}</div>
+            <div
+              className="col tall"
+              style={{ borderBottom: "1px solid black" }}
+            >
+              <div>{GetNameFromID(props.users, props.result.saturdayOpen)}</div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       saturdayOpen: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.saturdayOpen} />
+                  <AvailableEmployeeList
+                    input={props.input.saturdayOpen}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
-            <div className="col">
-              <div>{props.result.saturdayClose}</div>
+            <div className="col tall">
+              <div>
+                {GetNameFromID(props.users, props.result.saturdayClose)}
+              </div>
               <div>
                 <select
-                  onChange={function (e) {
+                  onChange={function(e) {
                     props.setResult({
                       ...props.result,
                       saturdayClose: e.target.value,
                     });
                   }}
                 >
-                  <AvailableEmployeeList input={props.input.saturdayClose} />
+                  <AvailableEmployeeList
+                    input={props.input.saturdayClose}
+                    users={props.users}
+                  />
                 </select>
               </div>
             </div>
@@ -739,7 +794,7 @@ const AvailableEmployeeList = (props) => {
   const result = props.input.map((user) => {
     return (
       <option key={user} value={user}>
-        {user}
+        {GetNameFromID(props.users, user)}
       </option>
     );
   });

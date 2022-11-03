@@ -151,3 +151,8 @@
 .bdrA {
   border: 1px solid black;
 }
+
+.tall {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}

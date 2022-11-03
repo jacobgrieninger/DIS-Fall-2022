@@ -60,6 +60,27 @@ const getAllUsers = async () => {
   }
 };
 
+const getUserByID = async (userID_) => {
+  try {
+    let data = JSON.stringify({
+      userID: userID_,
+    });
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/users/byid",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const createTimeOff = async (userID_, leaveDate_, returnDate_) => {
   try {
     let data = JSON.stringify({
@@ -374,6 +395,63 @@ const deleteWeeklyAvailability = async (userID_) => {
   }
 };
 
+const createSchedule = async (input) => {
+  try {
+    let data = JSON.stringify({
+      startDate: input.startDate.toISOString(),
+      storeNumber: input.storeNumber,
+      sunday: input.sunday,
+      mondayOpen: input.mondayOpen,
+      mondayClose: input.mondayClose,
+      tuesdayOpen: input.tuesdayOpen,
+      tuesdayClose: input.tuesdayClose,
+      wednesdayOpen: input.wednesdayOpen,
+      wednesdayClose: input.wednesdayClose,
+      thursdayOpen: input.thursdayOpen,
+      thursdayClose: input.thursdayClose,
+      fridayOpen: input.fridayOpen,
+      fridayClose: input.fridayClose,
+      saturdayOpen: input.saturdayOpen,
+      saturdayClose: input.saturdayClose,
+    });
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/schedule",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const changeUserPass = async (userID_, password_) => {
+  try {
+    let data = JSON.stringify({
+      userID: userID_,
+      password: password_,
+    });
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/users/changepass",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   login,
   getScheduleByDate,
@@ -392,4 +470,7 @@ export {
   getAllWeeklyAvailability,
   updateWeeklyAvailability,
   deleteWeeklyAvailability,
+  createSchedule,
+  getUserByID,
+  changeUserPass,
 };

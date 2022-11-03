@@ -1,21 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
-const User = require('../../models/User');
-const bcrypt = require('bcryptjs');
+const { check, validationResult } = require("express-validator");
+const User = require("../../models/User");
+const bcrypt = require("bcryptjs");
 
 // @route   POST api/users
 // @desc    Create User
 // @access  Public
 router.post(
-  '/',
+  "/",
   [
-    check('name', 'Name is required').not().isEmpty(),
-    check('userID', 'UserID is required').not().isEmpty(),
-    check('password', 'Password is required, minimum length 4').isLength({
+    check("name", "Name is required").not().isEmpty(),
+    check("userID", "UserID is required").not().isEmpty(),
+    check("password", "Password is required, minimum length 4").isLength({
       min: 4,
     }),
-    check('authlevel', 'Auth Level is required').not().isEmpty(),
+    check("authlevel", "Auth Level is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -29,7 +29,7 @@ router.post(
       //see if user exists
       let user = await User.findOne({ userID });
       if (user) {
-        res.send({ errors: [{ msg: 'User already exists' }] });
+        res.send({ errors: [{ msg: "User already exists" }] });
       }
 
       user = new User({
@@ -41,10 +41,10 @@ router.post(
 
       await user.save();
 
-      res.send('User Created');
+      res.send("User Created");
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );
@@ -53,11 +53,11 @@ router.post(
 // @desc    Update User
 // @access  Public
 router.post(
-  '/update',
+  "/update",
   [
-    check('name', 'Name is required').not().isEmpty(),
-    check('userID', 'UserID is required').not().isEmpty(),
-    check('authlevel', 'Auth Level is required').not().isEmpty(),
+    check("name", "Name is required").not().isEmpty(),
+    check("userID", "UserID is required").not().isEmpty(),
+    check("authlevel", "Auth Level is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -71,7 +71,7 @@ router.post(
       //see if user exists
       let storedResult = await User.findOne({ userID });
       if (!storedResult) {
-        res.status(400).json({ errors: [{ msg: 'User does not exist' }] });
+        res.status(400).json({ errors: [{ msg: "User does not exist" }] });
       }
 
       let password = storedResult.password;
@@ -84,10 +84,10 @@ router.post(
 
       storedResult.overwrite(user);
       await storedResult.save();
-      res.send('User Updated');
+      res.send("User Updated");
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );
@@ -96,8 +96,8 @@ router.post(
 // @desc    Reset User Password
 // @access  Public
 router.post(
-  '/resetpass',
-  [check('userID', 'UserID is required').not().isEmpty()],
+  "/resetpass",
+  [check("userID", "UserID is required").not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -110,12 +110,12 @@ router.post(
       //see if user exists
       let storedResult = await User.findOne({ userID });
       if (!storedResult) {
-        res.send({ errors: [{ msg: 'User does not exist' }] });
+        res.send({ errors: [{ msg: "User does not exist" }] });
       }
 
       const name = storedResult.name;
       const authlevel = storedResult.authlevel;
-      const password = 'default';
+      const password = "default";
       let user = new User({
         name,
         userID,
@@ -125,10 +125,10 @@ router.post(
 
       storedResult.overwrite(user);
       await storedResult.save();
-      res.send('Password Reset');
+      res.send("Password Reset");
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );
@@ -137,10 +137,10 @@ router.post(
 // @desc    Change User Password
 // @access  Public
 router.post(
-  '/changepass',
+  "/changepass",
   [
-    check('userID', 'UserID is required').not().isEmpty(),
-    check('password', 'password is required').not().isEmpty(),
+    check("userID", "UserID is required").not().isEmpty(),
+    check("password", "password is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -155,7 +155,7 @@ router.post(
       //see if user exists
       let storedResult = await User.findOne({ userID });
       if (!storedResult) {
-        res.status(400).json({ errors: [{ msg: 'User does not exist' }] });
+        res.send({ errors: [{ msg: "User does not exist" }] });
       }
 
       const name = storedResult.name;
@@ -169,10 +169,10 @@ router.post(
 
       storedResult.overwrite(user);
       await storedResult.save();
-      res.send('Password Updated');
+      res.send("Password Updated");
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.send("Server Error");
     }
   }
 );
@@ -181,8 +181,8 @@ router.post(
 // @desc    Delete User
 // @access  Public
 router.post(
-  '/delete',
-  [check('userID', 'UserID is required').not().isEmpty()],
+  "/delete",
+  [check("userID", "UserID is required").not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -192,13 +192,13 @@ router.post(
     try {
       let check = await User.findOne({ userID });
       if (!check) {
-        res.status(400).json({ errors: [{ msg: 'User does not exist' }] });
+        res.status(400).json({ errors: [{ msg: "User does not exist" }] });
       }
       await User.findOneAndDelete({ userID });
-      res.send('User Deleted');
+      res.send("User Deleted");
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );
@@ -206,13 +206,13 @@ router.post(
 // @route   GET api/user
 // @desc    Get a user from ID, returns name and authlevel
 // @access  Public
-router.get(
-  '/',
-  [check('userID', 'A userID is required.').not().isEmpty()],
+router.post(
+  "/byid",
+  [check("userID", "A userID is required.").not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.send({ errors: errors.array() });
     }
     try {
       const userID = req.body.userID;
@@ -220,11 +220,12 @@ router.get(
       const response = {
         username: result.name,
         authlevel: result.authlevel,
+        password: result.password,
       };
       res.status(200).json(response);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );
@@ -232,17 +233,17 @@ router.get(
 // @route   GET api/user/all
 // @desc    Get alls users, returns name and authlevel
 // @access  Public
-router.post('/all', async (req, res) => {
+router.post("/all", async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.send({ errors: errors.array() });
   }
   try {
     const result = await User.find();
     res.status(200).json(result);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 module.exports = router;

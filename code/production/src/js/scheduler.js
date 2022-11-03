@@ -1,6 +1,6 @@
-import { eachDayOfInterval } from 'date-fns';
+import { eachDayOfInterval } from "date-fns";
 
-const GenerateSchedule = function (input) {
+const GenerateSchedule = function(input) {
   function GenEmployee(date_, day) {
     //define result var
     let result = [];
@@ -14,15 +14,24 @@ const GenerateSchedule = function (input) {
       let payload = id;
       let userisoff = false;
       input.timeOffs.forEach((request) => {
-        if (id === request.userID) {
+        if (parseInt(id) === parseInt(request.userID)) {
+          //offset days
+          let start = new Date(request.leaveDate);
+          start = start.setDate(start.getDate() + 1);
+          let end = new Date(request.returnDate);
+          end = end.setDate(end.getDate() + 1);
+
           //build a range of days from request
           let dateRange = eachDayOfInterval({
-            start: new Date(request.leaveDate),
-            end: new Date(request.returnDate),
+            start: start,
+            end: end,
           });
           //compare against input day
           dateRange.forEach((date) => {
-            if (date.toISOString() === date_.toISOString()) {
+            if (
+              date.toISOString().slice(0, 10) ===
+              date_.toISOString().slice(0, 10)
+            ) {
               userisoff = true;
               return;
             } else {
@@ -80,66 +89,60 @@ const GenerateSchedule = function (input) {
       });
     });
 
-    // select an employee from list at random
-    /* result.employee =
-      weeklyAvailableEmployees[
-        Math.floor(Math.random() * weeklyAvailableEmployees.length)
-      ];
-    */
     return weeklyAvailableEmployees;
   }
 
   let startDate = new Date(input.startDate);
   let result = {
     days: {
-      sunday: GenEmployee(startDate, 'sunday'),
+      sunday: GenEmployee(startDate, "sunday"),
       mondayOpen: GenEmployee(
         new Date(startDate.setDate(startDate.getDate() + 1)),
-        'mondayOpen'
+        "mondayOpen"
       ),
       mondayClose: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 1)),
-        'mondayClose'
+        new Date(startDate.setDate(startDate.getDate())),
+        "mondayClose"
       ),
       tuesdayOpen: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 2)),
-        'tuesdayOpen'
+        new Date(startDate.setDate(startDate.getDate() + 1)),
+        "tuesdayOpen"
       ),
       tuesdayClose: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 2)),
-        'tuesdayClose'
+        new Date(startDate.setDate(startDate.getDate())),
+        "tuesdayClose"
       ),
       wednesdayOpen: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 3)),
-        'wednesdayOpen'
+        new Date(startDate.setDate(startDate.getDate() + 1)),
+        "wednesdayOpen"
       ),
       wednesdayClose: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 3)),
-        'wednesdayClose'
+        new Date(startDate.setDate(startDate.getDate())),
+        "wednesdayClose"
       ),
       thursdayOpen: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 4)),
-        'thursdayOpen'
+        new Date(startDate.setDate(startDate.getDate() + 1)),
+        "thursdayOpen"
       ),
       thursdayClose: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 4)),
-        'thursdayClose'
+        new Date(startDate.setDate(startDate.getDate())),
+        "thursdayClose"
       ),
       fridayOpen: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 5)),
-        'fridayOpen'
+        new Date(startDate.setDate(startDate.getDate() + 1)),
+        "fridayOpen"
       ),
       fridayClose: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 5)),
-        'fridayClose'
+        new Date(startDate.setDate(startDate.getDate())),
+        "fridayClose"
       ),
       saturdayOpen: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 6)),
-        'saturdayOpen'
+        new Date(startDate.setDate(startDate.getDate() + 1)),
+        "saturdayOpen"
       ),
       saturdayClose: GenEmployee(
-        new Date(startDate.setDate(startDate.getDate() + 6)),
-        'saturdayClose'
+        new Date(startDate.setDate(startDate.getDate())),
+        "saturdayClose"
       ),
     },
   };

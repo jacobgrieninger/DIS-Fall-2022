@@ -114,3 +114,10 @@ Began work on generate schedule page.
 
 Continued work on generate schedule page. \
 Completed vast majority of todo list (minor bug fixes)
+
+## 20
+
+### 11/3/22
+
+Finished generate schedule page \
+Added employee options page to change password

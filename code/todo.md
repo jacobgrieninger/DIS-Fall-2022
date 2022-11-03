@@ -11,3 +11,4 @@ visual upgrades \
 ~~auto create weekly availability on user creation (and deletion)~~ \
 ~~check navigation to and from all pages/~~ \
 ~~static schedules not appearing correctly?~~ \
+generate schedule success message / reset information \
