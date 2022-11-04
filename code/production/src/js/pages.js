@@ -20,7 +20,18 @@ function LoginPage(props) {
   const DisplayErrors = () => {
     if (errors.length >= 1) {
       const errList = errors.map((err) => {
-        return <p className="errorContainer">{err}</p>;
+        return (
+          <div
+            className="alert alert-danger text-center"
+            role="alert"
+            style={{
+              width: "50%",
+              margin: "1em auto 1em auto",
+            }}
+          >
+            {err}
+          </div>
+        );
       });
       return errList;
     }
@@ -28,42 +39,50 @@ function LoginPage(props) {
 
   return (
     <div id="mainBoxLogin">
-      <div className="header">GNC Wilmington</div>
-      <div id="loginBox">
+      <div className="header">
+        <img style={{ height: "2em" }} src="gnclogo.svg" />
         <div>
+          <h5>Wilmington</h5>
+        </div>
+      </div>
+      <div id="loginBox" style={{ paddingBottom: "10em" }}>
+        <div className="container" style={{ width: "40%" }}>
           <DisplayErrors />
-          <div className="row">
-            <div className="col" style={{ textAlign: "left" }}>
-              Username:
-            </div>
+          <div className="row align-items-center">
+            <div className="col text-end">User ID:</div>
             <div className="col">
               <input
                 type="text"
+                className="form-control"
                 value={userID}
-                onChange={(e) => setuserID(e.target.value)}
+                onChange={(e) => {
+                  setuserID(e.target.value);
+                }}
                 spellCheck="false"
               />
             </div>
+            <div className="col"></div>
           </div>
           <br />
-          <div className="row">
-            <div className="col" style={{ textAlign: "left" }}>
-              Password:
-            </div>
+          <div className="row align-items-center">
+            <div className="col text-end">Password:</div>
             <div className="col">
               <input
                 type="password"
+                className="form-control"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            <div className="col"></div>
           </div>
           <br />
           <div style={{ margin: "auto", textAlign: "center" }}>
             <button
               id="loginBtn"
+              className="btn btn-light"
               onClick={async function() {
-                const result = await db.login(userID, password);
+                const result = await db.login(parseInt(userID), password);
                 if (result.errors.value) {
                   setErrors(result.errors.info);
                 } else {
@@ -88,11 +107,17 @@ function ManagerHome(props) {
   return (
     <div id="mainBox">
       <div className="container-fluid">
-        <div className="row text-center">
+        <div className="row text-center" style={{ paddingTop: "5px" }}>
           <div className="col"></div>
-          <div className="col">GNC Wilmington</div>
+          <div className="col">
+            <img style={{ height: "2em" }} src="gnclogo.svg" />
+            <div>
+              <h5>Wilmington</h5>
+            </div>
+          </div>
           <div className="col text-end">
             <button
+              className="btn btn-outline-secondary btn-sm"
               onClick={function() {
                 window.location.reload();
               }}
@@ -225,11 +250,17 @@ function EmployeeHome(props) {
   return (
     <div id="mainBox">
       <div className="container-fluid">
-        <div className="row text-center">
+        <div className="row text-center" style={{ paddingTop: "5px" }}>
           <div className="col"></div>
-          <div className="col">GNC Wilmington</div>
+          <div className="col">
+            <img style={{ height: "2em" }} src="gnclogo.svg" />
+            <div>
+              <h5>Wilmington</h5>
+            </div>
+          </div>
           <div className="col text-end">
             <button
+              className="btn btn-outline-secondary btn-sm"
               onClick={function() {
                 window.location.reload();
               }}
@@ -339,6 +370,7 @@ function EmployeeManagement(props) {
             <div className="col">
               <div>Enter Name:</div>
               <input
+                className="form-control"
                 type="text"
                 onChange={function(e) {
                   setFirstName(e.target.value);
@@ -349,6 +381,7 @@ function EmployeeManagement(props) {
             <div className="col">
               <div>Enter ID:</div>
               <input
+                className="form-control"
                 type="number"
                 onWheel={function(e) {
                   e.target.blur();
@@ -378,6 +411,7 @@ function EmployeeManagement(props) {
       </div>
       <div className="header">
         <button
+          className="btn btn-success btn-lighter"
           onClick={async function() {
             const res = await db.createUser(firstName, enteredID, employeeType);
             let defaultAvail = {
@@ -419,8 +453,10 @@ function GenerateSchedules(props) {
   const [staticSchedules, setStaticSchedules] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [startDateError, setStartDateError] = useState("");
+  const [startDateErrorBool, setStartDateErrorBool] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [submitCheck, setSubmitCheck] = useState(false);
+  const [submitErrorBool, setSubmitErrorBool] = useState(false);
   const [storeNumber, setStoreNumber] = useState(0);
 
   const [input, setInput] = useState({
@@ -513,14 +549,22 @@ function GenerateSchedules(props) {
               let date = new Date(e.target.value);
               if (date.getDay() !== 6) {
                 setStartDateError("Must be a Sunday!");
+                setStartDateErrorBool(true);
               } else {
                 setStartDate(date);
                 setStartDateError("");
+                setStartDateErrorBool(false);
               }
             }}
           />
         </div>
-        <div style={{ color: "red" }}>{startDateError}</div>
+        <div
+          className={`${startDateErrorBool ? "alert alert-danger" : ""}`}
+          role="alert"
+          style={{ width: "20%", margin: "1em auto auto auto" }}
+        >
+          {startDateError}
+        </div>
       </div>
 
       <div
@@ -528,9 +572,11 @@ function GenerateSchedules(props) {
         style={{ paddingTop: "1em", paddingBottom: "1em" }}
       >
         <button
+          className="btn btn-secondary"
           onClick={function() {
             if (startDate.length !== 0 && startDate !== "Must be a Sunday!") {
               setStartDateError("");
+              setStartDateErrorBool(false);
               let input = {
                 users: users,
                 timeOffs: timeOffs,
@@ -572,6 +618,7 @@ function GenerateSchedules(props) {
               setSubmitCheck(true);
             } else {
               setStartDateError("Must select a start date!");
+              setStartDateErrorBool(true);
             }
           }}
         >
@@ -589,10 +636,12 @@ function GenerateSchedules(props) {
 
       <div className="header tall">
         <button
+          className="btn btn-success btn-lighter"
           onClick={async function() {
             if (submitCheck) {
               if (storeNumber !== 0) {
                 setSubmitError("");
+                setSubmitErrorBool(false);
                 let input = {
                   startDate: startDate,
                   storeNumber: storeNumber,
@@ -612,17 +661,39 @@ function GenerateSchedules(props) {
                 };
                 const res = await db.createSchedule(input);
                 console.log(res);
+                setResetAlert(true);
               } else {
                 setSubmitError("Must select a store number!");
+                setSubmitErrorBool(true);
               }
             } else {
               setSubmitError("Must generate schedule!");
+              setSubmitErrorBool(true);
             }
           }}
         >
           Submit
         </button>
-        <div style={{ color: "red" }}>{submitError}</div>
+        <div
+          className={`${submitErrorBool ? "alert alert-danger" : ""}`}
+          role="alert"
+          style={{ width: "20%", margin: "1em auto auto auto" }}
+        >
+          {submitError}
+        </div>
+        <div
+          className={` ${
+            resetAlert ? "alert-shown alert alert-success" : "alert-hidden"
+          }`}
+          onTransitionEnd={() => setResetAlert(false)}
+          style={{
+            textAlign: "center",
+            width: "20%",
+            margin: "1em auto auto auto",
+          }}
+        >
+          Schedule generated!
+        </div>
       </div>
 
       <Subcomponent.Footer />
@@ -995,6 +1066,7 @@ function StaticSchedules(props) {
       <div className="header">
         <p style={{ paddingTop: "3em" }}>
           <button
+            className="btn btn-success btn-lighter"
             onClick={async function() {
               await db.createStaticSchedule(newSche);
               setAction(Math.random());
@@ -1331,6 +1403,7 @@ function TimeOff(props) {
   const [timeOffs, setTimeOffs] = useState([]);
   const [actions, setAction] = useState(0);
   const [returnDateError, setReturnDateError] = useState("");
+  const [errorBool, setErrorBool] = useState(false);
 
   useEffect(() => {
     async function getTimeOffs() {
@@ -1357,46 +1430,53 @@ function TimeOff(props) {
       <div className="header">
         <p style={{ paddingTop: "3em" }}>New Time Off Request</p>
       </div>
-      <div className="buttonContainer">
-        <div>
-          <div className="row" style={{ paddingBottom: "1em", width: "35em" }}>
-            <div className="col colmesh">Leave Date</div>
-            <div className="col">
-              <input
-                type="date"
-                style={{ width: "8em" }}
-                onChange={function(e) {
-                  let date = new Date(e.target.value);
-                  setLeaveDate(date.toISOString());
-                }}
-              />
-            </div>
-            <div className="col colmesh">Return Date</div>
-            <div className="col">
-              <input
-                type="date"
-                style={{ width: "8em" }}
-                onChange={function(e) {
-                  let date = new Date(e.target.value);
-                  let start = new Date(leaveDate);
-                  if (date >= start) {
-                    setReturnDate(date.toISOString());
-                    setReturnDateError("");
-                  } else {
-                    setReturnDateError(
-                      "Return date cannot be before leave date!"
-                    );
-                  }
-                }}
-              />
-            </div>
+      <div className="container" style={{ width: "40%" }}>
+        <div className="row text-center">
+          <div className="col">
+            Leave Date
+            <input
+              type="date"
+              style={{ width: "8em" }}
+              onChange={function(e) {
+                let date = new Date(e.target.value);
+                setLeaveDate(date.toISOString());
+              }}
+            />
+          </div>
+          <div className="col">
+            Return Date
+            <input
+              type="date"
+              style={{ width: "8em" }}
+              onChange={function(e) {
+                let date = new Date(e.target.value);
+                let start = new Date(leaveDate);
+                if (date >= start) {
+                  setReturnDate(date.toISOString());
+                  setReturnDateError("");
+                  setErrorBool(false);
+                } else {
+                  setReturnDateError(
+                    "Return date cannot be before leave date!"
+                  );
+                  setErrorBool(true);
+                }
+              }}
+            />
           </div>
         </div>
       </div>
       <div className="header">
-        <p style={{ paddingTop: "0em" }}>
-          <p style={{ color: "red" }}>{returnDateError}</p>
+        <p style={{ paddingTop: "0em", paddingBottom: "2em" }}>
+          <div
+            className={`${errorBool ? "alert alert-danger" : ""}`}
+            role="alert"
+            style={{ width: "25%", margin: "1em auto auto auto" }}
+          >
+            {returnDateError}
+          </div>
           <button
+            className="btn btn-success btn-lighter"
             onClick={async function() {
               if (returnDateError.length === 0) {
                 let res = await db.createTimeOff(
@@ -1414,7 +1494,7 @@ function TimeOff(props) {
           </button>
         </p>
       </div>
-      <div>
+      <div className="container text-center" style={{ width: "50%" }}>
         <Subcomponent.DisplayTimeOffs
           timeOffs={timeOffs}
           setAction={setAction}

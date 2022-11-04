@@ -121,3 +121,10 @@ Completed vast majority of todo list (minor bug fixes)
 
 Finished generate schedule page \
 Added employee options page to change password
+
+## 21
+
+### 11/4/22
+
+Core application functionality completed. \
+Began applying improved site styling and appearance, nearly completed.

@@ -140,6 +140,7 @@ const DisplayTimeOffs = (props) => {
         <div className="col">Return Date: {ConvertDate(to_.returnDate)}</div>
         <div className="col">
           <button
+            className="btn btn-danger btn-sm"
             onClick={async function() {
               await db.delteTimeOff(to_._id);
               props.setAction(Math.random());
@@ -158,7 +159,11 @@ const DisplayEmployees = (props) => {
   const result = props.usersList.map((user) => {
     if (user.userID !== props.currentUser) {
       return (
-        <div key={user._id} className="row" style={{ height: "3em" }}>
+        <div
+          key={user._id}
+          className="row align-items-center"
+          style={{ height: "3em" }}
+        >
           <div className="col">{user.name}</div>
           <div className="col">{user.userID}</div>
           <div className="col">
@@ -173,6 +178,7 @@ const DisplayEmployees = (props) => {
           </div>
           <div className="col">
             <button
+              className="btn btn-secondary"
               style={{ width: "10em" }}
               onClick={async function() {
                 await db.resetUserPass(user.userID);
@@ -184,6 +190,7 @@ const DisplayEmployees = (props) => {
           </div>
           <div className="col">
             <button
+              className="btn btn-danger"
               style={{ width: "10em" }}
               onClick={async function() {
                 await db.deleteUser(user.userID);
@@ -224,6 +231,7 @@ const DisplayStaticSchedules = (props) => {
           - <b>{schedule.storeNumber}</b>
           <span style={{ textAlign: "right" }}>
             <button
+              className="btn btn-danger btn-sm"
               onClick={async function() {
                 await db.deleteStaticSchedule(schedule._id);
                 props.setAction(Math.random());
@@ -428,9 +436,10 @@ const MainHeader = (props) => {
   return (
     <Fragment>
       <div className="container-fluid">
-        <div className="row text-center">
+        <div className="row text-center" style={{ paddingTop: "5px" }}>
           <div className="col text-start">
             <button
+              className="btn btn-outline-secondary btn-sm"
               onClick={function() {
                 props.root.render(props.back);
               }}
@@ -438,9 +447,15 @@ const MainHeader = (props) => {
               Back
             </button>
           </div>
-          <div className="col">GNC Wilmington</div>
+          <div className="col">
+            <img style={{ height: "2em" }} src="gnclogo.svg" />
+            <div>
+              <h5>Wilmington</h5>
+            </div>
+          </div>
           <div className="col text-end">
             <button
+              className="btn btn-outline-secondary btn-sm"
               onClick={function() {
                 window.location.reload();
               }}

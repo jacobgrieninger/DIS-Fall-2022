@@ -1,6 +1,10 @@
 #background {
-  background-color: red;
-  height: 100%;
+  background-image: linear-gradient(red, rgb(169, 3, 3));
+  background-repeat: no-repeat;
+}
+
+body {
+  background-color: rgb(169, 3, 3);
 }
 
 #mainBoxLogin {
@@ -10,6 +14,7 @@
   margin: auto;
   margin-top: 3%;
   border-radius: 25px;
+  filter: drop-shadow(1em 1em 4em rgba(51, 51, 51, 0.508));
 }
 
 #mainBox {
@@ -19,6 +24,7 @@
   margin: auto;
   margin-top: 3%;
   border-radius: 25px;
+  filter: drop-shadow(1em 1em 4em rgba(51, 51, 51, 0.508));
 }
 
 .header {
@@ -42,6 +48,22 @@
 .menuBtn {
   padding: 1em 1em 1em 1em;
   width: 18em;
+  background-color: rgb(242, 242, 242);
+  border-width: 0.08em;
+  border-color: rgb(68, 67, 67);
+  border-radius: 0.375rem;
+}
+
+.menuBtn:hover {
+  padding: 1em 1em 1em 1em;
+  width: 18em;
+  background-color: rgb(225, 224, 224);
+  border-width: 0.08em;
+  border-color: rgb(68, 67, 67);
+}
+
+.btn-lighter {
+  background-color: #21ac6b;
 }
 
 .colmesh {
