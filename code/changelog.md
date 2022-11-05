@@ -128,3 +128,9 @@ Added employee options page to change password
 
 Core application functionality completed. \
 Began applying improved site styling and appearance, nearly completed.
+
+## 22
+
+### 11/5/22
+
+Site styling complete. Project ready for deployment

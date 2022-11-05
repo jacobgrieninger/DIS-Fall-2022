@@ -5,6 +5,7 @@ import * as db from "./requests";
 const DisplaySchedule = (props) => {
   const [schedule, setSchedule] = useState({});
   const [users, setUsers] = useState({});
+  // eslint-disable-next-line
   const [actions, setAction] = useState(0);
   const weekdates = Helper.BuildWeek(Helper.FindNearestSunday(1));
 
@@ -23,15 +24,22 @@ const DisplaySchedule = (props) => {
     loadData();
     // eslint-disable-next-line
   }, [actions]);
+
+  function boldCheck(id_, name) {
+    if (id_ === parseInt(props.ID)) {
+      return <b>{name}</b>;
+    } else return <Fragment>{name}</Fragment>;
+  }
+
   const result = (
-    <div className="row gx-0">
+    <div className="row gx-0 cal">
       <div className="col dayBox">
         <u>Sunday</u>
         <br />
         {weekdates[0]}
         <div className="shiftContainer">
           <div className="employeeDisplaySunday bdrS">
-            {GetNameFromID(users, schedule.sunday)}
+            {boldCheck(schedule.sunday, GetNameFromID(users, schedule.sunday))}
           </div>
         </div>
       </div>
@@ -41,10 +49,16 @@ const DisplaySchedule = (props) => {
         {weekdates[1]}
         <div className="shiftContainer">
           <div className="employeeDisplay bdr">
-            {GetNameFromID(users, schedule.mondayOpen)}
+            {boldCheck(
+              schedule.mondayOpen,
+              GetNameFromID(users, schedule.mondayOpen)
+            )}
           </div>
           <div className="employeeDisplay">
-            {GetNameFromID(users, schedule.mondayClose)}
+            {boldCheck(
+              schedule.mondayClose,
+              GetNameFromID(users, schedule.mondayClose)
+            )}
           </div>
         </div>
       </div>
@@ -54,10 +68,16 @@ const DisplaySchedule = (props) => {
         {weekdates[2]}
         <div className="shiftContainer">
           <div className="employeeDisplay bdr">
-            {GetNameFromID(users, schedule.tuesdayOpen)}
+            {boldCheck(
+              schedule.tuesdayOpen,
+              GetNameFromID(users, schedule.tuesdayOpen)
+            )}
           </div>
           <div className="employeeDisplay">
-            {GetNameFromID(users, schedule.tuesdayClose)}
+            {boldCheck(
+              schedule.tuesdayClose,
+              GetNameFromID(users, schedule.tuesdayClose)
+            )}
           </div>
         </div>
       </div>
@@ -67,10 +87,16 @@ const DisplaySchedule = (props) => {
         {weekdates[3]}
         <div className="shiftContainer">
           <div className="employeeDisplay bdr">
-            {GetNameFromID(users, schedule.wednesdayOpen)}
+            {boldCheck(
+              schedule.wednesdayOpen,
+              GetNameFromID(users, schedule.wednesdayOpen)
+            )}
           </div>
           <div className="employeeDisplay">
-            {GetNameFromID(users, schedule.wednesdayClose)}
+            {boldCheck(
+              schedule.wednesdayClose,
+              GetNameFromID(users, schedule.wednesdayClose)
+            )}
           </div>
         </div>
       </div>
@@ -80,10 +106,16 @@ const DisplaySchedule = (props) => {
         {weekdates[4]}
         <div className="shiftContainer">
           <div className="employeeDisplay bdr">
-            {GetNameFromID(users, schedule.thursdayOpen)}
+            {boldCheck(
+              schedule.thursdayOpen,
+              GetNameFromID(users, schedule.thursdayOpen)
+            )}
           </div>
           <div className="employeeDisplay">
-            {GetNameFromID(users, schedule.thursdayClose)}
+            {boldCheck(
+              schedule.thursdayClose,
+              GetNameFromID(users, schedule.thursdayClose)
+            )}
           </div>
         </div>
       </div>
@@ -93,10 +125,16 @@ const DisplaySchedule = (props) => {
         {weekdates[5]}
         <div className="shiftContainer">
           <div className="employeeDisplay bdr">
-            {GetNameFromID(users, schedule.fridayOpen)}
+            {boldCheck(
+              schedule.fridayOpen,
+              GetNameFromID(users, schedule.fridayOpen)
+            )}
           </div>
           <div className="employeeDisplay">
-            {GetNameFromID(users, schedule.fridayClose)}
+            {boldCheck(
+              schedule.fridayClose,
+              GetNameFromID(users, schedule.fridayClose)
+            )}
           </div>
         </div>
       </div>
@@ -106,10 +144,16 @@ const DisplaySchedule = (props) => {
         {weekdates[6]}
         <div className="shiftContainer">
           <div className="employeeDisplay bdr">
-            {GetNameFromID(users, schedule.saturdayOpen)}
+            {boldCheck(
+              schedule.saturdayOpen,
+              GetNameFromID(users, schedule.saturdayOpen)
+            )}
           </div>
           <div className="employeeDisplay">
-            {GetNameFromID(users, schedule.saturdayClose)}
+            {boldCheck(
+              schedule.saturdayClose,
+              GetNameFromID(users, schedule.saturdayClose)
+            )}
           </div>
         </div>
       </div>
@@ -157,7 +201,7 @@ const DisplayTimeOffs = (props) => {
 
 const DisplayEmployees = (props) => {
   const result = props.usersList.map((user) => {
-    if (user.userID !== props.currentUser) {
+    if (user.userID !== parseInt(props.currentUser)) {
       return (
         <div
           key={user._id}
@@ -448,7 +492,7 @@ const MainHeader = (props) => {
             </button>
           </div>
           <div className="col">
-            <img style={{ height: "2em" }} src="gnclogo.svg" />
+            <img style={{ height: "2em" }} src="gnclogo.svg" alt="GNC Logo" />
             <div>
               <h5>Wilmington</h5>
             </div>

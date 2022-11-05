@@ -40,7 +40,7 @@ function LoginPage(props) {
   return (
     <div id="mainBoxLogin">
       <div className="header">
-        <img style={{ height: "2em" }} src="gnclogo.svg" />
+        <img style={{ height: "2em" }} src="gnclogo.svg" alt="GNC Logo" />
         <div>
           <h5>Wilmington</h5>
         </div>
@@ -110,7 +110,7 @@ function ManagerHome(props) {
         <div className="row text-center" style={{ paddingTop: "5px" }}>
           <div className="col"></div>
           <div className="col">
-            <img style={{ height: "2em" }} src="gnclogo.svg" />
+            <img style={{ height: "2em" }} src="gnclogo.svg" alt="GNC Logo" />
             <div>
               <h5>Wilmington</h5>
             </div>
@@ -164,7 +164,10 @@ function ManagerHome(props) {
           <br />
           <div className="row">
             <div className="col">
-              <button className="menuBtn">Previous Schedules</button>
+              <button className="menuBtn">
+                <div className="visible">All Schedules</div>
+                <div className="hidden">Coming Soon</div>
+              </button>
             </div>
             <div className="col">
               <button
@@ -234,11 +237,11 @@ function ManagerHome(props) {
       <div className="calenderViews">
         <div className="calender">
           <b>8677</b>
-          <Subcomponent.DisplaySchedule storenum={8677} />
+          <Subcomponent.DisplaySchedule storenum={8677} ID={props.ID} />
         </div>
         <div className="calender">
           <b>9200</b>
-          <Subcomponent.DisplaySchedule storenum={9200} />
+          <Subcomponent.DisplaySchedule storenum={9200} ID={props.ID} />
         </div>
       </div>
       <Subcomponent.Footer />
@@ -253,7 +256,7 @@ function EmployeeHome(props) {
         <div className="row text-center" style={{ paddingTop: "5px" }}>
           <div className="col"></div>
           <div className="col">
-            <img style={{ height: "2em" }} src="gnclogo.svg" />
+            <img style={{ height: "2em" }} src="gnclogo.svg" alt="GNC Logo" />
             <div>
               <h5>Wilmington</h5>
             </div>
@@ -303,6 +306,21 @@ function EmployeeHome(props) {
               </button>
             </div>
           </div>
+          <br />
+          <div className="row">
+            <div className="col">
+              <button
+                className="menuBtn"
+                onClick={function() {
+                  root.render(
+                    <EmployeeOptions ID={props.ID} auth={props.auth} />
+                  );
+                }}
+              >
+                Employee Options
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div className="header">
@@ -311,11 +329,11 @@ function EmployeeHome(props) {
       <div className="calenderViews">
         <div className="calender">
           <b>8677</b>
-          <Subcomponent.DisplaySchedule storenum="8677" />
+          <Subcomponent.DisplaySchedule storenum={8677} ID={props.ID} />
         </div>
         <div className="calender">
           <b>9200</b>
-          <Subcomponent.DisplaySchedule storenum="9200" />
+          <Subcomponent.DisplaySchedule storenum={9200} ID={props.ID} />
         </div>
       </div>
       <Subcomponent.Footer />
@@ -430,6 +448,7 @@ function EmployeeManagement(props) {
               saturdayOpen: true,
               saturdayClose: true,
             };
+            // eslint-disable-next-line
             const res2 = await db.updateWeeklyAvailability(defaultAvail);
             if (typeof res === "string") {
               setAction(Math.random());
@@ -445,6 +464,7 @@ function EmployeeManagement(props) {
 }
 
 function GenerateSchedules(props) {
+  // eslint-disable-next-line
   const [actions, setAction] = useState(0);
 
   const [timeOffs, setTimeOffs] = useState([]);
@@ -1145,7 +1165,7 @@ function WeeklyAvailablity(props) {
       </div>
       <div className="calender" style={{ margin: "auto", width: "75%" }}>
         <div className="row gx-0">
-          <div className="col dayBox">
+          <div className="col dayBox fullB">
             <div className="calenderHeader2">
               <u>Sunday</u>
               <br />
@@ -1166,7 +1186,7 @@ function WeeklyAvailablity(props) {
               </div>
             </div>
           </div>
-          <div className="col dayBox">
+          <div className="col dayBox fullB">
             <div className="calenderHeader2">
               <u>Monday</u>
               <br />
@@ -1200,7 +1220,7 @@ function WeeklyAvailablity(props) {
               </div>
             </div>
           </div>
-          <div className="col dayBox">
+          <div className="col dayBox fullB">
             <div className="calenderHeader2">
               <u>Tuesday</u>
               <br />
@@ -1234,7 +1254,7 @@ function WeeklyAvailablity(props) {
               </div>
             </div>
           </div>
-          <div className="col dayBox">
+          <div className="col dayBox fullB">
             <div className="calenderHeader2">
               <u>Wednesday</u>
               <br />
@@ -1268,7 +1288,7 @@ function WeeklyAvailablity(props) {
               </div>
             </div>
           </div>
-          <div className="col dayBox">
+          <div className="col dayBox fullB">
             <div className="calenderHeader2">
               <u>Thursday</u>
               <br />
@@ -1302,7 +1322,7 @@ function WeeklyAvailablity(props) {
               </div>
             </div>
           </div>
-          <div className="col dayBox">
+          <div className="col dayBox fullB">
             <div className="calenderHeader2">
               <u>Friday</u>
               <br />
@@ -1336,7 +1356,7 @@ function WeeklyAvailablity(props) {
               </div>
             </div>
           </div>
-          <div className="col dayBox">
+          <div className="col dayBox fullB">
             <div className="calenderHeader2">
               <u>Saturday</u>
               <br />
@@ -1375,7 +1395,9 @@ function WeeklyAvailablity(props) {
       <div className="header">
         <p style={{ paddingTop: "3em" }}>
           <button
+            className="btn btn-success btn-lighter"
             onClick={async function() {
+              // eslint-disable-next-line
               let res = await db.updateWeeklyAvailability(availability);
               setAction(Math.random());
               setResetAlert(true);
@@ -1385,9 +1407,15 @@ function WeeklyAvailablity(props) {
           </button>
         </p>
         <div
-          className={` ${resetAlert ? "alert-shown" : "alert-hidden"}`}
+          className={` ${
+            resetAlert ? "alert-shown alert alert-success" : "alert-hidden"
+          }`}
           onTransitionEnd={() => setResetAlert(false)}
-          style={{ textAlign: "center" }}
+          style={{
+            textAlign: "center",
+            width: "20%",
+            margin: "1em auto auto auto",
+          }}
         >
           Availability Updated!
         </div>
@@ -1513,6 +1541,8 @@ function EmployeeOptions(props) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [successBool, setSuccessBool] = useState(false);
+  const [errorBool, setErrorBool] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -1525,7 +1555,13 @@ function EmployeeOptions(props) {
   return (
     <div id="mainBox">
       <Subcomponent.MainHeader
-        back={<ManagerHome ID={props.ID} auth={props.auth} />}
+        back={
+          props.auth ? (
+            <ManagerHome ID={props.ID} auth={props.auth} />
+          ) : (
+            <EmployeeHome ID={props.ID} auth={props.auth} />
+          )
+        }
         title="Employee Options"
         root={root}
       />
@@ -1537,6 +1573,7 @@ function EmployeeOptions(props) {
               <div className="col text-end">Current Password:</div>
               <div className="col text-start">
                 <input
+                  className="form-control"
                   type="password"
                   onChange={function(e) {
                     setCurrentPassword(e.target.value);
@@ -1550,6 +1587,7 @@ function EmployeeOptions(props) {
               <div className="col text-end">New Password:</div>
               <div className="col text-start">
                 <input
+                  className="form-control"
                   type="password"
                   onChange={function(e) {
                     setNewPassword(e.target.value);
@@ -1563,6 +1601,7 @@ function EmployeeOptions(props) {
               <div className="col text-end">Confirm New Password:</div>
               <div className="col text-start">
                 <input
+                  className="form-control"
                   type="password"
                   onChange={function(e) {
                     setConfirmPassword(e.target.value);
@@ -1573,28 +1612,46 @@ function EmployeeOptions(props) {
           </div>
           <div className="col text-center p-2">
             <button
+              className="btn btn-success btn-lighter"
               onClick={async function() {
                 if (currentPassword === oldPassword) {
                   if (newPassword === confirmPassword) {
                     setErrorMessage("");
+                    setErrorBool(false);
                     const res = await db.changeUserPass(props.ID, newPassword);
                     console.log(res);
                     setSuccessMessage("Password Updated!");
+                    setSuccessBool(true);
                     setNewPassword("");
                     setCurrentPassword("");
                     setConfirmPassword("");
                     setAction(Math.random());
-                  } else setErrorMessage("New password does not match");
-                } else
+                  } else {
+                    setErrorMessage("New password does not match");
+                    setErrorBool(true);
+                  }
+                } else {
                   setErrorMessage(
                     "Entered password does not match existing password"
                   );
+                  setErrorBool(true);
+                }
               }}
             >
               Submit
             </button>
-            <div style={{ color: "red" }}>{errorMessage}</div>
-            <div>{successMessage}</div>
+            <div
+              className={`${errorBool ? "alert alert-danger" : ""}`}
+              style={{
+                width: "50%",
+                margin: "1em auto auto auto",
+              }}
+            >
+              {errorMessage}
+            </div>
+            <div className={`${successBool ? "alert alert-success" : ""}`}>
+              {successMessage}
+            </div>
           </div>
         </div>
       </div>
