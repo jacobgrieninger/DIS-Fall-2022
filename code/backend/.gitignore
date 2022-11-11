@@ -1,5 +1,5 @@
 node_modules/
-config/
+/config
 
 # dependencies
 # npm i express express-validator bcryptjs config jsonwebtoken mongoose request
