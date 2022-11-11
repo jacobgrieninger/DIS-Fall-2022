@@ -6,7 +6,7 @@
 
 [Trello](https://trello.com/b/FUVao9ly/general)
 
-Currently live [here](gncwilmington.herokuapp.com)
+Currently live [here](gncwilmington.herokuapp.com) \
 As well as a portfolio [mirror](gncwilmington-portfolio.herokuapp.com)
 
 An application designed to modernize and standardize the GNC Wilmington store's scheduling and employee management process.
