@@ -8,7 +8,7 @@
 ~~error checking for the two above~~ \
 ~~static schedule auto page sizing (white box), probably do the same for other pages~~ \
 ~~error checking for time off (ranges must be correct) ~~ \
-~~auto create weekly availability on user creation (and deletion)~~ \
+~~ ~~auto create weekly availability on user creation (and deletion)~~ \
 ~~check navigation to and from all pages/~~ \
 ~~static schedules not appearing correctly?~~ \
 ~~generate schedule success message / reset information~~ \
